@@ -1,8 +1,11 @@
 [user]
 	name = Matt Adams
 	email = matta@rtvision.com
-[push]
-	default = simple
+[github]
+	user = mattin4d
+[core]
+	editor = vim
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [color]
 	ui = auto
 [color "branch"]
@@ -18,3 +21,96 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[merge]
+	log = true
+[alias]
+	s = status -s
+	sb = status -s -b
+#############
+	sa = stash apply
+	sc = stash clear
+	sd = stash drop
+	sl = stash list
+	sp = stash pop
+	ss = stash save
+#############
+	d = diff
+	dc = diff --cached
+	df = diff --color --color-words --abbrev
+	dk = diff --check
+	dck = diff --cached --check
+#############
+	c = commit
+	ca = commit -a
+	cm = commit -m
+	cam = commit -am
+	cd = commit --amend
+	cad = commit -a --amend
+#############
+	a = add .
+#############
+	ap = apply
+	as = apply --stat
+	ac = apply --check
+#############
+	l = log --oneline
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+#############
+	o = checkout
+	ob = checkout -b
+#############
+	b = branch
+	ba = branch -a
+	bd = branch -d
+	br = branch -r
+#############
+	f = fetch
+	fo = fetch origin
+#############
+	fp = format-patch
+#############
+	fk = fsck
+#############
+	m = merge
+#############
+	pr = prune -v
+#############
+	ps = push
+	pl = pull
+	pb = pull --rebase
+	psf = push -f
+	psu = push -u
+	plu = pull -u
+	pso = push origin
+	plo = pull origin
+	pbo = pull --rebase origin
+	psfo = push -f origin
+	psuo = push -u origin
+	pluo = pull -u origin
+#############
+	rb = rebase
+#############
+	re = reset
+	rh = reset HEAD
+	reh = reset --hard
+	rem = reset --mixed
+	res = reset --soft
+	rehh = reset --hard HEAD
+	remh = reset --mixed HEAD
+	resh = reset --soft HEAD
+#############
+	r = remote
+	ra = remote add
+	rm = remote rm
+	rv = remote -v
+	rp = remote prune
+	rs = remote show
+	rso = remote show origin
+	rpo = remote prune origin
+#############
+	w = show
+#############
+	meldon = config diff.external /home/matta/.meld.py
+	meldof = config --remove-section diff
+#############
+	human = name-rev --name-only --refs=refs/heads/*
