@@ -19,7 +19,7 @@ set mouse=a                    " make mouse usefull
 " ------------------------------------------------------------------------------
 set number                     " line numbers are good
 set ruler                      " show the cursor position
-set scrolloff=8                " start scrolling before cursor at end
+set scrolloff=100              " keep cursor centered when scrolling
 set nofoldenable               " not foldable by default
 set nostartofline              " don't set cursor at start of line when moving
 set nolazyredraw               " turn off lazy redraw
