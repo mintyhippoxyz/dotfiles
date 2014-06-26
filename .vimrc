@@ -12,7 +12,8 @@ set title                      " show the filename in the window titlebar
 set showcmd                    " show incomplete cmds down the bottom
 set showmode                   " show current mode down the bottom
 set history=2000               " store lots of command history default is 20
-set mouse=a                    " make mouse usefull
+" breaks select to copy middle click to paste in fluxbox
+"set mouse=a                    " make mouse usefull
 
 " ------------------------------------------------------------------------------
 " UI
