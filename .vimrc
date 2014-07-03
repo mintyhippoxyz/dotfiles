@@ -122,11 +122,11 @@ map <F12> :w !sudo tee > /dev/null %<C-M>
 " <C-l> remove highlighting after a search
 nnoremap <C-l> :nohl<CR>
 
-" <C-i> draws PHP documentation blocks
+" <C-P> draws PHP documentation blocks
 " Use in visual mode to draw for an entire selection
-au BufRead,BufNewFile *.php inoremap <buffer> <C-I> :call PhpDocSingle()<C-M>
-au BufRead,BufNewFile *.php nnoremap <buffer> <C-I> :call PhpDocSingle()<C-M>
-au BufRead,BufNewFile *.php vnoremap <buffer> <C-I> :call PhpDocRange()<C-M>
+au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
 
 " Remap some common misspellings (bad habbits)
 command W w
