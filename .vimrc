@@ -9,6 +9,7 @@ set nocompatible
 " ------------------------------------------------------------------------------
 set autoread                   " reload files changed outside vim
 set title                      " show the filename in the window titlebar
+set modeline                   " http://vim.wikia.com/wiki/Modeline_magic
 set showcmd                    " show incomplete cmds down the bottom
 set showmode                   " show current mode down the bottom
 set history=2000               " store lots of command history default is 20
@@ -101,7 +102,6 @@ au BufRead,BufNewFile *.less set ft=less
 " ------------------------------------------------------------------------------
 
 " Better page up/down
-" TODO something broke this - fix later
 map <PageUp> <C-U>
 map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
