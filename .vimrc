@@ -97,6 +97,10 @@ au BufRead,BufNewFile *.xml set ft=php
 " less syntax
 au BufRead,BufNewFile *.less set ft=less
 
+" gherkin bdd syntax
+u Bufread,BufNewFile *.feature set filetype=gherkin
+au! Syntax gherkin source ~/.vim/plugin/cucumber.vim
+
 " ------------------------------------------------------------------------------
 " Misc key maps
 " ------------------------------------------------------------------------------
