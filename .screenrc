@@ -1,38 +1,46 @@
-######################## KEYSTTROKES ####################################################
-# C-a 0 select 0 Switch to window 0 #
-# C-a 9 select 9 Switch to window 9 #
-# C-a C-a other Toggle to the window displayed previously. #
-# C-a a meta Send the command character (C-a) to window. See escape command.#
-# C-a A title Allow the user to enter a name for the current window. #
-# C-a c screen Create a new window with a shell and switch to that window. #
-# C-a C-c screen Create a new window with a shell and switch to that window. #
-# C-a C clear Clear the screen. #
-# C-a d detach Detach screen from this terminal. #
-# C-a C-d detach Detach screen from this terminal. #
-# C-a D D pow_detach Detach and logout. #
-# C-a k kill Destroy current window. #
-# C-a C-k kill Destroy current window. #
-# C-a space next Switch to the next window. #
-# C-a n next Switch to the next window. #
-# C-a C-n next Switch to the next window. #
-# C-a x lockscreen Lock this terminal. #
-# C-a C-x lockscreen Lock this terminal. #
-# C-a w windows Show a list of window. #
-# C-a C-w windows Show a list of window. #
-# C-a ? help Show key bindings. #
-#########################################################################################
-defutf8 on
-vbell off
-altscreen on
-startup_message off
+# Allow bold colors - necessary for some reason
+attrcolor b ".I"
+
+# Tell screen how to set colors. AB = background, AF=foreground
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+
+# Enables use of shift-PgUp and shift-PgDn
+termcapinfo xterm|xterms|xs|rxvt ti@:te@
+
+# Enable 256 color term
+term xterm-256color
+
+# Cache 30000 lines for scroll back
+defscrollback 30000
+
+# Always start `screen` with UTF-8 enabled (`screen -U`)
+defutf8 on
+
+# Disable the startup message
+startup_message off
+
+# Don't block command output if the terminal stops responding (like if the ssh connection times out for example).
+nonblock on
+
+# Allow editors etc. to restore display on exit rather than leaving existing text in place
+altscreen on
+
+# Tell screen what shell to use
 shell /bin/bash
-shelltitle '$ |terminal'
 
+# Default screen title
+shelltitle '$ |bash'
+
+# Window list at the bottom
 hardstatus alwayslastline
-hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
+#hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
+hardstatus string "%{rw}%H%{wk}|%?%-Lw%?%{wb}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
 
-screen -t desktop
-
+# Set prev/next bindings
 bind ',' prev
 bind '.' next
+
+screen -t desktop
+#screen -t irssi irssi
+#screen -t htop htop
