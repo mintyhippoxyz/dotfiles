@@ -1,15 +1,8 @@
-# History file will be with date information on every entry (useful feature)
-export HISTTIMEFORMAT="%Y-%m-%d %T "
-export HISTFILE=~/.bash_history
-export HISTSIZE=100000000
-export HISTFILESIZE=999999999
-export HISTIGNORE="mysqldump:mysql"
-export HISTCONTROL=""
-
+# Quickies
 alias g="git"
 alias h="history"
 
-# quickie to dev server
+# Quickie to dev server
 alias dev="ssh dev.4dk.us"
 
 # Color grep & ls
@@ -23,10 +16,13 @@ alias la="ls -laF --color"
 # List only directories
 alias lsd="ls -lF --color | grep --color=never '^d'"
 
-# undo a `git push`
+# Undo a `git push`
 alias undopush="git push -f origin HEAD^:master"
 
 # Recursive php lint
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
+
+# Restart ssh-agent
+alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
 
 # vim: filetype=sh

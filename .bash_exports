@@ -1,0 +1,17 @@
+# Make vim the default editor
+export EDITOR="vim";
+
+# Larger bash history (allow 32³ entries; default is 500)
+# History file will be with date information on every entry
+export HISTSIZE=32768;
+export HISTFILESIZE=$HISTSIZE;
+export HISTTIMEFORMAT="%Y-%m-%d %T "
+export HISTFILE=~/.bash_history
+export HISTCONTROL=ignoredups;
+export HISTIGNORE="ls:cd:cd -:pwd:exit:* --help";
+
+# Prefer US English and use UTF-8
+export LANG="en_US.UTF-8";
+export LC_ALL="en_US.UTF-8";
+
+# vim: filetype=sh
