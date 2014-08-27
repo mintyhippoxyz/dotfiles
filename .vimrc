@@ -98,7 +98,7 @@ au BufRead,BufNewFile *.xml set ft=php
 au BufRead,BufNewFile *.less set ft=less
 
 " gherkin bdd syntax
-u Bufread,BufNewFile *.feature set filetype=gherkin
+au Bufread,BufNewFile *.feature set filetype=gherkin
 au! Syntax gherkin source ~/.vim/plugin/cucumber.vim
 
 " ------------------------------------------------------------------------------
