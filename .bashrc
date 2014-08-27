@@ -23,6 +23,6 @@ if [ -z "$(/bin/pidof ssh-agent)" ]; then
 	echo "echo \"No agent is running\"" > ~/.ssh/agent
 fi
 
-uname -srmpi
+uname -srpi
 uptime
 source ~/.ssh/agent
