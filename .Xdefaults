@@ -14,6 +14,8 @@ XTerm*locale: True
 XTerm*utf8Title: True
 XTerm*renderFont: True
 XTerm*preeditType: Root
+xterm*font:     *-fixed-*-*-*-10-*
+xterm*boldFont:     *-fixed-*-*-*-10-*
 
 ! Trim trailing spaces
 XTerm*trimSelection: true
