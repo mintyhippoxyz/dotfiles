@@ -81,9 +81,11 @@ au GUIEnter * set vb t_vb=
 " Syntax highlighting
 " ------------------------------------------------------------------------------
 syntax on
-set t_Co=256
 set background=dark
-colorscheme badwolf
+set t_Co=256
+let g:solarized_termcolors=256
+colorscheme solarized
+"colorscheme badwolf
 
 " json syntax
 au BufRead,BufNewFile *.json set ft=json syntax=javascript
