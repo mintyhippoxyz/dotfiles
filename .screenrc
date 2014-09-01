@@ -25,11 +25,9 @@ nonblock on
 # Allow editors etc. to restore display on exit rather than leaving existing text in place
 altscreen on
 
-# Tell screen what shell to use
-shell /bin/bash
-
-# Default screen title
-shelltitle '$ |bash'
+# Shell
+shell -$SHELL
+shelltitle '$ |'
 
 # Window list at the bottom
 hardstatus alwayslastline
