@@ -1,105 +1,103 @@
+!==============================================================
 ! XTerm
+!==============================================================
 
 ! General settings
-XTerm*termName: xterm-256color
-XTerm*geometry: 80x24
-XTerm*saveLines: 1024
-XTerm*scrollBar: False
-XTerm*loginshell: False
-XTerm*cursorBlink: False
+xterm*termName: xterm-256color
+xterm*geometry: 80x24
+xterm*saveLines: 1024
+xterm*scrollBar: False
+xterm*loginshell: False
+xterm*cursorBlink: False
 
 ! Fonts and Encoding
-XTerm*utf8: True
-XTerm*locale: True
-XTerm*utf8Title: True
-XTerm*renderFont: True
-XTerm*preeditType: Root
+xterm*utf8: True
+xterm*locale: True
+xterm*utf8Title: True
+xterm*renderFont: True
+xterm*preeditType: Root
 xterm*font:     *-fixed-*-*-*-10-*
 xterm*boldFont:     *-fixed-*-*-*-10-*
 
 ! Trim trailing spaces
-XTerm*trimSelection: true
+xterm*trimSelection: true
 
 ! Fix alt-key inputting
-XTerm*eightBitInput: false
-XTerm*metaSendsEscape: true
+xterm*eightBitInput: false
+xterm*metaSendsEscape: true
 
 ! Allow selecting email/url by double-click
-XTerm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
+xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
 
-! Tango Theme
-! modified background
+! To match the solarized colorscheme black/white
+xterm*background: #1c1c1c
+xterm*foreground: #e4e4e4
 
-XTerm*background: #141413
-XTerm*foreground: #DEDEDE
+!==============================================================
+! XCalc
+!==============================================================
 
-! black
-XTerm*color0 : #2E3436
-XTerm*color8 : #555753
-! red
-XTerm*color1 : #CC0000
-XTerm*color9 : #EF2929
-! green
-XTerm*color2 : #4E9A06
-XTerm*color10 : #8AE234
-! yellow
-XTerm*color3 : #C4A000
-XTerm*color11 : #FCE94F
-! blue
-XTerm*color4 : #3465A4
-XTerm*color12 : #729FCF
-! magenta
-XTerm*color5 : #75507B
-XTerm*color13 : #AD7FA8
-! cyan
-XTerm*color6 : #06989A
-XTerm*color14 : #34E2E2
-! white
-XTerm*color7 : #D3D7CF
-XTerm*color15 : #EEEEEC
-
-! XCALC
-xcalc*geometry: 200x275
-xcalc.ti.bevel.background: #111111
-xcalc.ti.bevel.screen.background: #000000
-xcalc.ti.bevel.screen.DEG.background: #000000
-xcalc.ti.bevel.screen.DEG.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.GRAD.background: #000000
-xcalc.ti.bevel.screen.GRAD.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.RAD.background: #000000
-xcalc.ti.bevel.screen.RAD.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.INV.background: #000000
-xcalc.ti.bevel.screen.INV.foreground: Red
-xcalc.ti.bevel.screen.LCD.background: #000000
-xcalc.ti.bevel.screen.LCD.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.LCD.shadowWidth: 0
-xcalc.ti.bevel.screen.M.background: #000000
-xcalc.ti.bevel.screen.M.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.P.background: #000000
-xcalc.ti.bevel.screen.P.foreground: Yellow
-xcalc.ti.Command.foreground: White
-xcalc.ti.Command.background: #777777
-xcalc.ti.button5.background: Orange3
-xcalc.ti.button19.background: #611161
-xcalc.ti.button18.background: #611161
-xcalc.ti.button20.background: #611111
-xcalc.ti.button25.background: #722222
-xcalc.ti.button30.background: #833333
-xcalc.ti.button35.background: #944444
-xcalc.ti.button40.background: #a55555
-xcalc.ti.button22.background: #222262
-xcalc.ti.button23.background: #222262
-xcalc.ti.button24.background: #222272
-xcalc.ti.button27.background: #333373
-xcalc.ti.button28.background: #333373
-xcalc.ti.button29.background: #333373
-xcalc.ti.button32.background: #444484
-xcalc.ti.button33.background: #444484
-xcalc.ti.button34.background: #444484
-xcalc.ti.button37.background: #555595
-xcalc.ti.button38.background: #555595
-xcalc.ti.button39.background: #555595
-XCalc*Cursor:                 hand2
-XCalc*ShapeStyle:             rectangle
+xcalc*geometry: 200x270
+xcalc*font: -*-clean-*-*-*-*-*-*-*-*-*-*-*-*
+! Background
+xcalc*background: #1c1c1c
+xcalc*foreground: #e4e4e4
+xcalc*borderColor: #111111
+! Screen
+xcalc*bevel.vertDistance: 5
+xcalc*bevel.background: dark khaki
+xcalc*bevel.borderColor: khaki
+xcalc*screen*background: dark khaki
+xcalc*screen*foreground: black
+xcalc*screen*borderColor: dark khaki
+! Buttons =====================================================
+! Spacing
+xcalc*button1*vertDistance: 4
+xcalc*button2*vertDistance: 4
+xcalc*button3*vertDistance: 4
+xcalc*button4*vertDistance: 4
+xcalc*button5*vertDistance: 4
+xcalc*button21*vertDistance: 4
+xcalc*button22*vertDistance: 4
+xcalc*button23*vertDistance: 4
+xcalc*button24*vertDistance: 4
+xcalc*button25*vertDistance: 4
+! Background
+xcalc*Command*background: #181818
+xcalc*Command*borderColor: #202020
+! Fix labels
+xcalc*button2.label: x^2
+xcalc*button3.label: v-
+xcalc*button20.label: /
+! CE
+xcalc*button4.background: firebrick4
+xcalc*button4.borderColor: firebrick3
+! AC
+xcalc*button5.background: firebrick3
+xcalc*button5.borderColor: firebrick1
+! Numpad
+xcalc*button22.background: #202020
+xcalc*button22.borderColor: #262626
+xcalc*button23.background: #202020
+xcalc*button23.borderColor: #262626
+xcalc*button24.background: #202020
+xcalc*button24.borderColor: #262626
+xcalc*button27.background: #202020
+xcalc*button27.borderColor: #262626
+xcalc*button28.background: #202020
+xcalc*button28.borderColor: #262626
+xcalc*button29.background: #202020
+xcalc*button29.borderColor: #262626
+xcalc*button32.background: #202020
+xcalc*button32.borderColor: #262626
+xcalc*button33.background: #202020
+xcalc*button33.borderColor: #262626
+xcalc*button34.background: #202020
+xcalc*button34.borderColor: #262626
+xcalc*button37.background: #202020
+xcalc*button37.borderColor: #262626
+! =
+xcalc*button40.background: dark olive green
+xcalc*button40.borderColor: olive drab
 
 ! vim:noet:ft=xdefaults
