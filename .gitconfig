@@ -24,7 +24,7 @@
 [merge]
 	log = true
 [push]
-	default = simple
+	default = matching
 [alias]
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	#l = log --pretty=oneline -n 20 --graph --abbrev-commit
@@ -68,3 +68,5 @@
 	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
+	# Undo the last commit
+	undo-commit = reset --soft HEAD^
