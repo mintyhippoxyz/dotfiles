@@ -21,8 +21,10 @@ set history=2000               " store lots of command history default is 20
 " ------------------------------------------------------------------------------
 set number                     " line numbers are good
 set ruler                      " show the cursor position
-set scrolloff=100              " keep cursor centered when scrolling
-set nofoldenable               " not foldable by default
+"set scrolloff=100              " keep cursor centered when scrolling
+set scrolloff=5
+"set nofoldenable               " not foldable by default
+set foldmethod=marker
 set nostartofline              " don't set cursor at start of line when moving
 set nolazyredraw               " turn off lazy redraw
 set list                       " display whitespace
@@ -106,6 +108,9 @@ au! Syntax gherkin source ~/.vim/plugin/cucumber.vim
 " ------------------------------------------------------------------------------
 " Misc key maps
 " ------------------------------------------------------------------------------
+
+" Easier folding
+nnoremap <Space> za
 
 " Better page up/down
 map <PageUp> <C-U>
