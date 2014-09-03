@@ -18,16 +18,15 @@ if [ -f ~/.bash_prompt ]; then
 fi
 
 if [ -f /etc/profile.d/bash-completion.sh ]; then
-	source /etc/profile.d/bash-completion.sh
-fi
-
-if [ -z "$(/bin/pidof ssh-agent)" ]; then
-	echo "echo \"No agent is running\"" > ~/.ssh/agent
+	. /etc/profile.d/bash-completion.sh
 fi
 
 uname -srpi
 uptime
 
 if [ -f ~/.ssh/agent ]; then
-	source ~/.ssh/agent
+	if [ -z "$(/bin/pidof ssh-agent)" ]; then
+		echo "echo \"No agent is running\"" > ~/.ssh/agent
+	fi
+	. ~/.ssh/agent
 fi
