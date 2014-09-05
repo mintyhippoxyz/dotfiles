@@ -16,8 +16,13 @@ xterm*locale: True
 xterm*utf8Title: True
 xterm*renderFont: True
 xterm*preeditType: Root
-xterm*font: *-fixed-*-*-*-10-*
-xterm*boldFont: *-fixed-bold-*-*-10-*
+!xterm*font: *-fixed-*-*-*-10-*
+!xterm*boldFont: *-fixed-bold-*-*-10-*
+!xterm*faceName: Inconsolata
+!xterm*faceName: Terminus
+!xterm*faceName: Droid Sans Mono
+xterm*faceName: Dejavu Sans Mono
+xterm*faceSize: 8
 
 ! Trim trailing spaces
 xterm*trimSelection: true
