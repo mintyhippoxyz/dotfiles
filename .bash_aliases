@@ -1,31 +1,42 @@
-# Quickies
+# Shortcuts
+alias reload='. ~/.bashrc'
+
 alias g="git"
 alias h="history"
 
-# Quickie to dev server
-alias dev="ssh dev.4dk.us"
+alias :q='exit'
+alias v='vim'
+alias vimrc='vim ~/.vim/vimrc'
 
-# Color grep & ls
+alias apache='sudo /etc/init.d/apache2'
+alias hosts='sudo $EDITOR /etc/hosts'
+
+# SSH shortcuts
+alias ssh-dev="ssh dev.4dk.us"
+
+# Colors!
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
 
-# List all files colorized in long format
-alias l="ls -lhF --color"
-# List all files colorized in long format, including dot files, ignoring implied . and ../
-alias la="ls -lhAF --color"
-# List only directories
-alias lsd="ls -lhF --color | grep --color=never '^d'"
+# ls shortcuts
+alias l="ls -lhF"
+alias la="ls -lhAF"
+alias lsd="ls -lhF | grep --color=never '^d'"
+
+# cd shortcuts
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 # Recursive php lint
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
 
-# Restart ssh-agent
-if [ -f ~/.ssh/agent ]; then
-	if [ -f ~/.ssh/work ]; then
-		alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
-	else
-		alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add'
-	fi
-fi
+# linux info
+alias whichlinux='uname -a; cat /etc/*release; cat /etc/issue'
 
-# vim: filetype=sh
+# external ip address
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# vim: ft=sh

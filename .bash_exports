@@ -1,6 +1,9 @@
 # Make vim the default editor
 export EDITOR="vim";
 
+# Default grep options
+export GREP_OPTIONS='--exclude tags --exclude-dir ssl --exclude-dir CVS'
+
 # Larger bash history (allow 32³ entries; default is 500)
 # History file will be with date information on every entry
 export HISTSIZE=32768;
@@ -14,4 +17,4 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:* --help";
 export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
-# vim: filetype=sh
+# vim: ft=sh
