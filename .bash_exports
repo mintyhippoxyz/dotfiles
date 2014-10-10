@@ -1,8 +1,11 @@
 # Make vim the default editor
 export EDITOR="vim";
 
+# CVS root
+export CVSROOT=':ext:cvs.rtdev.net:/cvsroot'
+
 # Default grep options
-export GREP_OPTIONS='--exclude tags --exclude-dir ssl --exclude-dir CVS'
+export GREP_OPTIONS='--color=auto --exclude tags --exclude-dir ssl --exclude-dir CVS'
 
 # Larger bash history (allow 32³ entries; default is 500)
 # History file will be with date information on every entry

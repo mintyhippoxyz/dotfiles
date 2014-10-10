@@ -1,6 +1,10 @@
-# Shortcuts
+# Reload bash
 alias reload='. ~/.bashrc'
 
+# Run the last command as root
+alias please='sudo $(fc -ln -1)'
+
+# Shortcuts
 alias g="git"
 alias h="history"
 
@@ -12,13 +16,13 @@ alias apache='sudo /etc/init.d/apache2'
 alias hosts='sudo $EDITOR /etc/hosts'
 
 # SSH shortcuts
-alias ssh-dev="ssh dev.4dk.us"
-
-# Colors!
-alias grep='grep --color=auto'
-alias ls='ls --color=auto'
+alias ssh-dev="ssh 192.168.1.52"
+alias ssh-staging='ssh -A -t 192.168.1.125 ssh -A -t -R 2255:192.168.1.162:22 ssh.rtvision.com ssh -t -A -R 2222:192.168.1.9:22 -p 2255 127.0.0.1'
+alias ssh-demo='ssh -A -t 192.168.1.126 ssh -A -t -R 2256:192.168.1.203:22 ssh.rtvision.com ssh -t -A -R 2222:192.168.1.9:22 -p 2256 127.0.0.1'
+alias ssh-hosting='ssh -A -t -R 2257:198.97.233.64:22 ssh.rtvision.com ssh -t -A -R 2222:192.168.1.9:22 -p 2257 127.0.0.1'
 
 # ls shortcuts
+alias ls='ls --color=auto'
 alias l="ls -lhF"
 alias la="ls -lhAF"
 alias lsd="ls -lhF | grep --color=never '^d'"
