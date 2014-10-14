@@ -16,10 +16,10 @@ alias apache='sudo /etc/init.d/apache2'
 alias hosts='sudo $EDITOR /etc/hosts'
 
 # SSH shortcuts
-alias ssh-dev="ssh -6 fd19:3c36:9d0c:52:136c:fa8:54b:9be1"
-alias ssh-staging='ssh -A -t 192.168.1.125 ssh -A -t -R 2255:192.168.1.162:22 ssh.rtvision.com ssh -t -A -R 2222:192.168.1.9:22 -p 2255 127.0.0.1'
-alias ssh-demo='ssh -A -t 192.168.1.126 ssh -A -t -R 2256:192.168.1.203:22 ssh.rtvision.com ssh -t -A -R 2222:192.168.1.9:22 -p 2256 127.0.0.1'
-alias ssh-hosting='ssh -A -t -R 2257:198.97.233.64:22 ssh.rtvision.com ssh -t -A -R 2222:192.168.1.9:22 -p 2257 127.0.0.1'
+alias ssh-dev="ssh egram.rtmatt.rtdev.net"
+alias ssh-staging='ssh -A -t stage1.rtdev.net ssh -A -t -R 2255:egram.staging.rtdev.net:22 ssh.rtvision.com /usr/bin/ssh -t -A -R 2222:cvs.rtdev.net:22 -p 2255 127.0.0.1'
+alias ssh-demo='ssh -A -t stage2.rtdev.net ssh -A -t -R 2256:egram.demo.rtdev.net:22 ssh.rtvision.com /usr/bin/ssh -t -A -R 2222:cvs.rtdev.net:22 -p 2256 127.0.0.1'
+alias ssh-hosting='ssh -A -t -R 2257:198.97.233.64:22 ssh.rtvision.com ssh -t -A -R 2222:cvs.rtdev.net:22 -p 2257 127.0.0.1'
 
 # ls shortcuts
 alias ls='ls --color=auto'
