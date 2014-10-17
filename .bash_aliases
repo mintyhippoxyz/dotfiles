@@ -12,6 +12,8 @@ alias :q='exit'
 alias v='vim'
 alias vimrc='vim ~/.vim/vimrc'
 
+alias vg='vagrant'
+
 alias apache='sudo /etc/init.d/apache2'
 alias hosts='sudo $EDITOR /etc/hosts'
 
