@@ -7,7 +7,6 @@ alias please='sudo $(fc -ln -1)'
 # Shortcuts
 alias g='git'
 alias h='history'
-alias w='which'
 alias q='exit'
 alias :q='exit'
 alias v='vim'
