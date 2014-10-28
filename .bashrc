@@ -26,6 +26,6 @@ if [ -f /etc/profile.d/bash-completion.sh ]; then
 fi
 
 uname -srpi
-uptime
+uptime | sed 's/^.//'
 
 # vim: ft=sh
