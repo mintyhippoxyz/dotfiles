@@ -1,5 +1,5 @@
 # Reload bash
-alias reload='. ~/.bashrc'
+alias reload='clear && . ~/.bashrc'
 
 # Run the last command as root
 alias please='sudo $(fc -ln -1)'
