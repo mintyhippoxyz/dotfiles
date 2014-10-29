@@ -1,0 +1,52 @@
+#!/bin/bash
+# Install Dotfiles
+
+linkarray=( "~/dotfiles/bash/aliases ~/.bash_aliases"
+	"~/dotfiles/bash/colors ~/.bash_colors"
+	"~/dotfiles/bash/env ~/.bash_env"
+	"~/dotfiles/bash/func ~/.bash_func"
+	"~/dotfiles/bash/profile ~/.bash_profile"
+	"~/dotfiles/bash/prompt ~/.bash_prompt"
+	"~/dotfiles/bash/ssh ~/.bash_ssh"
+	"~/dotfiles/fluxbox/styles/BadAss ~/.fluxbox/styles/BadAss"
+	"~/dotfiles/gitconfig ~/.gitconfig"
+	"~/dotfiles/npmrc ~/.npmrc"
+	"~/dotfiles/psqlrc ~/.psqlrc"
+	"~/dotfiles/screenrc ~/.screenrc"
+	"~/dotfiles/vim/vimrc ~/.vimrc"
+	"~/dotfiles/vim ~/.vim"
+	"~/dotfiles/Xdefaults ~/.Xdefaults"
+	"~/dotfiles/bin ~/bin" )
+
+# works for now but could be better...
+create_symlinks()
+{
+	#turn off globbing to split each entry on spaces
+	set -f
+	for entry in "${linkarray[@]}"; do
+		targets=( $entry )
+		#eval will expand the tildes
+		eval from=${targets[0]}
+		eval to=${targets[1]}
+		#if the target exists and is not a symlink, err on the side of caution
+		if [ -e "$to" -a ! -L "$to" ]; then
+			echo "$to exists and is not a link, skipping..."
+		else
+			#probably safe to delete an existing symlink
+			if [ -e "$to" ]; then
+				rm $to
+			fi
+			ln -s $from $to
+		fi
+	done
+}
+
+# create a bashrc if one does not exist
+if [ ! -f ~/bashrc ]; then
+	echo "if [ -f ~/dotfiles/bash/bashrc ]; then . ~/dotfiles/bash/bashrc; fi" > .bashrc
+fi
+
+create_symlinks
+
+exit 0
+# vim: ft=sh
