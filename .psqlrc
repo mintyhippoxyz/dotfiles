@@ -15,7 +15,7 @@
 \set VERBOSITY verbose
 
 -- Use a separate history file per-database
-\set HISTFILE ~/.psql_history- :DBNAME
+\set HISTFILE ~/.psql/history- :DBNAME
 
 -- Don't store duplicate records in history file
 \set HISTCONTROL ignoredups
