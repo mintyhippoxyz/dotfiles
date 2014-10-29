@@ -22,6 +22,9 @@ alias ssh-staging='ssh -A -t stage1.rtdev.net ssh -A -t -R 2255:egram.staging.rt
 alias ssh-demo='ssh -A -t stage2.rtdev.net ssh -A -t -R 2256:egram.demo.rtdev.net:22 ssh.rtvision.com /usr/bin/ssh -t -A -R 2222:cvs.rtdev.net:22 -p 2256 127.0.0.1'
 alias ssh-hosting='ssh -A -t -R 2257:198.97.233.64:22 ssh.rtvision.com ssh -t -A -R 2222:cvs.rtdev.net:22 -p 2257 127.0.0.1'
 
+# grep color and exclude dirs
+alias grep='grep --colour=auto --exclude tags --exclude-dir ssl --exclude-dir CVS'
+
 # ls shortcuts
 alias ls='ls --color=auto'
 alias l='ls -lhF'
