@@ -1,0 +1,27 @@
+if [ -f /etc/profile.d/bash-completion.sh ]; then
+	. /etc/profile.d/bash-completion.sh
+fi
+
+case ${TERM} in
+	xterm*) export TERM=xterm-256color;;
+	screen*) export TERM=screen-256color;;
+	putty*) export TERM=putty-256color;;
+esac
+
+[ -z "$PS1" ] && return
+
+for i in 'env' 'colors' 'aliases' 'func' 'ssh' 'prompt'; do
+	if [ -f ~/.bash_${i} ]; then
+		if [ ${i} == 'prompt' ]; then
+			case "$TERM" in
+				xterm*) . ~/.bash_prompt ;;
+				screen*) . ~/.bash_prompt ;;
+				putty*) . ~/.bash_prompt ;;
+			esac
+		else
+			. ~/.bash_${i}
+		fi
+	fi
+done
+
+# vim: ft=sh
