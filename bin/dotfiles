@@ -42,7 +42,7 @@ create_symlinks()
 }
 
 # create a bashrc if one does not exist
-if [ ! -f ~/bashrc ]; then
+if [ ! -f ~/.bashrc ]; then
 	echo "if [ -f ~/dotfiles/bash/bashrc ]; then . ~/dotfiles/bash/bashrc; fi" > .bashrc
 fi
 
