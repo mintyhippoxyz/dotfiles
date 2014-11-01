@@ -10,7 +10,7 @@ olddir="${HOME}/dotfiles_old"
 files="cvsrc gitconfig npmrc psqlrc screenrc vim vimrc"
 bashfiles="aliases colors env func logout profile prompt ssh"
 xfiles="Xdefaults xinitrc"
-fluxboxfiles="BadAssStyle keys"
+fluxboxfiles="BadAssStyle keys" #todo
 
 while getopts ":x" opt; do
 	case $opt in
