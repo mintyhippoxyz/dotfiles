@@ -1,4 +1,4 @@
-vim/.netrwhist
+bin/*backup.sh
 vim/backups/*
 vim/swaps/*
 vim/undo/*

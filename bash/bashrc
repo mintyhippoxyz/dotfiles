@@ -11,7 +11,7 @@ esac
 [ -z "$PS1" ] && return
 
 for i in 'env' 'colors' 'aliases' 'func' 'ssh' 'prompt'; do
-	if [ -f ~/.bash_${i} ]; then
+#	if [ -f ~/.bash_${i} ]; then
 		if [ ${i} == 'prompt' ]; then
 			case "$TERM" in
 				xterm*) . ~/.bash_prompt ;;
@@ -21,7 +21,7 @@ for i in 'env' 'colors' 'aliases' 'func' 'ssh' 'prompt'; do
 		else
 			. ~/.bash_${i}
 		fi
-	fi
+#	fi
 done
 
 # vim: ft=sh
