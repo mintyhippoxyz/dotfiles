@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ -f /etc/profile.d/bash-completion.sh ]; then
 	. /etc/profile.d/bash-completion.sh
 fi
@@ -5,23 +7,21 @@ fi
 case ${TERM} in
 	xterm*) export TERM=xterm-256color;;
 	screen*) export TERM=screen-256color;;
-	putty*) export TERM=putty-256color;;
 esac
 
 [ -z "$PS1" ] && return
 
-for i in 'env' 'colors' 'aliases' 'func' 'ssh' 'prompt'; do
-#	if [ -f ~/.bash_${i} ]; then
-		if [ ${i} == 'prompt' ]; then
+for file in 'aliases' 'colors' 'func' 'ssh' 'prompt' 'env'; do
+	if [ -r ~/dotfiles/bash/${file} ]; then
+		if [ ${file} == 'prompt' ]; then
 			case "$TERM" in
-				xterm*) . ~/.bash_prompt ;;
-				screen*) . ~/.bash_prompt ;;
-				putty*) . ~/.bash_prompt ;;
+				xterm*) . ~/dotfiles/bash/prompt ;;
+				screen*) . ~/dotfiles/bash/prompt ;;
 			esac
 		else
-			. ~/.bash_${i}
+			. ~/dotfiles/bash/${file}
 		fi
-#	fi
+	fi
 done
 
 # vim: ft=sh

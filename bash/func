@@ -1,3 +1,11 @@
+#!/bin/bash
+
+the_eye() {
+	if [ $? != 0 ]; then
+		printf "\033[01;31m( O_o) "
+	fi
+}
+
 backup() {
 	mv $1 $1~
 }
