@@ -9,21 +9,17 @@ olddir="${HOME}/dotfiles_old"
 
 files="cvsrc gitconfig npmrc psqlrc screenrc vim vimrc"
 bashfiles="aliases colors env func logout profile prompt ssh"
-xfiles="Xdefaults xinitrc"
 fluxboxfiles="BadAssStyle keys" #todo
+xfiles="Xdefaults xinitrc"
 
 while getopts ":x" opt; do
 	case $opt in
-		x)
-			X=1
-			;;
-		\?)
-			echo "Invalid option: -$OPTARG"
-			;;
+		x) X=1 ;;
+		\?) echo "Invalid option: -$OPTARG" ;;
 	esac
 done
 
-echo "Installing dotfiles"
+echo "Installing dotfiles..."
 
 if [ ! -d $olddir ]; then
 	echo "Creating $olddir for backup of any existing dotfiles in ~"
@@ -31,8 +27,8 @@ if [ ! -d $olddir ]; then
 fi
 
 if [ "$X" == 1 ]; then
-	echo "Including X dotfiles"
-	files=( "${files}" "${xfiles}" )
+	echo "Including dotfiles for X"
+	files="$files $xfiles"
 fi
 
 for entry in $bashfiles; do
