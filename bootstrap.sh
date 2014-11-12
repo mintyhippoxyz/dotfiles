@@ -29,11 +29,13 @@ fi
 
 for entry in $files; do
 	file="${HOME}/.$entry"
-	if [ ! -L "$file" ]; then
-		echo "Moving $file to $olddir"
-		mv $file $olddir/
-	else
-		rm $file
+	if [ -e "$file" ]; then
+		if [ ! -L "$file" ]; then
+			echo "Moving $file to $olddir"
+			mv $file $olddir/
+		else
+			rm $file
+		fi
 	fi
 	echo "Creating symlink to $file in home directory"
 	if [[ $file == *bash_* ]]; then
