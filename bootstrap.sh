@@ -5,11 +5,14 @@
 
 # Variables
 dir="${HOME}/dotfiles"
-olddir="${HOME}/dotfiles_bak"
+olddir="${HOME}/.dotfiles_bak"
 
 files="bash_logout bash_profile cvsrc gitconfig npmrc psqlrc screenrc vim vimrc"
-fluxboxfiles="BadAssStyle keys" #todo
+fluxboxfiles="bada55_style keys" #todo
 xfiles="Xdefaults xinitrc"
+
+cd "${HOME}/dotfiles"
+git pull origin master
 
 while getopts ":x" opt; do
 	case $opt in
@@ -20,7 +23,7 @@ done
 
 if [ ! -d $olddir ]; then
 	echo "Creating $olddir for backup of any existing dotfiles in ~"
-	mkdir -p $olddir;
+	mkdir -p $olddir
 fi
 
 if [ "$X" == 1 ]; then
@@ -46,13 +49,15 @@ for entry in $files; do
 done
 
 if ! grep -q ". ~/dotfiles/bash/bashrc" ~/.bashrc; then
-	echo "Writing dotfiles bashrc config"
+	echo "Writing to bashrc"
 	echo "if [ -f ~/dotfiles/bash/bashrc ]; then" >> ~/.bashrc
 	echo "  source ~/dotfiles/bash/bashrc;" >> ~/.bashrc
 	echo "fi" >> ~/.bashrc
 fi
 
 source "${HOME}/.bashrc"
+
+echo "Done"
 
 exit 0
 # vim: ft=sh
