@@ -21,10 +21,8 @@ set history=2000               " store lots of command history default is 20
 " ------------------------------------------------------------------------------
 set number                     " line numbers are good
 set ruler                      " show the cursor position
-"set scrolloff=100              " keep cursor centered when scrolling
-set scrolloff=5
-"set nofoldenable               " not foldable by default
-set foldmethod=marker
+set scrolloff=5                " scroll when 5 lines from top/bottom
+set foldmethod=marker          " fold on markers
 set nostartofline              " don't set cursor at start of line when moving
 set nolazyredraw               " turn off lazy redraw
 set list                       " display whitespace
@@ -42,9 +40,8 @@ set incsearch                  " highlight dynamically as pattern is typed
 set ignorecase                 " ignore case when searching
 set smartcase                  " case sensitive only if capital in search term
 set showmatch                  " highlight matching brackets
-" TODO might make this toggleable
-"set textwidth=80              " wrap text at 80 columns
-"set colorcolumn=+1            " show vertical line at column 81
+set textwidth=80              " wrap text at 80 columns
+set colorcolumn=+1            " show vertical line at column 81
 
 " ------------------------------------------------------------------------------
 " Indentation
@@ -109,7 +106,7 @@ au! Syntax gherkin source ~/.vim/plugin/cucumber.vim
 " Misc key maps
 " ------------------------------------------------------------------------------
 
-" Easier folding
+" Toggle folds with space bar
 nnoremap <Space> za
 
 " Better page up/down
