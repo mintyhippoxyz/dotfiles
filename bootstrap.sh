@@ -7,7 +7,8 @@
 dir="${HOME}/dotfiles"
 olddir="${HOME}/.dotfiles_bak"
 
-files="bash_logout bash_profile cvsrc gitconfig npmrc psqlrc screenrc vim vimrc"
+files="bash_logout bash_profile curlrc cvsrc gitconfig npmrc psqlrc screenrc vim
+vimrc wgetrc"
 fluxboxfiles="bada55_style keys" #todo
 xfiles="Xdefaults xinitrc"
 
