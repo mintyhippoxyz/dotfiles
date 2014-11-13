@@ -1,12 +1,15 @@
-[submodule "vim-jade"]
-	path = vim/bundle/vim-jade
-	url = https://github.com/digitaltoad/vim-jade
-[submodule "todo.txt-vim"]
-	path = vim/bundle/todo.txt-vim
-	url = https://github.com/freitass/todo.txt-vim
-[submodule "syntastic"]
-	path = vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic
+[submodule "phpcomplete.vim"]
+	path = vim/bundle/phpcomplete.vim
+	url = https://github.com/shawncplus/phpcomplete.vim
 [submodule "supertab"]
 	path = vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
+[submodule "syntastic"]
+	path = vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic
+[submodule "todo.txt-vim"]
+	path = vim/bundle/todo.txt-vim
+	url = https://github.com/freitass/todo.txt-vim
+[submodule "vim-jade"]
+	path = vim/bundle/vim-jade
+	url = https://github.com/digitaltoad/vim-jade
