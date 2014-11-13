@@ -14,6 +14,7 @@ xfiles="Xdefaults xinitrc"
 
 cd "${HOME}/dotfiles"
 git pull origin master
+git submodule foreach git pull origin master
 
 while getopts ":x" opt; do
 	case $opt in
