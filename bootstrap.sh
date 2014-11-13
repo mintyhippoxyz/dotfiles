@@ -34,13 +34,13 @@ for entry in $files; do
 	file="${HOME}/.$entry"
 	if [ -e "$file" ]; then
 		if [ ! -L "$file" ]; then
-			echo "Moving $file to $olddir"
+			echo "Moving .$entry to $olddir"
 			mv $file $olddir/
 		else
 			rm $file
 		fi
 	fi
-	echo "Creating symlink to $file in home directory"
+	echo "Creating symlink $file"
 	if [[ $file == *bash_* ]]; then
 		ln -s $dir/bash/$(echo $entry | sed "s/^bash_//") $file
 	else
