@@ -1,6 +1,15 @@
+[submodule "nerdtree"]
+	path = vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule "pdv"]
+	path = vim/bundle/pdv
+	url = https://github.com/tobyS/pdv
 [submodule "phpcomplete.vim"]
 	path = vim/bundle/phpcomplete.vim
 	url = https://github.com/shawncplus/phpcomplete.vim
+[submodule "php.vim"]
+	path = vim/bundel/php.vim
+	url = https://github.com/StanAngeloff/php.vim
 [submodule "supertab"]
 	path = vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
@@ -10,6 +19,12 @@
 [submodule "todo.txt-vim"]
 	path = vim/bundle/todo.txt-vim
 	url = https://github.com/freitass/todo.txt-vim
+[submodule "ultisnips"]
+	path = vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips
 [submodule "vim-jade"]
 	path = vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
+[submodule "vmustache"]
+	path = vim/bundle/vmustache
+	url = https://github.com/tobyS/vmustache
