@@ -5,13 +5,9 @@
 set nocompatible
 
 " ------------------------------------------------------------------------------
-" Pathogen
-" ------------------------------------------------------------------------------
-execute pathogen#infect()
-
-" ------------------------------------------------------------------------------
 " General
 " ------------------------------------------------------------------------------
+set encoding=utf-8             " set encoding to utf-8
 set autoread                   " reload files changed outside vim
 set title                      " show the filename in the window titlebar
 set modeline                   " http://vim.wikia.com/wiki/Modeline_magic
@@ -82,6 +78,11 @@ set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
 
 " ------------------------------------------------------------------------------
+" Pathogen
+" ------------------------------------------------------------------------------
+execute pathogen#infect()
+
+" ------------------------------------------------------------------------------
 " Syntax highlighting
 " ------------------------------------------------------------------------------
 syntax on
@@ -120,11 +121,8 @@ map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
 imap <PageDown> <C-O><C-D>
 
-" <F2> grep PHP files
+" <F2> grep php files
 map <F2> :vimgrep /stext/ **/*.php \| :copen
-
-" <F7> sets foldable
-map <F7> :set invfoldenable<C-M>
 
 " <F8> toggles 'copy/paste mode'
 map <F8> :set invpaste invnumber invlist<C-M>
@@ -147,3 +145,26 @@ command Q q
 command Wq wq
 command WQ wq
 
+" Powerline
+let g:Powerline_symbols = 'fancy'
+
+" NERDTree
+" Open automaticlly
+"autocmd vimenter * NERDTree
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Close if only window left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" <C-n> toggle tree
+map <C-n> :NERDTreeToggle<CR>
+
+" Override php syntax
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
