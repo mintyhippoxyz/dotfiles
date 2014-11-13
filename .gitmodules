@@ -8,7 +8,7 @@
 	path = vim/bundle/phpcomplete.vim
 	url = https://github.com/shawncplus/phpcomplete.vim
 [submodule "php.vim"]
-	path = vim/bundel/php.vim
+	path = vim/bundle/php.vim
 	url = https://github.com/StanAngeloff/php.vim
 [submodule "supertab"]
 	path = vim/bundle/supertab
