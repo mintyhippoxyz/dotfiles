@@ -41,8 +41,6 @@ set incsearch                  " highlight dynamically as pattern is typed
 set ignorecase                 " ignore case when searching
 set smartcase                  " case sensitive only if capital in search term
 set showmatch                  " highlight matching brackets
-set textwidth=80              " wrap text at 80 columns
-set colorcolumn=+1            " show vertical line at column 81
 
 " ------------------------------------------------------------------------------
 " Indentation
@@ -126,6 +124,10 @@ map <F2> :vimgrep /stext/ **/*.php \| :copen
 
 " <F8> toggles 'copy/paste mode'
 map <F8> :set invpaste invnumber invlist<C-M>
+
+" <F9> <F10> toggles vertcal line at column 80
+map <F9> :set textwidth=80 colorcolumn=+1<C-M>
+map <F10> :set textwidth=0 colorcolumn=0<C-M>
 
 " <F12> forgot to open with sudo? no problem
 map <F12> :w !sudo tee > /dev/null %<C-M>
