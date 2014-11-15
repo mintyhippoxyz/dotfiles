@@ -160,7 +160,25 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " <C-n> toggle tree
 map <C-n> :NERDTreeToggle<CR>
 
+" ------------------------------------------------------------------------------
+" Airline
+" ------------------------------------------------------------------------------
+
+" Enable the tab line / buffer list
+let g:airline#extensions#tabline#enabled = 1
+
+" Only show the file name
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" Enable syntastic integration
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline_theme = 'solarized'
+
+
+" ------------------------------------------------------------------------------
 " Override php syntax
+" ------------------------------------------------------------------------------
+
 function! PhpSyntaxOverride()
   hi! def link phpDocTags  phpDefine
   hi! def link phpDocParam phpType
