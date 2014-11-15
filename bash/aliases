@@ -41,8 +41,8 @@ alias gpthis='git push origin HEAD:$(git_current_branch)'
 # Misc
 alias h='history'
 alias v='vim'
-alias vimrc='vim ~/.vim/vimrc'
 alias vg='vagrant'
 alias vbm='VBoxManage'
+alias vimrc="vim $HOME/vimrc"
 
 # vim: ft=sh
