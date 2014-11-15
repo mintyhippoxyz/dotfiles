@@ -31,8 +31,12 @@ alias l='ls -lhF'
 alias la='ls -lhAF'
 alias lsd='ls -lhF | grep --color=never "^d"'
 
-# Git (more in git config)
+# Git
 alias g='git'
+alias gm='git merge --no-ff'
+alias grb='git rebase -p'
+alias gup='git fetch origin && grb origin/$(git_current_branch)'
+alias gpthis='git push origin HEAD:$(git_current_branch)'
 
 # Misc
 alias h='history'
