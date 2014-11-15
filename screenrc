@@ -37,6 +37,7 @@ hardstatus string '%{= d} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
 bind ',' prev
 bind '.' next
 
-screen -t desktop
+screen -t home
+#screen -t vim vim
 #screen -t irssi irssi
 #screen -t htop htop

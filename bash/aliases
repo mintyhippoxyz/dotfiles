@@ -13,7 +13,8 @@ alias please='sudo $(fc -ln -1)'
 alias whichlinux='uname -a; cat /etc/*release'
 
 # Ip address
-alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias localip="ip addr show eth0 | grep inet --color=never | sed 's/^ *//g'"
 
 # Recursive phplint
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
@@ -28,7 +29,9 @@ alias .....='cd ../../../..'
 # Ls
 alias ls='ls --color=auto'
 alias l='ls -lhF'
+alias lt='ls -lhFt'
 alias la='ls -lhAF'
+alias lat='ls -lhAFt'
 alias lsd='ls -lhF | grep --color=never "^d"'
 
 # Git
@@ -43,6 +46,6 @@ alias h='history'
 alias v='vim'
 alias vg='vagrant'
 alias vbm='VBoxManage'
-alias vimrc="vim $HOME/vimrc"
+alias vimrc="vim $HOME/.vimrc"
 
 # vim: ft=sh

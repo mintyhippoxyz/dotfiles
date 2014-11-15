@@ -101,7 +101,7 @@ bootstrap() {
 		elif [[ $file == *flux_* ]]; then # Look in the fluxbox directory
 			ln -s $dir/fluxbox/$(echo $entry | sed "s/^flux_//") $file
 		elif [[ $file == *fluxstyle_* ]]; then # Look in the fluxbox/styles directory
-			ln -s $dir/bash/$(echo $entry | sed "s/^bash_//") $file
+			ln -s $dir/fluxbox/styles/$(echo $entry | sed "s/^fluxstyle_//") $file
 		else # Create symlink as "normal"
 			ln -s $dir/$entry $file
 		fi

@@ -1,67 +1,130 @@
 " ------------------------------------------------------------------------------
-" Use vim settings rather than vi settings
-" This must be first because it changes other options as a side effect
+" .vimrc
 " ------------------------------------------------------------------------------
+
+" Disable vi compatibility
 set nocompatible
 
-" ------------------------------------------------------------------------------
-" General
-" ------------------------------------------------------------------------------
-set encoding=utf-8             " set encoding to utf-8
-set autoread                   " reload files changed outside vim
-set title                      " show the filename in the window titlebar
-set modeline                   " http://vim.wikia.com/wiki/Modeline_magic
-set showcmd                    " show incomplete cmds down the bottom
-set showmode                   " show current mode down the bottom
-set history=2000               " store lots of command history default is 20
-" breaks select to copy middle click to paste in fluxbox
-"set mouse=a                    " make mouse usefull
+" Point to location of pathogen submodule (since it's not in .vim/autoload)
+silent! runtime bundle/vim-pathogen/autoload/pathogen.vim
+" Call pathogen plugin management
+silent! execute pathogen#infect()
 
-" ------------------------------------------------------------------------------
-" UI
-" ------------------------------------------------------------------------------
-set number                     " line numbers are good
-set ruler                      " show the cursor position
-set scrolloff=5                " scroll when 5 lines from top/bottom
-set foldmethod=marker          " fold on markers
-set nostartofline              " don't set cursor at start of line when moving
-set nolazyredraw               " turn off lazy redraw
-set list                       " display whitespace
-set listchars=tab:>-,trail:-   " display tabs and trailing whitespace
-set wildmenu                   " better filename completion
-set wildmode=list:longest,full
+if has("autocmd")
+	" Load files for specific filetypes
+	filetype on
+	filetype indent on
+	filetype plugin on
+	" Languages with specific tabs/space requirements
+	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
+	" Filetypes
+	au BufRead,BufNewFile *.ajax set ft=php
+	au BufRead,BufNewFile *.phar set ft=php
+	au BufRead,BufNewFile *.rss set ft=php
+	au BufRead,BufNewFile *.xml set ft=php
+	au BufRead,BufNewFile *.less set ft=less
+	au Bufread,BufNewFile *.feature set filetype=gherkin
+	au BufRead,BufNewFile *.json set ft=json syntax=javascript
+	" Draw PHP documentation blocks
+	" Use in visual mode to draw for an entire selection
+	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
+endif
 
-" ------------------------------------------------------------------------------
-" Visual cues
-" ------------------------------------------------------------------------------
-set laststatus=2               " always show status line
-set cursorline                 " highlight current line
-set hlsearch                   " highlight searches
-set incsearch                  " highlight dynamically as pattern is typed
-set ignorecase                 " ignore case when searching
-set smartcase                  " case sensitive only if capital in search term
-set showmatch                  " highlight matching brackets
+if has("syntax")
+	" Enable syntax highlighting
+	syntax on
+	" Set 256 color terminal support
+	set t_Co=256
+	" Set dark background
+	set background=dark
+	" Very important this is set before colorscheme
+	let g:solarized_termcolors=256
+	" Set colorscheme
+	colorscheme solarized
+	"colorscheme badwolf
+endif
 
-" ------------------------------------------------------------------------------
+if has("cmdline_info")
+	" Show the cursor line and column number
+	set ruler
+	" Show partial commands in status line
+	set showcmd
+	" Show whether in insert or replace mode
+	set showmode
+endif
+
+if has("statusline")
+	" Always show status line
+	set laststatus=2
+endif
+
+if has("wildmenu")
+	" Show a list of possible completions
+	set wildmenu
+	" Tab autocomplete longest possible part of a string, then list
+	set wildmode=list:longest,full
+endif
+
+if has("extra_search")
+	" Highlight searches [use :noh or ctrl+l to clear]
+	set hlsearch
+	" Highlight dynamically as pattern is typed
+	set incsearch
+	" Ignore case of searches...
+	set ignorecase
+	" ...unless has mixed case
+	set smartcase
+	" Highlight matching brackets
+	set showmatch
+endif
+
+" Set encoding to utf-8
+set encoding=utf-8
+" Reload files changed outside vim
+set autoread
+" Show the filename in the window titlebar
+set title
+" Allows buffers to be hidden if you've modified a buffer.
+set hidden
+" http://vim.wikia.com/wiki/Modeline_magic
+set modeline
+" Store lots of command history default is 20
+set history=2000
+" Line numbers are good
+set number
+" Scroll when 5 lines from top/bottom
+set scrolloff=5
+" Fold on markers
+set foldmethod=marker
+" Don't set cursor at start of line when moving
+set nostartofline
+" Turn off lazy redraw
+set nolazyredraw
+" Highlight current line
+set cursorline
+
+" Show 'invisible' characters
+set list
+" Set characters used to indicate 'invisible' characters
+"set list listchars=tab:>-,trail:-,nbsp:_
+set list listchars=tab:»·,trail:·,nbsp:·
+
 " Indentation
-" ------------------------------------------------------------------------------
 set autoindent
 set smartindent
 set smarttab
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
-filetype plugin indent on
 
-" ------------------------------------------------------------------------------
-" Splits
-" ------------------------------------------------------------------------------
-set splitbelow                " open vertical split below
-set splitright                " open horizontal split to the right
+" Open vertical split below
+set splitbelow
+" Open horizontal split to the right
+set splitright
 
-" ------------------------------------------------------------------------------
 " Backups, swaps and persistent undo history
-" ------------------------------------------------------------------------------
 set backupdir=~/.vim/backups  " where to save backups
 set directory=~/.vim/swaps    " where to save swaps
 set undodir=~/.vim/undo       " where to save undo history
@@ -69,46 +132,12 @@ set undofile                  " save undo's after file closes
 set undolevels=1000           " how many undos
 set undoreload=10000          " number of lines to save for undo
 
-" ------------------------------------------------------------------------------
 " Disable beep and flash
-" ------------------------------------------------------------------------------
 set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
 
-" ------------------------------------------------------------------------------
-" Pathogen
-" ------------------------------------------------------------------------------
-execute pathogen#infect()
-
-" ------------------------------------------------------------------------------
-" Syntax highlighting
-" ------------------------------------------------------------------------------
-syntax on
-set background=dark
-set t_Co=256
-let g:solarized_termcolors=256
-colorscheme solarized
-"colorscheme badwolf
-
-" json syntax
-au BufRead,BufNewFile *.json set ft=json syntax=javascript
-
-" php syntax
-au BufRead,BufNewFile *.ajax set ft=php
-au BufRead,BufNewFile *.phar set ft=php
-au BufRead,BufNewFile *.rss set ft=php
-au BufRead,BufNewFile *.xml set ft=php
-
-" less syntax
-au BufRead,BufNewFile *.less set ft=less
-
-" gherkin bdd syntax
-au Bufread,BufNewFile *.feature set filetype=gherkin
-au! Syntax gherkin source ~/.vim/plugin/cucumber.vim
-
-" ------------------------------------------------------------------------------
-" Misc key maps
-" ------------------------------------------------------------------------------
+" Change mapleader to ,
+let mapleader=","
 
 " Toggle folds with space bar
 nnoremap <Space> za
@@ -135,55 +164,42 @@ map <F12> :w !sudo tee > /dev/null %<C-M>
 " <C-l> remove highlighting after a search
 nnoremap <C-l> :nohl<CR>
 
-" <C-P> draws PHP documentation blocks
-" Use in visual mode to draw for an entire selection
-au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
-
 " Remap some common misspellings (bad habbits)
 command W w
 command Q q
 command Wq wq
 command WQ wq
 
-" Powerline
-let g:Powerline_symbols = 'fancy'
-
-" NERDTree
-" Open automaticlly
-"autocmd vimenter * NERDTree
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" Close if only window left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" <C-n> toggle tree
-map <C-n> :NERDTreeToggle<CR>
-
-" ------------------------------------------------------------------------------
-" Airline
-" ------------------------------------------------------------------------------
+" Move to the next buffer
+nmap <leader>1 :bnext<CR>
+" Move to the previous buffer
+nmap <leader>2 :bprevious<CR>
+" To open a new empty buffer
+nmap <leader>o :enew<cr>
+" Close the current buffer and move to the previous one
+nmap <leader>x :bp <BAR> bd #<CR>
 
 " Enable the tab line / buffer list
 let g:airline#extensions#tabline#enabled = 1
-
 " Only show the file name
 let g:airline#extensions#tabline#fnamemod = ':t'
-
 " Enable syntastic integration
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline_theme = 'solarized'
 
+" Toggle nerd tree
+map <C-n> :NERDTreeToggle<CR>
+" Open automaticlly if no files were specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Close if only window left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" ------------------------------------------------------------------------------
 " Override php syntax
-" ------------------------------------------------------------------------------
-
 function! PhpSyntaxOverride()
   hi! def link phpDocTags  phpDefine
   hi! def link phpDocParam phpType
 endfunction
-
 augroup phpSyntaxOverride
   autocmd!
   autocmd FileType php call PhpSyntaxOverride()
