@@ -3,6 +3,9 @@
 # Reload bash
 alias reload='clear && . ~/.bashrc'
 
+# For sudo-ing aliases
+alias sudo='sudo '
+
 # Run the last command as root
 alias please='sudo $(fc -ln -1)'
 
