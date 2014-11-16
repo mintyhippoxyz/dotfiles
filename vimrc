@@ -169,6 +169,16 @@ command Q q
 command Wq wq
 command WQ wq
 
+" Php pdv
+" TODO needs ultisnips
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
+
+" Php namespace
+" TODO need to get working
+inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
+noremap <Leader>u :call PhpInsertUse()<CR>
+
 " Move to the next buffer
 nmap <leader>1 :bnext<CR>
 " Move to the previous buffer
