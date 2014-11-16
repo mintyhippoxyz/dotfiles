@@ -108,8 +108,7 @@ set cursorline
 " Show 'invisible' characters
 set list
 " Set characters used to indicate 'invisible' characters
-"set list listchars=tab:>-,trail:-,nbsp:_
-set list listchars=tab:»·,trail:·,nbsp:·
+set list listchars=tab:»-,trail:-,nbsp:_
 
 " Indentation
 set autoindent
