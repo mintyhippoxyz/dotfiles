@@ -55,7 +55,8 @@ cd "${HOME}/dotfiles"
 git pull origin master
 
 # Update submodules.
-git submodule foreach git pull origin master
+#git submodule foreach git pull origin master
+git submodule update --init --recursive
 
 # Create backup directory if one doesn't exist yet
 if [ ! -d $olddir ]; then
