@@ -16,9 +16,6 @@
 [submodule "vim-pathogen"]
 	path = vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen
-[submodule "vim-pdv"]
-	path = vim/bundle/pdv
-	url = https://github.com/tobyS/pdv
 [submodule "vim-php"]
 	path = vim/bundle/php.vim
 	url = https://github.com/StanAngeloff/php.vim
