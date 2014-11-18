@@ -27,9 +27,10 @@ if has("autocmd")
 	au BufRead,BufNewFile *.json set ft=json syntax=javascript
 	" Draw PHP documentation blocks
 	" Use in visual mode to draw for an entire selection
-	"au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-	"au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-	"au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
+	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
+	let g:pdv_cfg_Author = "MattA <matta@rtvision.com>"
 endif
 
 if has("syntax")
@@ -169,20 +170,13 @@ command Q q
 command Wq wq
 command WQ wq
 
-" Php pdv
-" TODO needs ultisnips
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
-
 " Php namespace
-" TODO need to get working
+" TODO gonna need ctags for this
 inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
 noremap <Leader>u :call PhpInsertUse()<CR>
 
 " Move to the next buffer
-nmap <leader>1 :bnext<CR>
-" Move to the previous buffer
-nmap <leader>2 :bprevious<CR>
+nmap <leader><tab> :bnext<CR>
 " To open a new empty buffer
 nmap <leader>o :enew<cr>
 " Close the current buffer and move to the previous one
