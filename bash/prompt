@@ -20,7 +20,13 @@ PS1+="\[\033]0;\w\007\]";
 PS1+="\[${bold}\]";
 PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\] at ";
-PS1+="\[${hostStyle}\]\h"; # host
+# if ldap common name is set show in place of actual hostname
+test -s /etc/ldapcn && export LDAPCN=`cat /etc/ldapcn`
+if [ -z "$LDAPCN" ]; then
+	PS1+="\[${hostStyle}\]\h"; # hostname
+else
+	PS1+="\[${hostStyle}\](${LDAPCN})"; # ldap common name
+fi
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory
 PS1+="\$(git_prompt \"${white} on ${violet}\")"; # Git repository details
