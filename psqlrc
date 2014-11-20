@@ -11,9 +11,6 @@
 -- Switch to expanded table format when there's a lot of data
 \x auto
 
--- Verbose error reports
-\set VERBOSITY verbose
-
 -- Use a separate history file per-database
 \set HISTFILE ~/.psql/history- :DBNAME
 
@@ -22,9 +19,6 @@
 
 -- Autocomplete keywords (like SELECT) in upper-case
 \set COMP_KEYWORD_CASE upper
-
--- Time commands execution
-\timing
 
 -- Unset QUIET set at the beggining of this file
 \unset QUIET
