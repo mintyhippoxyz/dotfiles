@@ -27,9 +27,9 @@ if has("autocmd")
 	au BufRead,BufNewFile *.json set ft=json syntax=javascript
 	" Draw PHP documentation blocks
 	" Use in visual mode to draw for an entire selection
-	"au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-	"au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-	"au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
+	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
+	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
 endif
 
 if has("syntax")
@@ -168,11 +168,6 @@ command W w
 command Q q
 command Wq wq
 command WQ wq
-
-" Php pdv
-" TODO needs ultisnips
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
 
 " Php namespace
 " TODO need to get working
