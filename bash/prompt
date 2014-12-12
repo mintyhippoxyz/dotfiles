@@ -25,7 +25,7 @@ test -s /etc/ldapcn && export LDAPCN=`cat /etc/ldapcn`
 if [ -z "$LDAPCN" ]; then
 	PS1+="\[${hostStyle}\]\h"; # hostname
 else
-	PS1+="\[${hostStyle}\](${LDAPCN})"; # ldap common name
+	PS1+="\[${hostStyle}\]${LDAPCN}"; # ldap common name
 fi
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory
