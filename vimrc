@@ -49,6 +49,10 @@ if has("autocmd")
 	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
 	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
 
+	" Php namespace
+	inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
+	noremap <Leader>u :call PhpInsertUse()<CR>
+
 	" Override php syntax
 	function! PhpSyntaxOverride()
 		hi! def link phpDocTags  phpDefine
@@ -205,8 +209,3 @@ command W w
 command Q q
 command Wq wq
 command WQ wq
-
-" Php namespace
-" TODO gonna need ctags for this
-inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
-noremap <Leader>u :call PhpInsertUse()<CR>
