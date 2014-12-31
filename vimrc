@@ -15,6 +15,7 @@ if has("autocmd")
 	filetype on
 	filetype indent on
 	filetype plugin on
+
 	" Languages with specific tabs/space requirements
 	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 	" Filetypes
@@ -25,11 +26,42 @@ if has("autocmd")
 	au BufRead,BufNewFile *.less set ft=less
 	au Bufread,BufNewFile *.feature set filetype=gherkin
 	au BufRead,BufNewFile *.json set ft=json syntax=javascript
+
+	" Enable the tab line / buffer list
+	let g:airline#extensions#tabline#enabled = 1
+	" Only show the file name
+	let g:airline#extensions#tabline#fnamemod = ':t'
+	" Enable syntastic integration
+	let g:airline#extensions#syntastic#enabled = 1
+	let g:airline_theme = 'solarized'
+
+	" Toggle nerd tree
+	map <C-n> :NERDTreeToggle<CR>
+	" Open automaticlly if no files were specified
+	autocmd StdinReadPre * let s:std_in=1
+	autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+	" Close if only window left open
+	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
 	" Draw PHP documentation blocks
 	" Use in visual mode to draw for an entire selection
 	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
 	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
 	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
+
+	" Php namespace
+	inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
+	noremap <Leader>u :call PhpInsertUse()<CR>
+
+	" Override php syntax
+	function! PhpSyntaxOverride()
+		hi! def link phpDocTags  phpDefine
+		hi! def link phpDocParam phpType
+	endfunction
+	augroup phpSyntaxOverride
+		autocmd!
+		autocmd FileType php call PhpSyntaxOverride()
+	augroup END
 endif
 
 if has("syntax")
@@ -44,6 +76,13 @@ if has("syntax")
 	" Set colorscheme
 	colorscheme solarized
 	"colorscheme badwolf
+	if &term =~ '256color'
+		" disable Background Color Erase (BCE) so that color schemes
+		" render properly when inside 256-color tmux and GNU screen.
+		" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+		set t_ut=
+	endif
+
 endif
 
 if has("cmdline_info")
@@ -147,6 +186,15 @@ map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
 imap <PageDown> <C-O><C-D>
 
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+" Move to previous buffer
+nmap <leader>h :bprev<CR>
+" To open a new empty buffer
+nmap <leader>o :enew<cr>
+" Close the current buffer and move to the previous one
+nmap <leader>x :bp <BAR> bd #<CR>
+
 " <F2> grep php files
 map <F2> :vimgrep /stext/ **/*.php \| :copen
 
@@ -168,43 +216,3 @@ command W w
 command Q q
 command Wq wq
 command WQ wq
-
-" Php namespace
-" TODO need to get working
-inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
-noremap <Leader>u :call PhpInsertUse()<CR>
-
-" Move to the next buffer
-nmap <leader>1 :bnext<CR>
-" Move to the previous buffer
-nmap <leader>2 :bprevious<CR>
-" To open a new empty buffer
-nmap <leader>o :enew<cr>
-" Close the current buffer and move to the previous one
-nmap <leader>x :bp <BAR> bd #<CR>
-
-" Enable the tab line / buffer list
-let g:airline#extensions#tabline#enabled = 1
-" Only show the file name
-let g:airline#extensions#tabline#fnamemod = ':t'
-" Enable syntastic integration
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline_theme = 'solarized'
-
-" Toggle nerd tree
-map <C-n> :NERDTreeToggle<CR>
-" Open automaticlly if no files were specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" Close if only window left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-" Override php syntax
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END

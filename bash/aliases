@@ -13,7 +13,7 @@ alias please='sudo $(fc -ln -1)'
 alias whichlinux='uname -a; cat /etc/*release'
 
 # Ip address
-alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias extip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias localip="ip addr show eth0 | grep inet --color=never | sed 's/^ *//g'"
 
 # Recursive phplint
@@ -46,6 +46,6 @@ alias h='history'
 alias v='vim'
 alias vg='vagrant'
 alias vbm='VBoxManage'
-alias vimrc="vim $HOME/.vimrc"
+alias vimrc='vim $HOME/.vimrc'
 
 # vim: ft=sh
