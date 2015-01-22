@@ -41,11 +41,17 @@ alias grb='git rebase -p'
 alias gup='git fetch origin && grb origin/$(git_current_branch)'
 alias gpthis='git push origin HEAD:$(git_current_branch)'
 
+# VirtualBox
+alias vb='VBoxManage'
+alias vbl='vb list vms | sort'
+alias vblr='vb list runningvms | sort'
+alias vbh='VBoxHeadless'
+alias vbgui='VirtualBox'
+
 # Misc
 alias h='history'
 alias v='vim'
 alias vg='vagrant'
-alias vbm='VBoxManage'
 alias vimrc='vim $HOME/.vimrc'
 
 # vim: ft=sh
