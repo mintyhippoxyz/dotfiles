@@ -28,9 +28,6 @@
 [submodule "vim-phpcomplete"]
 	path = vim/bundle/phpcomplete.vim
 	url = https://github.com/shawncplus/phpcomplete.vim
-[submodule "vim-php-namespace"]
-	path = vim/bundle/vim-php-namespace
-	url = https://github.com/arnaud-lb/vim-php-namespace.git
 [submodule "vim-supertab"]
 	path = vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
