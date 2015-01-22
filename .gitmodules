@@ -34,6 +34,9 @@
 [submodule "vim-syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
+[submodule "vim-tagbar"]
+	path = vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar
 [submodule "vim-todo.txt"]
 	path = vim/bundle/todo.txt-vim
 	url = https://github.com/freitass/todo.txt-vim
