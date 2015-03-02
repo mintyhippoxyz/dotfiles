@@ -31,11 +31,15 @@ shelltitle '$ |'
 
 # Window list at the bottom
 hardstatus alwayslastline
-hardstatus string '%{= d} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
+#hardstatus string '%{= d} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
+hardstatus alwayslastline '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %d/%m %c ]%{W}'
 
 # Set prev/next bindings
 bind ',' prev
 bind '.' next
+
+# erase background with current bg color
+defbce "on"
 
 screen -t home
 #screen -t vim vim
