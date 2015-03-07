@@ -30,9 +30,8 @@ shell -$SHELL
 shelltitle '$ |'
 
 # Window list at the bottom
-hardstatus alwayslastline
-#hardstatus string '%{= d} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
-hardstatus alwayslastline '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %d/%m %c ]%{W}'
+#hardstatus alwayslastline '%{b kw}[ %H ]%{-b kw} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
+hardstatus alwayslastline "%{b kw}[ %H ] %{r}%1` %{w}[ %{G}%c %{w}| %{Y}%d.%m.%Y %{w}| %{G}%l %{w}] %{-b kw}%u %-Lw%{= rW}%50> %n%f %t %{-}%+Lw%<"
 
 # Set prev/next bindings
 bind ',' prev
@@ -41,7 +40,6 @@ bind '.' next
 # erase background with current bg color
 defbce "on"
 
-screen -t home
-#screen -t vim vim
+screen -t bash
 #screen -t irssi irssi
 #screen -t htop htop
