@@ -1,12 +1,20 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+# If not running interactivly, don't do anything
+[ -z "$PS1" ] && return
+
+if [[ ! "$PATH" =~ "$HOME/bin" ]]; then
+	export PATH=$PATH:$HOME/bin
+fi
+
+if [ -f /etc/profile.d/bash-completion.sh ]; then
+	. /etc/profile.d/bash-completion.sh
+fi
+
 case ${TERM} in
 	xterm*) export TERM=xterm-256color;;
 	screen*) export TERM=screen-256color;;
 esac
-
-# If not running interactivly, don't do anything
-[ -z "$PS1" ] && return
 
 source_dir()
 {
@@ -27,9 +35,5 @@ source_dir()
 source_dir ~/.bash.d/local/before
 source_dir ~/.bash.d
 source_dir ~/.bash.d/local/after
-
-if [ -f /etc/profile.d/bash-completion.sh ]; then
-	. /etc/profile.d/bash-completion.sh
-fi
 
 # vim: ft=sh
