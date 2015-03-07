@@ -1,33 +1,23 @@
 #!/bin/bash
-
-# Reload bash
 alias reload='clear && . ~/.bashrc'
-
-# For sudo-ing aliases
 alias sudo='sudo '
-
-# Run the last command as root
 alias please='sudo $(fc -ln -1)'
-
-# Linux info
-alias whichlinux='uname -a; cat /etc/*release'
-
-# Ip address
+alias clearcache='sudo sync; sudo echo 1 | sudo tee /proc/sys/vm/drop_caches > /dev/null'
 alias extip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias localip="ip addr show eth0 | grep inet --color=never | sed 's/^ *//g'"
 alias mynetcon="sudo lsof -n -P -i +c 15"
-
-# Recursive phplint
+alias whichlinux='uname -a; cat /etc/*release'
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
 
-# Cd
+alias h='history'
+alias hs='history | grep'
+
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-# Ls
 alias ls='ls --color=auto'
 alias l='ls -lhF'
 alias lt='ls -lhFt'
@@ -35,24 +25,24 @@ alias la='ls -lhAF'
 alias lat='ls -lhAFt'
 alias lsd='ls -lhF | grep --color=never "^d"'
 
-# Git
 alias g='git'
 alias gm='git merge --no-ff'
 alias grb='git rebase -p'
 alias gup='git fetch origin && grb origin/$(git_current_branch)'
 alias gpthis='git push origin HEAD:$(git_current_branch)'
 
-# VirtualBox
 alias vb='VBoxManage'
 alias vbl='vb list vms | sort'
 alias vblr='vb list runningvms | sort'
 alias vbh='VBoxHeadless'
 alias vbgui='VirtualBox'
 
-# Misc
-alias h='history'
-alias v='vim'
 alias vg='vagrant'
+alias vgs='vagrant status'
+alias vgu='vagrant up'
+alias vgssh='vagrant ssh'
+
+alias v='vim'
 alias vimrc='vim $HOME/.vimrc'
 
 # vim: ft=sh
