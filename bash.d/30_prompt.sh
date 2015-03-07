@@ -34,4 +34,7 @@ PS1+="\n";
 PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
 PS2="\[${yellow}\] \[${reset}\]";
 
+export PS1;
+export PS2;
+
 # vim: ft=sh

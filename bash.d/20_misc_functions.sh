@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # Create a new directory and enter it
-mkd() {
+function mkd() {
 	mkdir -p "$@" && cd "$_";
 }
 
 # Backup a directory
-backup() {
+function backup() {
 	mv $1 $1~
 }
 
 # Determine size of a file or total size of a directory
-fs() {
+function fs() {
 	if du -b /dev/null > /dev/null 2>&1; then
 		local arg=-sbh;
 	else
@@ -25,7 +25,7 @@ fs() {
 }
 
 # Create a data URL from a file
-dataurl() {
+function dataurl() {
 	local mimeType=$(file -b --mime-type "$1");
 	if [[ $mimeType == text/* ]]; then
 		mimeType="${mimeType};charset=utf-8";
@@ -33,52 +33,15 @@ dataurl() {
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
 }
 
-# Get the short symbolic ref.
-# If HEAD isnt a symbolic ref, get the short SHA for the latest commit
-# Otherwise, just give up.
-git_current_branch() {
-	local branchName='';
-	branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-	git rev-parse --short HEAD 2> /dev/null || \
-	'(unknown)')";
-	echo $branchName
-}
-
-# Build the git prompt
-git_prompt() {
-	local s='';
-	# Check if the current directory is in a Git repository.
-	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-		# check if the current directory is in .git before running git checks
-		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-			# Ensure the index is up to date.
-			git update-index --really-refresh -q &>/dev/null;
-			# Check for uncommitted changes in the index.
-			if ! $(git diff --quiet --ignore-submodules --cached); then
-				s+='+';
-			fi;
-			# Check for unstaged changes.
-			if ! $(git diff-files --quiet --ignore-submodules --); then
-				s+='!';
-				fi;
-			# Check for untracked files.
-			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-				s+='?';
-			fi;
-			# Check for stashed files.
-			if $(git rev-parse --verify refs/stash &>/dev/null); then
-				s+='$';
-			fi;
-		fi;
-		[ -n "${s}" ] && s=" [${s}]";
-		echo -e "${1}$(git_current_branch)${blue}${s}";
-	else
-		return;
-	fi;
+# Show eyeballs if previous command didn't exit with success
+function eyeballs() {
+	if [ $? != 0 ]; then
+		printf "\033[01;31m( O_o) "
+	fi
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
-getcertnames() {
+function getcertnames() {
 	if [ -z "${1}" ]; then
 		echo "ERROR: No domain specified.";
 		return 1;
@@ -122,13 +85,6 @@ eskel() {
 # Test the ebuild
 etest() {
 	ebuild $1 unpack && ebuild $1 compile && ebuild $1 install
-}
-
-# Show eyeballs if previous command didn't exit with success
-eyeballs() {
-	if [ $? != 0 ]; then
-		printf "\033[01;31m( O_o) "
-	fi
 }
 
 # vim: ft=sh

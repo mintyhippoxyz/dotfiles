@@ -1,4 +1,7 @@
-bin/*backup.sh
+bash.d/local/before/*
+bash.d/local/after/*
+vim/.netrwhist
 vim/backups/*
 vim/swaps/*
 vim/undo/*
+*.swp

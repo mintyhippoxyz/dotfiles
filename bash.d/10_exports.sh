@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Make vim the default editor
-export EDITOR="vim";
-
-# Set the cvs root
-# TODO only @ work
-export CVSROOT=":ext:cvs.rtdev.net:/cvsroot"
-
-# Use color & ignore some directories when using grep
-export GREP_OPTIONS="--color=auto --exclude tags --exclude-dir ssl --exclude-dir CVS"
+# Make new shells get the history from all previous
+# shells instead of the default "last window closed" history
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # Ignore duplicate commands in the history
 export HISTCONTROL=ignoredups
@@ -25,7 +19,7 @@ export HISTSIZE=10000
 export HISTTIMEFORMAT="%Y-%m-%d %T "
 
 # Ignore some common commands in the history
-export HISTIGNORE="ls:ls *:cd:cd -:pwd:exit:date:cal:* --help";
+export HISTIGNORE="";
 
 # Color man pages
 export LESS_TERMCAP_mb=$'\E[01;31m' # begin blinking
@@ -36,18 +30,13 @@ export LESS_TERMCAP_so=$'\E[01;44;33m' # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m' # end underline
 export LESS_TERMCAP_us=$'\E[01;32m' # begin underline
 
+# Make vim the default editor
+export EDITOR="vim";
+
 # Set local
 export LANG="en_US.UTF-8";
 
-# Better ls sorting order, dotfiles first
+# Better ls sorting order, dotfiles and uppercase first
 export LC_ALL="C"
-
-# Make new shells get the history from all previous
-# shells instead of the default "last window closed" history
-export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-
-# Export the prompt
-export PS1;
-export PS2;
 
 # vim: ft=sh

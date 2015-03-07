@@ -3,7 +3,6 @@ alias reload='clear && . ~/.bashrc'
 alias sudo='sudo '
 alias please='sudo $(fc -ln -1)'
 alias clearcache='sudo sync; sudo echo 1 | sudo tee /proc/sys/vm/drop_caches > /dev/null'
-alias extip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias localip="ip addr show eth0 | grep inet --color=never | sed 's/^ *//g'"
 alias mynetcon="sudo lsof -n -P -i +c 15"
 alias whichlinux='uname -a; cat /etc/*release'
@@ -12,11 +11,11 @@ alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
 alias h='history'
 alias hs='history | grep'
 
-alias cd..='cd ..'
 alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+alias ..5='cd ../../../../..'
 
 alias ls='ls --color=auto'
 alias l='ls -lhF'
