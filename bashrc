@@ -4,7 +4,7 @@
 [ -z "$PS1" ] && return
 
 if [[ ! "$PATH" =~ "$HOME/bin" ]]; then
-	export PATH=$PATH:$HOME/bin
+	export PATH=$HOME/bin:$PATH
 fi
 
 if [ -f /etc/profile.d/bash-completion.sh ]; then
