@@ -1,5 +1,13 @@
 #!/bin/bash
 
+cleanup_old_files()
+{
+	test -L "${HOME}/.curlrc" && rm "${HOME}/.curlrc"
+	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
+	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
+
+}
+
 update_self()
 {
 	git pull origin master
@@ -115,6 +123,7 @@ post_install_actions()
 	source "${HOME}/.bashrc"
 }
 
+cleanup_old_files
 update_self
 install_home
 
