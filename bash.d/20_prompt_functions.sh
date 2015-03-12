@@ -1,9 +1,20 @@
 #!/bin/bash
 
+# {{{ Functions for prompt
+
+# Show eyeballs if previous command didn't exit with success
+function eyeballs()
+{
+	if [ $? != 0 ]; then
+		printf "\033[01;31m( O_o) "
+	fi
+}
+
 # Get the short symbolic ref.
 # If HEAD isnt a symbolic ref, get the short SHA for the latest commit
 # Otherwise, just give up.
-git_current_branch() {
+git_current_branch()
+{
 	local branchName='';
 	branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
 	git rev-parse --short HEAD 2> /dev/null || \
@@ -12,7 +23,8 @@ git_current_branch() {
 }
 
 # Build the git prompt
-git_prompt() {
+git_prompt()
+{
 	local s='';
 	# Check if the current directory is in a Git repository.
 	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
@@ -43,3 +55,7 @@ git_prompt() {
 		return;
 	fi;
 }
+
+# }}}
+
+# vim: ft=sh

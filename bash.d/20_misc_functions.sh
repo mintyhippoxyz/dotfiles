@@ -1,17 +1,20 @@
 #!/bin/bash
 
 # Create a new directory and enter it
-function mkd() {
+function mkd()
+{
 	mkdir -p "$@" && cd "$_";
 }
 
 # Backup a directory
-function backup() {
+function backup()
+{
 	mv $1 $1~
 }
 
 # Determine size of a file or total size of a directory
-function fs() {
+function fs()
+{
 	if du -b /dev/null > /dev/null 2>&1; then
 		local arg=-sbh;
 	else
@@ -25,7 +28,8 @@ function fs() {
 }
 
 # Create a data URL from a file
-function dataurl() {
+function dataurl()
+{
 	local mimeType=$(file -b --mime-type "$1");
 	if [[ $mimeType == text/* ]]; then
 		mimeType="${mimeType};charset=utf-8";
@@ -33,15 +37,11 @@ function dataurl() {
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
 }
 
-# Show eyeballs if previous command didn't exit with success
-function eyeballs() {
-	if [ $? != 0 ]; then
-		printf "\033[01;31m( O_o) "
-	fi
-}
+# {{{ Openssl functions
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
-function getcertnames() {
+function getcertnames()
+{
 	if [ -z "${1}" ]; then
 		echo "ERROR: No domain specified.";
 		return 1;
@@ -70,8 +70,13 @@ function getcertnames() {
 	fi;
 }
 
+# }}}
+
+# {{{ Gentoo functions
+
 # Create an ebuild skeleton
-eskel() {
+eskel()
+{
 	cp /usr/portage/skel.ebuild ./$1.ebuild
 	cp /usr/portage/skel.ChangeLog ./ChangeLog
 	cp /usr/portage/skel.metadata.xml ./metadata.xml
@@ -83,8 +88,11 @@ eskel() {
 }
 
 # Test the ebuild
-etest() {
+etest()
+{
 	ebuild $1 unpack && ebuild $1 compile && ebuild $1 install
 }
+
+# }}}
 
 # vim: ft=sh
