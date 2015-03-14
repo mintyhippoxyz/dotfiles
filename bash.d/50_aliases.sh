@@ -1,4 +1,5 @@
 #!/bin/bash
+
 alias reload='clear && . ~/.bashrc'
 alias sudo='sudo '
 alias please='sudo $(fc -ln -1)'
@@ -7,6 +8,14 @@ alias localip="ip addr show eth0 | grep inet --color=never | sed 's/^ *//g'"
 alias mynetcon="sudo lsof -n -P -i +c 15"
 alias whichlinux='uname -a; cat /etc/*release'
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
+
+if [ -f ~/.ssh/agent ] && [ -f ~/.ssh/work ];
+then
+	alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
+elif [ -f ~/.ssh/agent ];
+then
+	alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add'
+fi
 
 alias h='history'
 alias hs='history | grep'

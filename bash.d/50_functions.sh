@@ -1,15 +1,17 @@
 #!/bin/bash
 
-# Create a new directory and enter it
-function mkd()
-{
-	mkdir -p "$@" && cd "$_";
-}
-
 # Backup a directory
 function backup()
 {
 	mv $1 $1~
+}
+
+# Create a data URL from a file
+function dataurl()
+{
+	local mimeType=$(file -b --mime-type "$1");
+	if [[ $mimeType == text/* ]]; then mimeType="${mimeType};charset=utf-8"; fi
+	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
 }
 
 # Determine size of a file or total size of a directory
@@ -27,17 +29,36 @@ function fs()
 	fi;
 }
 
-# Create a data URL from a file
-function dataurl()
+# Create a new directory and enter it
+function mkd()
 {
-	local mimeType=$(file -b --mime-type "$1");
-	if [[ $mimeType == text/* ]]; then
-		mimeType="${mimeType};charset=utf-8";
-	fi
-	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
+	mkdir -p "$@" && cd "$_";
 }
 
-# {{{ Openssl functions
+# {{{ Gentoo functions
+
+# Create an ebuild skeleton
+function eskel()
+{
+	cp /usr/portage/skel.ebuild ./$1.ebuild
+	cp /usr/portage/skel.ChangeLog ./ChangeLog
+	cp /usr/portage/skel.metadata.xml ./metadata.xml
+	LC_ALL=C sed -i -e "s/<PACKAGE_NAME>-<PACKAGE_VERSION>-<PACKAGE_RELEASE>/$1/g" \
+		-e "s/DD MMM YYYY/$(date '+%d %b %Y')/g" \
+		-e 's/YOUR_NAME/Matt Adams/g' \
+		-e 's/YOUR_EMAIL/matt@rtvision.com/g' ChangeLog
+	sed -i -e 's/>@rtvision.com/>matt@rtvision.com/g' metadata.xml
+}
+
+# Test the ebuild
+function etest()
+{
+	ebuild $1 unpack && ebuild $1 compile && ebuild $1 install
+}
+
+#  }}}
+
+ # {{{ Openssl functions
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
 function getcertnames()
@@ -68,29 +89,6 @@ function getcertnames()
 		echo "ERROR: Certificate not found.";
 		return 1;
 	fi;
-}
-
-# }}}
-
-# {{{ Gentoo functions
-
-# Create an ebuild skeleton
-eskel()
-{
-	cp /usr/portage/skel.ebuild ./$1.ebuild
-	cp /usr/portage/skel.ChangeLog ./ChangeLog
-	cp /usr/portage/skel.metadata.xml ./metadata.xml
-	LC_ALL=C sed -i -e "s/<PACKAGE_NAME>-<PACKAGE_VERSION>-<PACKAGE_RELEASE>/$1/g" \
-		-e "s/DD MMM YYYY/$(date '+%d %b %Y')/g" \
-		-e 's/YOUR_NAME/Matt Adams/g' \
-		-e 's/YOUR_EMAIL/matt@rtvision.com/g' ChangeLog
-	sed -i -e 's/>@rtvision.com/>matt@rtvision.com/g' metadata.xml
-}
-
-# Test the ebuild
-etest()
-{
-	ebuild $1 unpack && ebuild $1 compile && ebuild $1 install
 }
 
 # }}}

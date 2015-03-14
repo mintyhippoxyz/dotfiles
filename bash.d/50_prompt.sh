@@ -30,24 +30,24 @@ elif [[ "$USER" == "root" ]]; then
 	style_user="\[${BOLD}${SOLAR_RED}\]"
 fi
 
-eyeballs()
+function eyeballs()
 {
 	if [ $? != 0 ]; then
 		printf "${SOLAR_RED}( O_o) ${RESET}"
 	fi
 }
 
-is_git_repo()
+function is_git_repo()
 {
 	$(git rev-parse --is-inside-work-tree &> /dev/null)
 }
 
-is_git_dir()
+function is_git_dir()
 {
 	$(git rev-parse --is-inside-git-dir 2> /dev/null)
 }
 
-get_git_branch()
+function get_git_branch()
 {
 	local branch_name
 	# Get the short symbolic ref
@@ -60,7 +60,7 @@ get_git_branch()
 }
 
 # Git status information
-prompt_git()
+function prompt_git()
 {
 	local git_info git_state uc us ut st
 	if ! is_git_repo || is_git_dir; then
