@@ -43,9 +43,6 @@ if has("autocmd")
 	" Close if only window left open
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-	" Toggle tagbar
-	map <C-m> :TagbarToggle<CR>
-
 	" Draw PHP documentation blocks
 	" Use in visual mode to draw for an entire selection
 	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
