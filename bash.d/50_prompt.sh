@@ -106,7 +106,11 @@ PS1="\[\033]0;\w\007\]"
 PS1+="\$(eyeballs)" # Eyeballs
 PS1+="${style_user}\u" # Username
 PS1+="${style_chars}@" # @
-PS1+="${style_host}\h" # Host
+if [ -e /etc/ldapcn ]; then
+	PS1+="${style_host}\$(cat /etc/ldapcn)" # ldapcn
+else
+	PS1+="${style_host}\h" # Host
+fi
 PS1+="${style_chars}: " # :
 PS1+="${style_path}\w" # Working directory
 PS1+="\$(prompt_git)" # Git details
