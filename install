@@ -5,7 +5,7 @@ cleanup_old_files()
 	test -L "${HOME}/.curlrc" && rm "${HOME}/.curlrc"
 	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
 	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
-
+	test -d "${HOME}/.vim/bundle/tabar" && rm "${HOME}/.vim/bundle/tagbar" -rf
 }
 
 update_self()
