@@ -1,8 +1,8 @@
 #!/bin/bash
 
-[[ -z ${GIT_NAME+x} ]] && read -p "Your Name: " GIT_NAME
-[[ -z ${GIT_EMAIL+x} ]] && read -p "Your Email: " GIT_EMAIL
-[[ -z ${GITHUB_USER+x} ]] && read -p "GitHub Username: " GITHUB_USER
+[[ -z ${GIT_NAME+x} ]] && read -p "(git) Name: " GIT_NAME
+[[ -z ${GIT_EMAIL+x} ]] && read -p "(git) Email: " GIT_EMAIL
+[[ -z ${GITHUB_USER+x} ]] && read -p "(git) GitHub Username: " GITHUB_USER
 
 cat <<EOF
 [user]
