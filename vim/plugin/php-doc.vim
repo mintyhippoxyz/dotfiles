@@ -111,10 +111,10 @@ let g:pdv_cfg_CommentSingle = "//"
 
 " Default tag values
 let g:pdv_cfg_Package = (exists("g:pdv_cfg_Package")) ? g:pdv_cfg_Package : ""
-let g:pdv_cfg_Author = (exists("g:pdv_cfg_Author")) ? g:pdv_cfg_Author : "Name <address@domain>"
+let g:pdv_cfg_Author = (exists("g:pdv_cfg_Author")) ? g:pdv_cfg_Author : "$Name$"
 let g:pdv_cfg_Copyright = (exists("g:pdv_cfg_Copyright")) ? g:pdv_cfg_Copyright : "copyrightLine"
 let g:pdv_cfg_License = (exists("g:pdv_cfg_License")) ? g:pdv_cfg_License : "license"
-let g:pdv_cfg_Version = (exists("g:pdv_cfg_Version")) ? g:pdv_cfg_Version : "$Id$"
+let g:pdv_cfg_Version = (exists("g:pdv_cfg_Version")) ? g:pdv_cfg_Version : "$Name$ $Revision$"
 
 " Set the order and inclusion of tags for classes
 if ! exists('g:pdv_cfg_ClassTags')
