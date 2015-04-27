@@ -8,14 +8,7 @@ alias localip="ip addr show eth0 | grep inet --color=never | sed 's/^ *//g'"
 alias mynetcon="sudo lsof -n -P -i +c 15"
 alias whichlinux='uname -a; cat /etc/*release'
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
-
-if [ -f ~/.ssh/agent ] && [ -f ~/.ssh/work ];
-then
-	alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
-elif [ -f ~/.ssh/agent ];
-then
-	alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add'
-fi
+alias gitignore-symlinks='find . -type l | sed -r "s/^.{2}//" >> .gitignore'
 
 alias h='history'
 alias hs='history | grep'
@@ -38,6 +31,7 @@ alias gm='git merge --no-ff'
 alias grb='git rebase -p'
 alias gup='git fetch origin && grb origin/$(git_current_branch)'
 alias gpthis='git push origin HEAD:$(git_current_branch)'
+alias yolo='git commit -am "DEAL WITH IT" && git push -f origin master'
 
 alias vb='VBoxManage'
 alias vbl='vb list vms | sort'
