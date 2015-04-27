@@ -30,8 +30,9 @@ shell -$SHELL
 shelltitle '$ |'
 
 # Window list at the bottom
-#hardstatus alwayslastline '%{b kw}[ %H ]%{-b kw} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
-hardstatus alwayslastline "%{b kw}[ %H ] %{r}%1` %{w}[ %{G}%c %{w}| %{Y}%d.%m.%Y %{w}| %{G}%l %{w}] %{-b kw}%u %-Lw%{= rW}%50> %n%f %t %{-}%+Lw%<"
+#hardstatus alwayslastline '%{b kG}[ %H ]%{-b kw} %{= d}%-w%{= r}[%{= W}%n %t%{= r}]%{= d}%+w %-= %{G}'
+#hardstatus alwayslastline "%{b kw}[ %H ] %{r}%1` %{w}[ %{G}%c %{w}| %{Y}%d.%m.%Y %{w}| %{G}%l %{w}] %{-b kw}%u %-Lw%{= rW}%50> %n%f %t %{-}%+Lw%<"
+hardstatus alwayslastline "%{b kg}[ %H ] %{r}%1` %{-b kw}%u %-Lw%{= rW}%50> %n%f %t %{-}%+Lw%<"
 
 # Set prev/next bindings
 bind ',' prev
