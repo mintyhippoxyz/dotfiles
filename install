@@ -1,17 +1,31 @@
 #!/bin/bash
+# vim: ft=sh
 
-cleanup_old_files()
-{
-	test -L "${HOME}/.curlrc" && rm "${HOME}/.curlrc"
-	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
-	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
-	test -d "${HOME}/.vim/bundle/tabar" && rm "${HOME}/.vim/bundle/tagbar" -rf
-}
-
-update_self()
+update_repo()
 {
 	git pull origin master
 	git submodule update --init --recursive
+}
+
+cleanup()
+{
+	# remove symlinks to files no longer tracked
+	test -L "${HOME}/.curlrc" && rm "${HOME}/.curlrc"
+	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
+	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
+	# remove old vim plugins
+	test -d "${HOME}/.vim/bundle/tabar" && rm "${HOME}/.vim/bundle/tagbar" -rf
+}
+
+pre_install_actions()
+{
+	cleanup
+	update_repo
+}
+
+post_install_actions()
+{
+	source "${HOME}/.bashrc"
 }
 
 install_home()
@@ -19,6 +33,8 @@ install_home()
 	local dest_dir="$HOME"
 	local excluded=(`basename $0` README.md)
 	local replace_all=false
+
+	pre_install_actions
 
 	local file
 	for file in *
@@ -33,6 +49,8 @@ install_home()
 
 	post_install_actions
 }
+
+# {{{ Install helper functions
 
 install_file()
 {
@@ -117,14 +135,6 @@ remove()
 	fi
 }
 
-post_install_actions()
-{
-	clear
-	source "${HOME}/.bashrc"
-}
+# }}}
 
-cleanup_old_files
-update_self
 install_home
-
-# vim: ft=sh
