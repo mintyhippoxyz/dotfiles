@@ -104,13 +104,12 @@ PS1="\[\033]0;\w\007\]"
 
 # Build the prompt
 PS1+="\$(eyeballs)" # Eyeballs
+if [ -e /conf/ldapcn ]; then
+	PS1+="(\$(cat /conf/ldapcn)) " # ldapcn
+fi
 PS1+="${style_user}\u" # Username
 PS1+="${style_chars}@" # @
-if [ -e /etc/ldapcn ]; then
-	PS1+="${style_host}\$(cat /etc/ldapcn)" # ldapcn
-else
-	PS1+="${style_host}\h" # Host
-fi
+PS1+="${style_host}\h" # Host
 PS1+="${style_chars}: " # :
 PS1+="${style_path}\w" # Working directory
 PS1+="\$(prompt_git)" # Git details
