@@ -177,6 +177,10 @@ au GUIEnter * set vb t_vb=
 " Change mapleader to ,
 let mapleader=","
 
+" Re-select after indent
+vnoremap < <gv
+vnoremap > >gv
+
 " Toggle folds with space bar
 nnoremap <Space> za
 
