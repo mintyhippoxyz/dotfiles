@@ -20,6 +20,7 @@ style_user="\[${RESET}${SOLAR_ORANGE}\]"
 style_host="\[${RESET}${SOLAR_YELLOW}\]"
 style_path="\[${RESET}${SOLAR_GREEN}\]"
 style_chars="\[${RESET}${SOLAR_WHITE}\]"
+style_ldapcn="\[${RESET}${SOLAR_VIOLET}\]"
 style_branch="${SOLAR_CYAN}"
 
 if [[ "$SSH_TTY" ]]; then
@@ -105,7 +106,7 @@ PS1="\[\033]0;\w\007\]"
 # Build the prompt
 PS1+="\$(eyeballs)" # Eyeballs
 if [ -e /conf/ldapcn ]; then
-	PS1+="(\$(cat /conf/ldapcn)) " # ldapcn
+	PS1+="${style_ldapcn}(\$(cat /conf/ldapcn)) " # ldapcn
 fi
 PS1+="${style_user}\u" # Username
 PS1+="${style_chars}@" # @
