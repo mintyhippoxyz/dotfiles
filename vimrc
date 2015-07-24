@@ -74,8 +74,10 @@ if has("syntax")
 	" Very important this is set before colorscheme
 	let g:solarized_termcolors=256
 	" Set colorscheme
-	colorscheme solarized
+	"colorscheme solarized
 	"colorscheme badwolf
+	"colorscheme molokai
+	colorscheme maui
 	if &term =~ '256color'
 		" disable Background Color Erase (BCE) so that color schemes
 		" render properly when inside 256-color tmux and GNU screen.
