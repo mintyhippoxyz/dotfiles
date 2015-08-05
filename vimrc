@@ -141,8 +141,8 @@ set scrolloff=5
 set foldmethod=marker
 " Don't set cursor at start of line when moving
 set nostartofline
-" Turn off lazy redraw
-set nolazyredraw
+" Turn on lazy redraw
+set lazyredraw
 " Highlight current line
 set cursorline
 
