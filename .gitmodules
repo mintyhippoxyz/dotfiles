@@ -4,9 +4,15 @@
 [submodule "vim-blade"]
 	path = vim/bundle/vim-blade
 	url = https://github.com/xsbeats/vim-blade
+[submodule "vim-colors-badwolf"]
+	path = vim/bundle/badwolf
+	url = https://github.com/sjl/badwolf
 [submodule "vim-colors-solarized"]
 	path = vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized
+[submodule "vim-colors-maui"]
+	path = vim/bundle/vim-maui
+	url = https://github.com/zsoltf/vim-maui
 [submodule "vim-colors-molokai"]
 	path = vim/bundle/molokai
 	url = https://github.com/tomasr/molokai
