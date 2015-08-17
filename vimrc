@@ -25,7 +25,6 @@ if has("autocmd")
 	au BufRead,BufNewFile *.xml set ft=php
 	au BufRead,BufNewFile *.less set ft=less
 	au Bufread,BufNewFile *.feature set filetype=gherkin
-	au BufRead,BufNewFile *.json set ft=json syntax=javascript
 
 	" Enable the tab line / buffer list
 	let g:airline#extensions#tabline#enabled = 1
@@ -49,10 +48,6 @@ if has("autocmd")
 	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
 	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
 
-	" Php namespace
-	inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
-	noremap <Leader>u :call PhpInsertUse()<CR>
-
 	" Override php syntax
 	function! PhpSyntaxOverride()
 		hi! def link phpDocTags  phpDefine
@@ -71,13 +66,16 @@ if has("syntax")
 	set t_Co=256
 	" Set dark background
 	set background=dark
-	" Very important this is set before colorscheme
+	" Solarized color scheme
 	let g:solarized_termcolors=256
-	" Set colorscheme
-	"colorscheme solarized
-	"colorscheme badwolf
+	colorscheme solarized
+	" Molokai color scheme
+	"let g:molokai_original = 1
+	"let g:rehash256 = 1
 	"colorscheme molokai
-	colorscheme maui
+	" Other misc color schemes
+	"colorscheme maui
+	"colorscheme badwolf
 	if &term =~ '256color'
 		" disable Background Color Erase (BCE) so that color schemes
 		" render properly when inside 256-color tmux and GNU screen.
@@ -179,7 +177,7 @@ au GUIEnter * set vb t_vb=
 " Change mapleader to ,
 let mapleader=","
 
-" Re-select after indent
+" Make selection again after a multi-line indent
 vnoremap < <gv
 vnoremap > >gv
 

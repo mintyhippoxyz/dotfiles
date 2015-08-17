@@ -13,8 +13,10 @@ cleanup()
 	test -L "${HOME}/.curlrc" && rm "${HOME}/.curlrc"
 	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
 	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
-	# remove old vim plugins
+	# remove vim plugins that are no longer in use
 	test -d "${HOME}/.vim/bundle/tabar" && rm "${HOME}/.vim/bundle/tagbar" -rf
+	test -d "${HOME}/.vim/bundle/supertab" && rm "${HOME}/.vim/bundle/supertab" -rf
+	test -d "${HOME}/.vim/bundle/todo.txt-vim" && rm "${HOME}/.vim/bundle/todo.txt-vim" -rf
 }
 
 pre_install_actions()
