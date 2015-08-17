@@ -68,13 +68,13 @@ if has("syntax")
 	set background=dark
 	" Solarized color scheme
 	let g:solarized_termcolors=256
-	colorscheme solarized
+	"colorscheme solarized
 	" Molokai color scheme
 	"let g:molokai_original = 1
 	"let g:rehash256 = 1
 	"colorscheme molokai
 	" Other misc color schemes
-	"colorscheme maui
+	colorscheme maui
 	"colorscheme badwolf
 	if &term =~ '256color'
 		" disable Background Color Erase (BCE) so that color schemes
