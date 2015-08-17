@@ -4,6 +4,12 @@
 [submodule "vim-blade"]
 	path = vim/bundle/vim-blade
 	url = https://github.com/xsbeats/vim-blade
+[submodule "vim-colors-solarized"]
+	path = vim/bundle/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized
+[submodule "vim-colors-molokai"]
+	path = vim/bundle/molokai
+	url = https://github.com/tomasr/molokai
 [submodule "vim-cucumber"]
 	path = vim/bundle/vim-cucumber
 	url = https://github.com/tpope/vim-cucumber
@@ -13,9 +19,12 @@
 [submodule "vim-jade"]
 	path = vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
+[submodule "vim-json"]
+	path = vim/bundle/vim-json
+	url = https://github.com/elzr/vim-json.git
 [submodule "vim-less"]
 	path = vim/bundle/vim-less
-	url = https://github.com/groenewege/vim-less.git
+	url = https://github.com/groenewege/vim-less
 [submodule "vim-nerdtree"]
 	path = vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree
@@ -25,18 +34,9 @@
 [submodule "vim-php"]
 	path = vim/bundle/php.vim
 	url = https://github.com/StanAngeloff/php.vim
-[submodule "vim-phpcomplete"]
-	path = vim/bundle/phpcomplete.vim
-	url = https://github.com/shawncplus/phpcomplete.vim
-[submodule "vim-supertab"]
-	path = vim/bundle/supertab
-	url = https://github.com/ervandew/supertab
 [submodule "vim-syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
-[submodule "vim-todo.txt"]
-	path = vim/bundle/todo.txt-vim
-	url = https://github.com/freitass/todo.txt-vim
 [submodule "vim-vmustache"]
 	path = vim/bundle/vmustache
 	url = https://github.com/tobyS/vmustache
