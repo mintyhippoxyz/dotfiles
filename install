@@ -14,10 +14,10 @@ cleanup()
 	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
 	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
 	# remove vim plugins that are no longer in use
-	test -d "${HOME}/dotfiles/vim/bundle/phpcomplete.vim" && rm "${HOME}/dotfiles/vim/bundle/phpcomplete.vim" -rf
-	test -d "${HOME}/dotfiles/vim/bundle/tagbar" && rm "${HOME}/dotfiles/vim/bundle/tagbar" -rf
-	test -d "${HOME}/dotfiles/vim/bundle/supertab" && rm "${HOME}/dotfiles/vim/bundle/supertab" -rf
-	test -d "${HOME}/dotfiles/vim/bundle/todo.txt-vim" && rm "${HOME}/dotfiles/vim/bundle/todo.txt-vim" -rf
+	test -d "${HOME}/dotfiles/vim/bundle/phpcomplete.vim" && rm -rf "${HOME}/dotfiles/vim/bundle/phpcomplete.vim"
+	test -d "${HOME}/dotfiles/vim/bundle/tagbar" && rm -rf "${HOME}/dotfiles/vim/bundle/tagbar"
+	test -d "${HOME}/dotfiles/vim/bundle/supertab" && rm -rf "${HOME}/dotfiles/vim/bundle/supertab"
+	test -d "${HOME}/dotfiles/vim/bundle/todo.txt-vim" && rm -rf "${HOME}/dotfiles/vim/bundle/todo.txt-vim"
 }
 
 pre_install_actions()
