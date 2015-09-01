@@ -19,11 +19,16 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-alias ls='ls --color=auto'
-alias l='ls -lhF'
-alias lt='ls -lhFt'
-alias la='ls -lhAF'
-alias lat='ls -lhAFt'
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU `ls`
+	colorflag="--color"
+else # OS X `ls`
+	colorflag="-G"
+fi
+alias l='ls -lhF ${colorflag}'
+alias lt='ls -lhFt ${colorflag}'
+alias la='ls -lhAF ${colorflag}'
+alias lat='ls -lhAFt ${colorflag}'
 alias lsd='ls -lhF | grep --color=never "^d"'
 
 alias g='git'
