@@ -11,6 +11,9 @@ export LC_ALL="C"
 # shells instead of the default "last window closed" history
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
+# Ignore duplicate commands in the history
+export HISTCONTROL=ignoredups
+
 # Increase the maximum number of lines contained in the history file
 # (default is 500)
 export HISTFILESIZE=20000
@@ -22,6 +25,6 @@ export HISTSIZE=20000
 # Include timestamp with history
 export HISTTIMEFORMAT="%Y-%m-%d %T "
 
-# Ignore some common commands in the history
-export HISTIGNORE="history:date:ls *:cd *:cd ..:&"
+# Ignore some commands in the history. Seperate with a :
+export HISTIGNORE=""
 
