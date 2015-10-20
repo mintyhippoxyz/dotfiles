@@ -2,6 +2,9 @@
 	editor = vim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 
+[url "https://"]
+	insteadOf = git://
+
 [color]
 	ui = auto
 
@@ -72,7 +75,7 @@
 	log = true
 
 [push]
-	default = matching
+	default = simple
 
 [include]
 	path = ~/.gitconfig.user
