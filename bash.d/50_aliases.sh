@@ -10,6 +10,9 @@ alias whichlinux='uname -a; cat /etc/*release'
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
 alias gitignore-symlinks='find . -type l | sed -r "s/^.{2}//" >> .gitignore'
 
+alias tpe-off='sudo sh -c "echo 0 > /proc/sys/kernel/grsecurity/tpe"'
+alias tpe-on='sudo sh -c "echo 1 > /proc/sys/kernel/grsecurity/tpe"'
+
 alias h='history'
 alias hs='history | grep'
 
