@@ -80,3 +80,5 @@
 [include]
 	path = ~/.gitconfig.user
 	path = ~/.gitconfig.local
+[diff]
+	tool = vimdiff
