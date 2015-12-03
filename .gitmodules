@@ -28,9 +28,6 @@
 [submodule "vim-javascript"]
 	path = vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
-[submodule "vim-json"]
-	path = vim/bundle/vim-json
-	url = https://github.com/elzr/vim-json.git
 [submodule "vim-less"]
 	path = vim/bundle/vim-less
 	url = https://github.com/groenewege/vim-less
