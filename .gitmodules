@@ -25,6 +25,9 @@
 [submodule "vim-jade"]
 	path = vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
+[submodule "vim-javascript"]
+	path = vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
 [submodule "vim-json"]
 	path = vim/bundle/vim-json
 	url = https://github.com/elzr/vim-json.git
