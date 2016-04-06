@@ -43,6 +43,9 @@
 [submodule "vim-syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
+[submodule "vim-yaml"]
+	path = vim/bundle/vim-yaml
+	url = https://github.com/avakhov/vim-yaml
 [submodule "vim-vmustache"]
 	path = vim/bundle/vmustache
 	url = https://github.com/tobyS/vmustache
