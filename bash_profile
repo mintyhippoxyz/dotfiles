@@ -1,7 +1,6 @@
 #!/bin/bash
-
 # This file is sourced by bash for login shells.  The following line
 # runs your .bashrc and is recommended by the bash info pages.
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+# vim: ft=sh ts=4
 
-# vim: ft=sh
+[[ -f ~/.bashrc ]] && . ~/.bashrc

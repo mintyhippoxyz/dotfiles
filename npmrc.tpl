@@ -9,5 +9,3 @@ viewer = browser
 email = $NPM_EMAIL
 username = $NPM_USER
 EOF
-
-# vim: ft=sh

@@ -4,5 +4,3 @@
 #echo "Welcome to $(hostname)";
 #uptime | xargs;
 #uname -rmp;
-
-# vim: ft=sh

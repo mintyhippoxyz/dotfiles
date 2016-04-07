@@ -31,25 +31,21 @@ elif [[ "$USER" == "root" ]]; then
 	style_user="\[${BOLD}${SOLAR_RED}\]"
 fi
 
-function eyeballs()
-{
+function eyeballs() {
 	if [ $? != 0 ]; then
 		printf "${SOLAR_RED}( O_o) ${RESET}"
 	fi
 }
 
-function is_git_repo()
-{
+function is_git_repo() {
 	$(git rev-parse --is-inside-work-tree &> /dev/null)
 }
 
-function is_git_dir()
-{
+function is_git_dir() {
 	$(git rev-parse --is-inside-git-dir 2> /dev/null)
 }
 
-function get_git_branch()
-{
+function get_git_branch() {
 	local branch_name
 	# Get the short symbolic ref
 	branch_name=$(git symbolic-ref --quiet --short HEAD 2> /dev/null) ||
@@ -61,8 +57,7 @@ function get_git_branch()
 }
 
 # Git status information
-function prompt_git()
-{
+function prompt_git() {
 	local git_info git_state uc us ut st
 	if ! is_git_repo || is_git_dir; then
 		return 1
@@ -118,5 +113,3 @@ PS1+="\n" # Newline
 PS1+="${style_chars}\$ \[${RESET}\]" # $ (and reset color)
 
 PS2="\[${SOLAR_YELLOW}] \[${RESET}]"
-
-# vim: ft=sh

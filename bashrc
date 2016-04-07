@@ -1,12 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
+# vim: ft=sh ts=4
 
-# If not running interactivly, don't do anything
 [ -z "$PS1" ] && return
-
-if [[ -d "$HOME/bin" ]] && [[ ! "$PATH" =~ "$HOME/bin" ]];
-then
-	export PATH=$HOME/bin:$PATH
-fi
 
 case ${TERM} in
 	xterm*|rxvt*|gnome*|konsole*)
@@ -19,16 +14,12 @@ case ${TERM} in
 		;;
 esac
 
-source_dir()
-{
+source_dir() {
 	local dir="$1"
-	if [[ -d $dir ]];
-	then
+	if [[ -d $dir ]]; then
 		local conf_file
-		for conf_file in "$dir"/*;
-		do
-			if [[ -f $conf_file && $(basename $conf_file) != 'README' ]];
-			then
+		for conf_file in "$dir"/*; do
+			if [[ -f $conf_file && $(basename $conf_file) != 'README' ]]; then
 				source "$conf_file"
 			fi
 		done
@@ -38,5 +29,3 @@ source_dir()
 source_dir ~/.bash.d/local/before
 source_dir ~/.bash.d
 source_dir ~/.bash.d/local/after
-
-# vim: ft=sh

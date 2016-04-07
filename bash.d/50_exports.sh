@@ -27,4 +27,3 @@ export HISTTIMEFORMAT="%Y-%m-%d %T "
 
 # Ignore some commands in the history. Seperate with a :
 export HISTIGNORE=""
-
