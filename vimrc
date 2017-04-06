@@ -34,6 +34,9 @@ if has("autocmd")
 	let g:airline#extensions#syntastic#enabled = 1
 	let g:airline_theme = 'solarized'
 
+	" Enable mustache abbreviations
+	let g:mustache_abbreviations = 1
+
 	" Toggle nerd tree
 	map <C-n> :NERDTreeToggle<CR>
 	" Open automaticlly if no files were specified

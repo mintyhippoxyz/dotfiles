@@ -22,9 +22,6 @@
 [submodule "vim-gitgutter"]
 	path = vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
-[submodule "vim-jade"]
-	path = vim/bundle/vim-jade
-	url = https://github.com/digitaltoad/vim-jade
 [submodule "vim-javascript"]
 	path = vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
@@ -49,6 +46,9 @@
 [submodule "vim-yaml"]
 	path = vim/bundle/vim-yaml
 	url = https://github.com/avakhov/vim-yaml
-[submodule "vim-vmustache"]
-	path = vim/bundle/vmustache
-	url = https://github.com/tobyS/vmustache
+[submodule "vim-mustashe"]
+	path = vim/bundle/mustache
+	url = https://github.com/mustache/vim-mustache-handlebars
+[submodule "vim-pug"]
+	path = vim/bundle/vim-pug
+	url = https://github.com/digitaltoad/vim-pug
