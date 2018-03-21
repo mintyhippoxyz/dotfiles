@@ -38,9 +38,6 @@ hardstatus alwayslastline "%{b kg}[ %H ] %{r}%1` %{-b kw}%u %-Lw%{= rW}%50> %n%f
 bind ',' prev
 bind '.' next
 
-# erase background with current bg color
-defbce "on"
-
 screen -t bash
 #screen -t irssi irssi
 #screen -t htop htop
