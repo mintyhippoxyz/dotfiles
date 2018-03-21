@@ -16,6 +16,15 @@
 [submodule "vim-colors-molokai"]
 	path = vim/bundle/molokai
 	url = https://github.com/tomasr/molokai
+[submodule "vim-colors-afterglow"]
+	path = vim/bundle/vim-afterglow
+	url = https://github.com/danilo-augusto/vim-afterglow
+[submodule "vim-colors-onedark"]
+	path = vim/bundle/vim-onedark
+	url = https://github.com/joshdick/onedark.vim
+[submodule "vim-colors-space-vim-dark"]
+	path = vim/bundle/space-vim-dark
+	url = https://github.com/liuchengxu/space-vim-dark
 [submodule "vim-cucumber"]
 	path = vim/bundle/vim-cucumber
 	url = https://github.com/tpope/vim-cucumber

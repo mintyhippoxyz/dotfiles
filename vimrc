@@ -19,23 +19,7 @@ if has("autocmd")
 	" Languages with specific tabs/space requirements
 	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 	" Filetypes
-	au BufRead,BufNewFile *.ajax set ft=php
 	au BufRead,BufNewFile *.phar set ft=php
-	au BufRead,BufNewFile *.rss set ft=php
-	au BufRead,BufNewFile *.xml set ft=php
-	au BufRead,BufNewFile *.less set ft=less
-	au Bufread,BufNewFile *.feature set filetype=gherkin
-
-	" Enable the tab line / buffer list
-	let g:airline#extensions#tabline#enabled = 1
-	" Only show the file name
-	let g:airline#extensions#tabline#fnamemod = ':t'
-	" Enable syntastic integration
-	let g:airline#extensions#syntastic#enabled = 1
-	let g:airline_theme = 'solarized'
-
-	" Enable mustache abbreviations
-	let g:mustache_abbreviations = 1
 
 	" Toggle nerd tree
 	map <C-n> :NERDTreeToggle<CR>
@@ -50,42 +34,54 @@ if has("autocmd")
 	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
 	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
 	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
-
-	" Override php syntax
-	function! PhpSyntaxOverride()
-		hi! def link phpDocTags  phpDefine
-		hi! def link phpDocParam phpType
-	endfunction
-	augroup phpSyntaxOverride
-		autocmd!
-		autocmd FileType php call PhpSyntaxOverride()
-	augroup END
 endif
 
 if has("syntax")
-	" Enable syntax highlighting
-	syntax on
-	" Set 256 color terminal support
-	set t_Co=256
-	" Set dark background
-	set background=dark
-	" Solarized color scheme
-	let g:solarized_termcolors=256
-	"colorscheme solarized
-	" Molokai color scheme
-	"let g:molokai_original = 1
-	"let g:rehash256 = 1
-	"colorscheme molokai
-	" Other misc color schemes
-	colorscheme maui
-	"colorscheme badwolf
 	if &term =~ '256color'
 		" disable Background Color Erase (BCE) so that color schemes
 		" render properly when inside 256-color tmux and GNU screen.
 		" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
 		set t_ut=
 	endif
+	" Set 256 color terminal support
+	set t_Co=256
+	" Enable syntax highlighting
+	syntax on
+	" Set dark background
+	set background=dark
 
+	" Available colorschemes
+	" - onedark
+	" - maui
+	" - badwolf
+	" - space-vim-dark
+	" - solarized (see below)
+	" - molokai (see below)
+	colorscheme onedark
+
+	" Solarized color scheme
+	"let g:solarized_termcolors=256
+	"colorscheme solarized
+
+	" Molokai color scheme
+	"let g:molokai_original = 1
+	"let g:rehash256 = 1
+	"colorscheme molokai
+
+	" Available syntastic themes
+	" - onedark
+	" - solarized
+	" - afterglow
+	" - violet (matches space-vim-dark)
+	let g:airline_theme = 'onedark'
+	" Enable the tab line / buffer list
+	let g:airline#extensions#tabline#enabled = 1
+	" Only show the file name
+	let g:airline#extensions#tabline#fnamemod = ':t'
+	" Enable syntastic integration
+	let g:airline#extensions#syntastic#enabled = 1
+	" Enable mustache abbreviations
+	let g:mustache_abbreviations = 1
 endif
 
 if has("cmdline_info")
