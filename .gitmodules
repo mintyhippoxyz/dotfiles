@@ -34,9 +34,6 @@
 [submodule "vim-javascript"]
 	path = vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
-[submodule "vim-less"]
-	path = vim/bundle/vim-less
-	url = https://github.com/groenewege/vim-less
 [submodule "vim-nerdtree"]
 	path = vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree
