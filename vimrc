@@ -20,20 +20,6 @@ if has("autocmd")
 	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 	" Filetypes
 	au BufRead,BufNewFile *.phar set ft=php
-
-	" Toggle nerd tree
-	map <C-n> :NERDTreeToggle<CR>
-	" Open automaticlly if no files were specified
-	autocmd StdinReadPre * let s:std_in=1
-	autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-	" Close if only window left open
-	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-	" Draw PHP documentation blocks
-	" Use in visual mode to draw for an entire selection
-	au BufRead,BufNewFile *.php inoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-	au BufRead,BufNewFile *.php nnoremap <buffer> <C-P> :call PhpDocSingle()<C-M>
-	au BufRead,BufNewFile *.php vnoremap <buffer> <C-P> :call PhpDocRange()<C-M>
 endif
 
 if has("syntax")
