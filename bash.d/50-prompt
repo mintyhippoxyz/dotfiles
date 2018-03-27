@@ -16,36 +16,29 @@ SOLAR_BLUE=$(tput setaf 33)
 SOLAR_CYAN=$(tput setaf 37)
 SOLAR_GREEN=$(tput setaf 64)
 SOLAR_WHITE=$(tput setaf 254)
-style_user="\[${RESET}${SOLAR_ORANGE}\]"
-style_host="\[${RESET}${SOLAR_YELLOW}\]"
-style_path="\[${RESET}${SOLAR_GREEN}\]"
 style_chars="\[${RESET}${SOLAR_WHITE}\]"
 style_ldapcn="\[${RESET}${SOLAR_VIOLET}\]"
 style_branch="${SOLAR_CYAN}"
 
-if [[ "$SSH_TTY" ]]; then
-	# connected via ssh
-	style_host="\[${BOLD}${SOLAR_RED}\]"
-elif [[ "$USER" == "root" ]]; then
-	# logged in as root
-	style_user="\[${BOLD}${SOLAR_RED}\]"
-fi
-
-function eyeballs() {
+function eyeballs()
+{
 	if [ $? != 0 ]; then
 		printf "${SOLAR_RED}( O_o) ${RESET}"
 	fi
 }
 
-function is_git_repo() {
+function is_git_repo()
+{
 	$(git rev-parse --is-inside-work-tree &> /dev/null)
 }
 
-function is_git_dir() {
+function is_git_dir()
+{
 	$(git rev-parse --is-inside-git-dir 2> /dev/null)
 }
 
-function get_git_branch() {
+function get_git_branch()
+{
 	local branch_name
 	# Get the short symbolic ref
 	branch_name=$(git symbolic-ref --quiet --short HEAD 2> /dev/null) ||
@@ -57,7 +50,8 @@ function get_git_branch() {
 }
 
 # Git status information
-function prompt_git() {
+function prompt_git()
+{
 	local git_info git_state uc us ut st
 	if ! is_git_repo || is_git_dir; then
 		return 1
@@ -92,24 +86,29 @@ function prompt_git() {
 	if [[ $git_info == *stable* ]]; then
 		style_branch="${SOLAR_RED}"
 	fi
-	printf "${SOLAR_WHITE} on ${style_branch}${git_info}"
+	printf "${SOLAR_WHITE}on ${style_branch}${git_info}"
 }
 
 # Set the terminal title to the current working directory
-PS1="\[\033]0;\w\007\]"
+case ${TERM} in
+	[aEkx]term*|rxvt*|gnome*|konsole*|interix)
+		PS1='\[\033]0;\u@\h:\w\007\]'
+		;;
+	screen*)
+		PS1='\[\033k\u@\h:\w\033\\\]'
+		;;
+	*)
+		unset PS1
+		;;
+esac
 
 # Build the prompt
 PS1+="\$(eyeballs)" # Eyeballs
-if [ -e /conf/ldapcn ]; then
-	PS1+="${style_ldapcn}(\$(cat /conf/ldapcn)) " # ldapcn
+if [[ ${EUID} == 0 ]] ; then
+	PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w '
+else
+	PS1+='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w '
 fi
-PS1+="${style_user}\u" # Username
-PS1+="${style_chars}@" # @
-PS1+="${style_host}\h" # Host
-PS1+="${style_chars}: " # :
-PS1+="${style_path}\w" # Working directory
 PS1+="\$(prompt_git)" # Git details
 PS1+="\n" # Newline
 PS1+="${style_chars}\$ \[${RESET}\]" # $ (and reset color)
-
-PS2="\[${SOLAR_YELLOW}] \[${RESET}]"

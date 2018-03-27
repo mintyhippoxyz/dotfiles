@@ -7,6 +7,6 @@ elif [ -f ~/.ssh/agent ]; then
 fi
 
 if [ -e ~/.ssh/agent ]; then
-	test -z "$(/bin/pidof ssh-agent)" && echo "echo \"No agent is running\"" > ~/.ssh/agent;
-	source ~/.ssh/agent;
+	test -z "$(pidof ssh-agent)" && echo "echo \"No agent is running\"" > ~/.ssh/agent
+	source ~/.ssh/agent
 fi;

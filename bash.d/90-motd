@@ -1,0 +1,5 @@
+if [ -x "$(which fortune > /dev/null 2>&1)" ]; then
+	fortune -s | cowsay
+else
+	echo "Welcome to $(hostname) $(uname -r) $(uname -m) $(uname -p)"
+fi
