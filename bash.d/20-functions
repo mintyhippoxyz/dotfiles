@@ -1,14 +1,23 @@
 #!/bin/bash
 
+# Delete a git tag both locally and remotely
+function git-delete-tag()
+{
+       git tag -d ${1};
+       git push origin :refs/tags/${1};
+}
+
 # Create a data URL from a file
-function dataurl() {
+function dataurl()
+{
 	local mimeType=$(file -b --mime-type "$1");
 	if [[ $mimeType == text/* ]]; then mimeType="${mimeType};charset=utf-8"; fi
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
-function getcertnames() {
+function getcertnames()
+{
 	if [ -z "${1}" ]; then
 		echo "ERROR: No domain specified.";
 		return 1;
