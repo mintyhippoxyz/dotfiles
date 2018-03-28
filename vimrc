@@ -54,6 +54,11 @@ if has("syntax")
 	"let g:rehash256 = 1
 	"colorscheme molokai
 
+	" Syntastic
+	let g:syntastic_php_checkers = []
+	let g:syntastic_javascript_checkers=['eslint']
+	let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+
 	" Available syntastic themes
 	" - onedark
 	" - solarized
