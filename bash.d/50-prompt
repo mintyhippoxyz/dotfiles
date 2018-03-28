@@ -112,3 +112,7 @@ fi
 PS1+="\$(prompt_git)" # Git details
 PS1+="\n" # Newline
 PS1+="${style_chars}\$ \[${RESET}\]" # $ (and reset color)
+
+if [ -e /conf/ldapcn ]; then
+	PS1="(\$(cat /conf/ldapcn)) $PS1"
+fi
