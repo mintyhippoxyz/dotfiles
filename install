@@ -9,15 +9,20 @@ update_repo()
 
 cleanup()
 {
-	# remove symlinks to files no longer tracked
-	test -L "${HOME}/.curlrc" && rm "${HOME}/.curlrc"
-	test -L "${HOME}/.cvsrc" && rm "${HOME}/.cvsrc"
-	test -L "${HOME}/.wgetrc" && rm "${HOME}/.wgetrc"
-	# remove vim plugins that are no longer in use
-	test -d "${HOME}/dotfiles/vim/bundle/phpcomplete.vim" && rm -rf "${HOME}/dotfiles/vim/bundle/phpcomplete.vim"
-	test -d "${HOME}/dotfiles/vim/bundle/tagbar" && rm -rf "${HOME}/dotfiles/vim/bundle/tagbar"
-	test -d "${HOME}/dotfiles/vim/bundle/supertab" && rm -rf "${HOME}/dotfiles/vim/bundle/supertab"
-	test -d "${HOME}/dotfiles/vim/bundle/todo.txt-vim" && rm -rf "${HOME}/dotfiles/vim/bundle/todo.txt-vim"
+	test -L ~/.curlrc && rm ~/.curlrc
+	test -L ~/.cvsrc && rm ~/.cvsrc
+	test -L ~/.wgetrc && rm ~/.wgetrc
+	test -d ~/.vim/bundle/phpcomplete.vim && rm -rf ~/.vim/bundle/phpcomplete.vim
+	test -d ~/.vim/bundle/tagbar && rm -rf ~/.vim/bundle/tagbar
+	test -d ~/.vim/bundle/supertab && rm -rf ~/.vim/bundle/supertab
+	test -d ~/.vim/bundle/todo.txt-vim && rm -rf ~/.vim/bundle/todo.txt-vim
+	test -d ~/.vim/bundle/badwolf && rm -rf ~/.vim/bundle/badwolf
+	test -d ~/.vim/bundle/molokai && rm -rf ~/.vim/bundle/molokai
+	test -d ~/.vim/bundle/onedark && rm -rf ~/.vim/bundle/onedark
+	test -d ~/.vim/bundle/space-vim-dark && rm -rf ~/.vim/bundle/space-vim-dark
+	test -d ~/.vim/bundle/vim-afterglow && rm -rf ~/.vim/bundle/vim-afterglow
+	test -d ~/.vim/bundle/vim-colors-solarized && rm -rf ~/.vim/bundle/vim-colors-solarized
+	test -d ~/.vim/bundle/vim-maui && rm -rf ~/.vim/bundle/vim-maui
 }
 
 pre_install_actions()
@@ -28,7 +33,7 @@ pre_install_actions()
 
 post_install_actions()
 {
-	source "${HOME}/.bashrc"
+	source ~/.bashrc
 }
 
 install_home()

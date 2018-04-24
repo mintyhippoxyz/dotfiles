@@ -1,0 +1,11 @@
+#!/bin/bash
+rm ${HOME}/.Xdefaults \
+	${HOME}/.bash.d \
+	${HOME}/.bash_profile \
+	${HOME}/.bashrc \
+	${HOME}/.bash_logout \
+	${HOME}/.gitconfig \
+	${HOME}/.psqlrc \
+	${HOME}/.screenrc \
+	${HOME}/.vim \
+	${HOME}/.vimrc
