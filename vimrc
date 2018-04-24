@@ -37,7 +37,7 @@ if has("syntax")
 	set background=dark
 
 	" Set colorscheme
-	colorscheme molokai_dark
+	colorscheme hybrid_material
 
 	" Syntastic
 	let g:syntastic_php_checkers = []
@@ -45,7 +45,7 @@ if has("syntax")
 	let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 
 	" Syntastic
-	let g:airline_theme = 'molokai'
+	let g:airline_theme = 'base16'
 	" Enable the tab line / buffer list
 	let g:airline#extensions#tabline#enabled = 1
 	" Only show the file name
