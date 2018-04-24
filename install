@@ -12,17 +12,21 @@ cleanup()
 	test -L ~/.curlrc && rm ~/.curlrc
 	test -L ~/.cvsrc && rm ~/.cvsrc
 	test -L ~/.wgetrc && rm ~/.wgetrc
-	test -d ~/.vim/bundle/phpcomplete.vim && rm -rf ~/.vim/bundle/phpcomplete.vim
-	test -d ~/.vim/bundle/tagbar && rm -rf ~/.vim/bundle/tagbar
-	test -d ~/.vim/bundle/supertab && rm -rf ~/.vim/bundle/supertab
-	test -d ~/.vim/bundle/todo.txt-vim && rm -rf ~/.vim/bundle/todo.txt-vim
 	test -d ~/.vim/bundle/badwolf && rm -rf ~/.vim/bundle/badwolf
 	test -d ~/.vim/bundle/molokai && rm -rf ~/.vim/bundle/molokai
+	test -d ~/.vim/bundle/nerdtree && rm -rf ~/.vim/bundle/nerdtree
 	test -d ~/.vim/bundle/onedark && rm -rf ~/.vim/bundle/onedark
+	test -d ~/.vim/bundle/phpcomplete.vim && rm -rf ~/.vim/bundle/phpcomplete.vim
 	test -d ~/.vim/bundle/space-vim-dark && rm -rf ~/.vim/bundle/space-vim-dark
+	test -d ~/.vim/bundle/supertab && rm -rf ~/.vim/bundle/supertab
+	test -d ~/.vim/bundle/tagbar && rm -rf ~/.vim/bundle/tagbar
+	test -d ~/.vim/bundle/todo.txt-vim && rm -rf ~/.vim/bundle/todo.txt-vim
 	test -d ~/.vim/bundle/vim-afterglow && rm -rf ~/.vim/bundle/vim-afterglow
 	test -d ~/.vim/bundle/vim-colors-solarized && rm -rf ~/.vim/bundle/vim-colors-solarized
+	test -d ~/.vim/bundle/vim-jade && rm -rf ~/.vim/bundle/vim-jade
+	test -d ~/.vim/bundle/vim-less && rm -rf ~/.vim/bundle/vim-less
 	test -d ~/.vim/bundle/vim-maui && rm -rf ~/.vim/bundle/vim-maui
+	test -d ~/.vim/bundle/vmustache && rm -rf ~/.vim/bundle/vmustache
 }
 
 pre_install_actions()
