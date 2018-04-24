@@ -36,35 +36,16 @@ if has("syntax")
 	" Set dark background
 	set background=dark
 
-	" Available colorschemes
-	" - onedark
-	" - maui
-	" - badwolf
-	" - space-vim-dark
-	" - solarized (see below)
-	" - molokai (see below)
-	colorscheme onedark
-
-	" Solarized color scheme
-	"let g:solarized_termcolors=256
-	"colorscheme solarized
-
-	" Molokai color scheme
-	"let g:molokai_original = 1
-	"let g:rehash256 = 1
-	"colorscheme molokai
+	" Set colorscheme
+	colorscheme molokai_dark
 
 	" Syntastic
 	let g:syntastic_php_checkers = []
 	let g:syntastic_javascript_checkers=['eslint']
 	let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 
-	" Available syntastic themes
-	" - onedark
-	" - solarized
-	" - afterglow
-	" - violet (matches space-vim-dark)
-	let g:airline_theme = 'onedark'
+	" Syntastic
+	let g:airline_theme = 'molokai'
 	" Enable the tab line / buffer list
 	let g:airline#extensions#tabline#enabled = 1
 	" Only show the file name
