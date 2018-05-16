@@ -37,6 +37,15 @@ alias lat='ls -lhAFt ${colorflag}'
 alias lsd='ls -lhF | grep --color=never "^d"'
 
 ###
+# Always start tmux with utf8 support
+alias tmux='tmux -u'
+
+###
+# Docker
+alias d='docker $*'
+alias d-c='docker-compose $*'
+
+###
 # git
 alias g='git'
 alias gd='g git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'
