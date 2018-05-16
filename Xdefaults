@@ -1,5 +1,10 @@
 !==============================================================
-! XTerm
+! Xdefaults
+! vim:noet:ft=xdefaults
+!==============================================================
+
+!==============================================================
+! Xterm
 !==============================================================
 
 ! General settings
@@ -16,13 +21,8 @@ xterm*locale: True
 xterm*utf8Title: True
 xterm*renderFont: True
 xterm*preeditType: Root
-!xterm*font: *-fixed-*-*-*-10-*
-!xterm*boldFont: *-fixed-bold-*-*-10-*
-!xterm*faceName: Inconsolata
-!xterm*faceName: Terminus
-!xterm*faceName: Droid Sans Mono
-xterm*faceName: Dejavu Sans Mono
-xterm*faceSize: 8
+xterm*faceName: Terminus
+xterm*faceSize: 10
 
 ! Trim trailing spaces
 xterm*trimSelection: true
@@ -34,9 +34,9 @@ xterm*metaSendsEscape: true
 ! Allow selecting email/url by double-click
 xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
 
-! To match the solarized colorscheme black/white
+! Set foreground/background colors
 xterm*background: #1c1c1c
-xterm*foreground: #e4e4e4
+xterm*foreground: #e9e9e9
 
 !==============================================================
 ! XCalc
@@ -104,5 +104,3 @@ xcalc*button37.borderColor: #262626
 ! =
 xcalc*button40.background: dark olive green
 xcalc*button40.borderColor: olive drab
-
-! vim:noet:ft=xdefaults
