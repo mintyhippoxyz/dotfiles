@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ -x `which tmux` ]; then
+	tmux ls > /dev/null 2>&1
+	[ $? -eq 0 ] && tmux ls
+fi
