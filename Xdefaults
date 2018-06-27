@@ -21,8 +21,9 @@ xterm*locale: True
 xterm*utf8Title: True
 xterm*renderFont: True
 xterm*preeditType: Root
-xterm*faceName: Terminus
-xterm*faceSize: 10
+!xterm*faceName: Terminus
+XTerm*faceName: Source Code Pro,Source Code Pro Semibold
+XTerm*faceSize: 10
 
 ! Trim trailing spaces
 xterm*trimSelection: true
