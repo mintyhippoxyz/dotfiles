@@ -88,3 +88,12 @@ alias tpe-on='sudo sh -c "echo 1 > /proc/sys/kernel/grsecurity/tpe"'
 ###
 # clear cached mem
 alias clearcache='sudo sync; sudo echo 1 | sudo tee /proc/sys/vm/drop_caches > /dev/null'
+
+###
+# ipv6 stuff
+alias ipv6-randip='dd if=/dev/urandom bs=8 count=1 2>/dev/null | od -x -A n | sed -e "s/^ //" -e "s/ /:/g" -e "s/:0*/:/g" -e "s/^0*//"'
+alias ipv6-arpa='sed -e "s/:/:0000/g" -e "s/:0*\([0-9a-f][0-9a-f][0-9a-f][0-9a-f]\)/:\1/g" -e "s/://g" | rev | sed -e "s/./&./g" -e "s/$/ip6.arpa/"'
+alias ipv6-mac2slaac='perl -e "\$_=lc<>;\$_=~s/[-:]//g;\$_ =~ m/^(..)(..)(..)(..)(....)/;printf(\"%02x%s:%sff:fe%s:%s\n\", ((hex \$1)|0x02), \$2, \$3, \$4, \$5);"'
+alias ipv6-slaac2mac='perl -e "\$_=lc<>;\$_=~m/(..)(..):(..)ff:fe(..):(..)(..)/;printf(\"%02x:%s:%s:%s:%s:%s\n\",((hex \$1)^0x02),\$2,\$3,\$4,\$5,\$6);"'
+
+
