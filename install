@@ -12,6 +12,8 @@ cleanup()
 	test -L ~/.curlrc && rm ~/.curlrc
 	test -L ~/.cvsrc && rm ~/.cvsrc
 	test -L ~/.wgetrc && rm ~/.wgetrc
+	test -L ~/.uninstall && rm ~/.uninstall
+	test -L ~/.Xdefaults && rm ~/.Xdefaults
 	test -d ~/.vim/bundle/badwolf && rm -rf ~/.vim/bundle/badwolf
 	test -d ~/.vim/bundle/molokai && rm -rf ~/.vim/bundle/molokai
 	test -d ~/.vim/bundle/nerdtree && rm -rf ~/.vim/bundle/nerdtree
@@ -43,7 +45,7 @@ post_install_actions()
 install_home()
 {
 	local dest_dir="$HOME"
-	local excluded=(`basename $0` README.md)
+	local excluded=(`basename $0` README.md uninstall)
 	local replace_all=false
 
 	pre_install_actions
