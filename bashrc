@@ -10,7 +10,7 @@ source_dir() {
 		local conf_file
 		for conf_file in "$dir"/*
 		do
-			source "$conf_file"
+			test -f "$conf_file" && source "$conf_file"
 		done
 	fi
 }
