@@ -10,10 +10,7 @@ source_dir() {
 		local conf_file
 		for conf_file in "$dir"/*
 		do
-			if [[ -f $conf_file && $(basename $conf_file) != 'README' ]]
-			then
-				source "$conf_file"
-			fi
+			source "$conf_file"
 		done
 	fi
 }

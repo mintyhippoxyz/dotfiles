@@ -1,21 +1,18 @@
-#!/bin/bash
+# vim: ft=sh
 
 alias please='sudo $(fc -ln -1)'
 alias reload='clear && . ~/.bashrc'
 alias whichlinux='uname -a; cat /etc/*release'
 
-###
 # mv, rm, cp
 alias mv='mv -v'
 alias rm='rm -i -v'
 alias cp='cp -v'
 
-###
 # history
 alias h='history'
 alias hs='history | grep'
 
-###
 # easier navigation
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -23,7 +20,6 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-###
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
@@ -36,16 +32,13 @@ alias la='ls -lhAF ${colorflag}'
 alias lat='ls -lhAFt ${colorflag}'
 alias lsd='ls -lhF | grep --color=never "^d"'
 
-###
 # Always start tmux with utf8 support
 alias tmux='tmux -u'
 
-###
 # Docker
 alias d='docker $*'
 alias d-c='docker-compose $*'
 
-###
 # git
 alias g='git'
 alias gd='g git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'
@@ -62,12 +55,10 @@ alias gundopush='g push -f origin HEAD^:master'
 alias gpthis='g push origin HEAD:$(git_current_branch)'
 alias gup='g fetch origin && grb origin/$(git_current_branch)'
 
-###
 # vim
 alias v='vim'
 alias vimrc='vim $HOME/.vimrc'
 
-###
 # virtualbox / vagrant
 alias vg='vagrant'
 alias vgs='vg status'
@@ -76,24 +67,18 @@ alias vgssh='vg ssh'
 alias vboxmanage='VBoxManage'
 alias vboxgui='VirtualBox'
 
-###
 # recursive php lint from current working directory
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
 
-###
 # trusted path execution
 alias tpe-off='sudo sh -c "echo 0 > /proc/sys/kernel/grsecurity/tpe"'
 alias tpe-on='sudo sh -c "echo 1 > /proc/sys/kernel/grsecurity/tpe"'
 
-###
 # clear cached mem
 alias clearcache='sudo sync; sudo echo 1 | sudo tee /proc/sys/vm/drop_caches > /dev/null'
 
-###
 # ipv6 stuff
 alias ipv6-randip='dd if=/dev/urandom bs=8 count=1 2>/dev/null | od -x -A n | sed -e "s/^ //" -e "s/ /:/g" -e "s/:0*/:/g" -e "s/^0*//"'
 alias ipv6-arpa='sed -e "s/:/:0000/g" -e "s/:0*\([0-9a-f][0-9a-f][0-9a-f][0-9a-f]\)/:\1/g" -e "s/://g" | rev | sed -e "s/./&./g" -e "s/$/ip6.arpa/"'
 alias ipv6-mac2slaac='perl -e "\$_=lc<>;\$_=~s/[-:]//g;\$_ =~ m/^(..)(..)(..)(..)(....)/;printf(\"%02x%s:%sff:fe%s:%s\n\", ((hex \$1)|0x02), \$2, \$3, \$4, \$5);"'
 alias ipv6-slaac2mac='perl -e "\$_=lc<>;\$_=~m/(..)(..):(..)ff:fe(..):(..)(..)/;printf(\"%02x:%s:%s:%s:%s:%s\n\",((hex \$1)^0x02),\$2,\$3,\$4,\$5,\$6);"'
-
-

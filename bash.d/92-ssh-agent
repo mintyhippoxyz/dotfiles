@@ -1,8 +1,8 @@
-#!/bin/bash
+# vim: ft=sh
 
 if [ -f ~/.ssh/agent ] && [ -f ~/.ssh/work ]
 then
-	alias restart-ssh-agent='ssh-agent > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
+	alias restart-ssh-agent='ssh-agent | sed "s/Agent/ssh-agent/" > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
 elif [ -f ~/.ssh/agent ]
 then
 	alias restart-ssh-agent='ssh-agent | sed "s/Agent/ssh-agent/" > ~/.ssh/agent; source ~/.ssh/agent; ssh-add'

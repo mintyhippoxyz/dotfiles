@@ -1,4 +1,3 @@
-#!/bin/bash
 # vim: ft=sh
 
 [[ -z ${GIT_NAME+x} ]] && read -p "(git) Name: " GIT_NAME

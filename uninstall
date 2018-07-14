@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 rm ${HOME}/.Xdefaults \
 	${HOME}/.bash.d \
 	${HOME}/.bash_profile \

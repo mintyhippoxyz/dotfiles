@@ -1,4 +1,4 @@
-#!/bin/bash
+# vim: ft=sh
 
 # Make vim the default editor
 export EDITOR="vim"

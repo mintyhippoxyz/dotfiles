@@ -1,4 +1,5 @@
 # vim: ft=sh
+
 if [ -n "$ENABLE_MOTD" ]
 then
 	if [ -x "$(which fortune > /dev/null 2>&1)" ] && [ -x "$(which cowsay > /dev/null 2>&1)" ]

@@ -1,4 +1,4 @@
-#!/bin/bash
+# vim: ft=sh
 
 tput sgr 0 0
 

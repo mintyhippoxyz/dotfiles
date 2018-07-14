@@ -1,6 +1,7 @@
-#!/bin/bash
+# vim: ft=sh
 
-if [ -x `which tmux > /dev/null 2>&1` ]; then
+if [ -x `which tmux > /dev/null 2>&1` ]
+then
 	tmux ls > /dev/null 2>&1
 	[ $? -eq 0 ] && tmux ls
 fi
