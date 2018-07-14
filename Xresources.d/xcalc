@@ -1,30 +1,20 @@
 ! vim: ft=xdefaults
 
-xcalc*geometry: 200x270
+xcalc*geometry: 300x370
 xcalc*font: -*-clean-*-*-*-*-*-*-*-*-*-*-*-*
-! Background
-xcalc*background: #1c1c1c
-xcalc*foreground: #e4e4e4
-xcalc*borderColor: #111111
-! Screen
-xcalc*bevel.vertDistance: 5
-xcalc*bevel.background: dark khaki
-xcalc*bevel.borderColor: khaki
-xcalc*screen*background: dark khaki
-xcalc*screen*foreground: black
-xcalc*screen*borderColor: dark khaki
+
 ! Buttons =====================================================
 ! Spacing
-xcalc*button1*vertDistance: 4
-xcalc*button2*vertDistance: 4
-xcalc*button3*vertDistance: 4
-xcalc*button4*vertDistance: 4
-xcalc*button5*vertDistance: 4
-xcalc*button21*vertDistance: 4
-xcalc*button22*vertDistance: 4
-xcalc*button23*vertDistance: 4
-xcalc*button24*vertDistance: 4
-xcalc*button25*vertDistance: 4
+xcalc*button1*vertDistance: 5
+xcalc*button2*vertDistance: 5
+xcalc*button3*vertDistance: 5
+xcalc*button4*vertDistance: 5
+xcalc*button5*vertDistance: 5
+xcalc*button21*vertDistance: 5
+xcalc*button22*vertDistance: 5
+xcalc*button23*vertDistance: 5
+xcalc*button24*vertDistance: 5
+xcalc*button25*vertDistance: 5
 ! Background
 xcalc*Command*background: #181818
 xcalc*Command*borderColor: #202020
