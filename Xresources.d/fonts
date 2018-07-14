@@ -1,0 +1,14 @@
+! vim: ft=xdefaults
+Xft.dpi: 96
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.hintstyle: hintslight
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+Xft.autohint: 0
+
+!*faceName: Source Code Pro,Source Code Pro Semibold
+!*faceName: Anonymous Pro
+!*faceName: Terminus
+*faceName: Hack
+*faceSize: 8

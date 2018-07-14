@@ -1,0 +1,7 @@
+! vim: ft=xdefaults
+#include ".Xresources-themes/base16-3024-256.Xresources"
+#include ".Xresources.d/fonts"
+#include ".Xresources.d/xterm"
+#include ".Xresources.d/rxvt-unicode"
+#include ".Xresources.d/xcalc"
+#include ".Xresources.d/xpdf"

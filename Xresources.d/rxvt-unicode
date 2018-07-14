@@ -1,0 +1,36 @@
+! vim: ft=xdefaults
+URxvt.cursorBlink: true
+URxvt.cutchars: "()*,<>[]{}|''"
+URxvt.depth:24
+URxvt.fading: 15
+URxvt.font: xft:Hack:size=9
+URxvt.geometry: 120x40
+URxvt.intensityStyles: true
+URxvt.jumpScroll: True
+URxvt.matcher.button: 1
+URxvt.matcher.rend.0: Uline Bold fg8
+URxvt.perl-ext-common: default,matcher,searchable-scrollback
+URxvt.print-pipe: cat > $(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
+URxvt.saveLines: 32767
+URxvt.scrollBar: false
+URxvt.scrollBar_right: true
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollstyle: plain
+URxvt.scrollColor: #bdef34
+URxvt.selection-autotransform.0: s/^([^:[:space:]]+):(\\d+):?$/+$2 \\Q$1\\E/
+URxvt.shading: 20
+URxvt.skipBuiltinGlyphs: true
+URxvt.transparent: true
+URxvt.urgentOnBell: true
+URxvt.urlLauncher: xdg-open
+URxvt.xftAntialias: true
+URxvt*background: #1c1c1c
+URxvt*foreground: #e9e9e9
+
+! tabs
+URxvt.tabbed.tabbar-fg: 7
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg:    7
+URxvt.tabbed.tab-bg:    4

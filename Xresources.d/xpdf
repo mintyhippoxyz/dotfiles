@@ -1,0 +1,6 @@
+! vim: ft=xdefaults
+xpdf*antialias: yes
+xpdf*background: white
+xpdf*enableFreetype: yes
+xpdf*foreground: black
+xpdf*urlCommand: chromium %s

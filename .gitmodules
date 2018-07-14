@@ -1,3 +1,6 @@
+[submodule "xresources-themes"]
+	path = Xresources-themes
+	url = https://github.com/logico-dev/Xresources-themes
 [submodule "vim-airline"]
 	path = vim/bundle/vim-airline
 	url = https://github.com/bling/vim-airline

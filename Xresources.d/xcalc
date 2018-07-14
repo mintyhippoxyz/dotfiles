@@ -1,47 +1,4 @@
-!==============================================================
-! Xdefaults
-! vim:noet:ft=xdefaults
-!==============================================================
-
-!==============================================================
-! Xterm
-!==============================================================
-
-! General settings
-xterm*termName: xterm-256color
-xterm*geometry: 80x24
-xterm*saveLines: 1024
-xterm*scrollBar: False
-xterm*loginshell: False
-xterm*cursorBlink: False
-
-! Fonts and Encoding
-xterm*utf8: True
-xterm*locale: True
-xterm*utf8Title: True
-xterm*renderFont: True
-xterm*preeditType: Root
-!xterm*faceName: Terminus
-XTerm*faceName: Source Code Pro,Source Code Pro Semibold
-XTerm*faceSize: 10
-
-! Trim trailing spaces
-xterm*trimSelection: true
-
-! Fix alt-key inputting
-xterm*eightBitInput: false
-xterm*metaSendsEscape: true
-
-! Allow selecting email/url by double-click
-xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
-
-! Set foreground/background colors
-xterm*background: #1c1c1c
-xterm*foreground: #e9e9e9
-
-!==============================================================
-! XCalc
-!==============================================================
+! vim: ft=xdefaults
 
 xcalc*geometry: 200x270
 xcalc*font: -*-clean-*-*-*-*-*-*-*-*-*-*-*-*
