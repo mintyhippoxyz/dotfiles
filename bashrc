@@ -3,7 +3,13 @@
 
 [ -z "$PS1" ] && return
 
-source_dir() {
+source_file()
+{
+	test -f $1 && source $1
+}
+
+source_dir()
+{
 	local dir="$1"
 	if [[ -d $dir ]]
 	then
@@ -15,6 +21,6 @@ source_dir() {
 	fi
 }
 
-source_dir ~/.bash.d/local/before
+source_file ~/.bashrc_local_before
 source_dir ~/.bash.d
-source_dir ~/.bash.d/local/after
+source_file ~/.bashrc_local_after
