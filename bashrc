@@ -5,7 +5,7 @@
 
 source_file()
 {
-	test -f $1 && source $1
+	test -f $1 && source $1 || true
 }
 
 source_dir()
