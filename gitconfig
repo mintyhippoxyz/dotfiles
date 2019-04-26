@@ -37,3 +37,6 @@
 
 [diff]
 	tool = vimdiff
+
+[rerere]
+	enabled = true
