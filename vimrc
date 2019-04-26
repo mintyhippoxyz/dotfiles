@@ -20,6 +20,10 @@ if has("autocmd")
 	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 	" Filetypes
 	au BufRead,BufNewFile *.phar set ft=php
+
+	" vim-vue
+	autocmd BufRead,BufNewFile *.vue setlocal filetype=vue
+	let g:vue_disable_pre_processors = 1
 endif
 
 if has("syntax")
