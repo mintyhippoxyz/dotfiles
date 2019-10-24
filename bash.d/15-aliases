@@ -4,10 +4,12 @@ alias please='sudo $(fc -ln -1)'
 alias reload='clear && . ~/.bashrc'
 alias whichlinux='uname -a; cat /etc/*release'
 
-# mv, rm, cp
+# verbose mv/cp
 alias mv='mv -v'
-alias rm='rm -i -v'
 alias cp='cp -v'
+
+# verbose rm and always ask
+alias rm='rm -i -v'
 
 # history
 alias h='history'
@@ -35,42 +37,38 @@ alias lsd='ls -lhF | grep --color=never "^d"'
 # Always start tmux with utf8 support
 alias tmux='tmux -u'
 
-# Docker
-alias d='docker $*'
-alias d-c='docker-compose $*'
-
 # git
 alias g='git'
 alias gd='g git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'
 alias gl='g log --color --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --'
 alias gm='g merge --no-ff'
-alias grb='g rebase -p'
 alias gs='g status -s'
 alias gsl='g status --long'
-alias gtags='g tag -l'
-alias gbranches='g branch -a'
-alias gremotes='g remote -v'
+alias gtags='g --no-pager tag -l'
+alias gbranches='g --no-pager branch -a'
+alias gremotes='g --no-pager remote -v'
 alias gundocommit='g reset --soft HEAD^'
 alias gundopush='g push -f origin HEAD^:master'
-alias gpthis='g push origin HEAD:$(git_current_branch)'
-alias gup='g fetch origin && grb origin/$(git_current_branch)'
+alias gpt='git fetch --prune origin "+refs/tags/*:refs/tags/*"'
+alias gpb='git remote prune origin'
+
+# git-flow
+alias gffs='git flow feature start it'
+alias gffp='git flow feature publish'
+alias gffr='git flow feature rebase'
+alias gfff='git flow feature finish'
+alias gfrs='git flow release start `date +%Y%m%d`'
+alias gfrp='git flow release publish'
+alias gfrf='git flow release finish -n -p --pushproduction'
 
 # vim
 alias v='vim'
 alias vimrc='vim $HOME/.vimrc'
 
-# virtualbox / vagrant
-alias vg='vagrant'
-alias vgs='vg status'
-alias vgu='vg up'
-alias vgssh='vg ssh'
-alias vboxmanage='VBoxManage'
-alias vboxgui='VirtualBox'
-
 # recursive php lint from current working directory
 alias phplint='find . -name "*.php" -exec php -l {} \; | grep "Parse error"'
 
-# trusted path execution
+# toggle grsec trusted path execution
 alias tpe-off='sudo sh -c "echo 0 > /proc/sys/kernel/grsecurity/tpe"'
 alias tpe-on='sudo sh -c "echo 1 > /proc/sys/kernel/grsecurity/tpe"'
 
