@@ -5,3 +5,4 @@
 #include ".Xresources.d/rxvt-unicode"
 #include ".Xresources.d/xcalc"
 #include ".Xresources.d/xpdf"
+#include ".Xresources.d/rofi"
