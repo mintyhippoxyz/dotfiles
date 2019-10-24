@@ -1,5 +1,5 @@
 ! vim: ft=xdefaults
-#include ".Xresources-themes/base16-google-dark-256.Xresources"
+#include ".Xresources-themes/one-dark.Xresources"
 #include ".Xresources.d/fonts"
 #include ".Xresources.d/xterm"
 #include ".Xresources.d/rxvt-unicode"
