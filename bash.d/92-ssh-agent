@@ -1,15 +1,8 @@
 # vim: ft=sh
 
-if [ -f ~/.ssh/agent ] && [ -f ~/.ssh/work ]
-then
-	alias restart-ssh-agent='ssh-agent | sed "s/Agent/ssh-agent/" > ~/.ssh/agent; source ~/.ssh/agent; ssh-add; ssh-add ~/.ssh/work'
-elif [ -f ~/.ssh/agent ]
+if [ -n "$ENABLE_SSH_AGENT" ]
 then
 	alias restart-ssh-agent='ssh-agent | sed "s/Agent/ssh-agent/" > ~/.ssh/agent; source ~/.ssh/agent; ssh-add'
-fi
-
-if [ -e ~/.ssh/agent ]
-then
 	test -z "$(pidof ssh-agent)" && echo "echo \"ssh-agent not running\"" > ~/.ssh/agent
 	source ~/.ssh/agent
 fi
