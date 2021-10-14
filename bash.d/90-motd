@@ -2,11 +2,15 @@
 
 if [ -n "$ENABLE_MOTD" ]
 then
-	if [ -x "$(which fortune > /dev/null 2>&1)" ] && [ -x "$(which cowsay > /dev/null 2>&1)" ]
+	if [ -x `which neofetch` ]
+	then
+		neofetch
+	elif [ -x "$(which fortune > /dev/null 2>&1)" ] && [ -x "$(which cowsay > /dev/null 2>&1)" ]
 	then
 		fortune -s | cowsay
 	else
-		echo "Welcome to $(hostname) $(uname -r) $(uname -m) $(uname -p)"
+		echo "Welcome to $(hostname)"
+		echo "$(uname -srpm)"
 		uptime | xargs
 	fi
 fi
