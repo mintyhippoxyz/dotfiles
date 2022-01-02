@@ -2,12 +2,22 @@
 
 if [ -n "$ENABLE_MOTD" ]
 then
-	if [ -x `which neofetch` ]
+	if [ -x "$(which neofetch 2> /dev/null)" ] && [ -x "$(which cowsay 2> /dev/null)" ]
 	then
-		neofetch
-	elif [ -x "$(which fortune > /dev/null 2>&1)" ] && [ -x "$(which cowsay > /dev/null 2>&1)" ]
+		h=`date +%H`
+		if [ $h -lt 12 ]
+		then
+			msg="Good morning"
+		elif [ $h -lt 18 ]
+		then
+			msg="Good afternoon"
+		else
+			msg="Good evening"
+		fi
+		neofetch --config .neofetch.conf --ascii "$(echo $msg | cowsay -W 30)"
+	elif [ -x "$(which neofetch 2> /dev/null)" ]
 	then
-		fortune -s | cowsay
+		neofetch --config .neofetch.conf
 	else
 		echo "Welcome to $(hostname)"
 		echo "$(uname -srpm)"
