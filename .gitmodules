@@ -46,3 +46,9 @@
 [submodule "vim-vue"]
 	path = vim/bundle/vim-vue
 	url = https://github.com/posva/vim-vue
+[submodule "coc.nvim"]
+	path = vim/bundle/coc.nvim
+	url = https://github.com/neoclide/coc.nvim
+[submodule "typescript-vim"]
+	path = vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
