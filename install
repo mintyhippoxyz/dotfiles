@@ -5,6 +5,7 @@ update_repo()
 {
 	git pull origin master
 	git submodule update --init --recursive
+	git submodule update --recursive --remote
 }
 
 cleanup()
@@ -76,18 +77,18 @@ install_file()
 		if [[ -e $dest_file_path ]] &&
 			diff -q "$file" "$dest_file_path" > /dev/null
 		then
-			echo "identical $dest_file_path"
+			echo "dotfiles: identical $dest_file_path"
 		elif $replace_all
 		then
 			replace_file "$file" "$dest_file_path"
 		else
-			read -p "overwrite ${dest_file_path}? [ynaq] "
+			read -p "dotfiles: overwrite ${dest_file_path}? [ynaq] "
 			case $REPLY in
 				'y') replace_file "$file" "$dest_file_path" ;;
 				'q') exit 1 ;;
 				'a') replace_all=true
 						 replace_file "$file" "$dest_file_path" ;;
-				*) echo "skipping $dest_file_path" ;;
+				*) echo "dotfiles: skipping $dest_file_path" ;;
 			esac
 		fi
 	else
@@ -109,10 +110,10 @@ link_file()
 	local dest_file_path="$2"
 	if [[ $file =~ \.tpl$ ]]
 	then
-		echo "generating $dest_file_path"
+		echo "dotfiles: generating $dest_file_path"
 		bash "$file" > "$dest_file_path"
 	else
-		echo "linking $dest_file_path"
+		echo "dotfiles: linking $dest_file_path"
 		ln -s "`pwd`/$file" "$dest_file_path"
 	fi
 }
