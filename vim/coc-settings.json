@@ -1,0 +1,9 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "typescript.showUnused": true,
+  "typescript.showDeprecated": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "volar.completion.tagNameCase": "kebab",
+  "coc.preferences.jumpCommand": "split"
+}
