@@ -5,6 +5,9 @@
 " Disable vi compatibility
 set nocompatible
 
+" Dont autoload coc
+let g:pathogen_blacklist = ['coc.nvim']
+
 " Point to location of pathogen submodule (since it's not in .vim/autoload)
 silent! runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Call pathogen plugin management
