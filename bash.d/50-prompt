@@ -20,10 +20,10 @@ style_chars="\[${RESET}${SOLAR_WHITE}\]"
 style_ldapcn="\[${RESET}${SOLAR_VIOLET}\]"
 style_branch="${SOLAR_CYAN}"
 
-function eyeballs()
+function nonzeroexit()
 {
 	if [ $? != 0 ]; then
-		printf "${SOLAR_RED}( O_o) ${RESET}"
+		printf "${SOLAR_RED}[!]${RESET}"
 	fi
 }
 
@@ -76,7 +76,7 @@ function prompt_git()
 	git_state=$uc$us$ut$st
 	# Combine the branch name and state information
 	if [[ $git_state ]]; then
-		git_info="$git_info${SOLAR_CYAN}[$git_state${SOLAR_CYAN}]"
+		git_info="$git_info${SOLAR_CYAN}($git_state${SOLAR_CYAN})"
 	fi
 	# You know you're on `gh-pages`, right? *Right*?
 	if [[ $git_info == "gh-pages" ]]; then
@@ -103,16 +103,15 @@ case ${TERM} in
 esac
 
 # Build the prompt
-PS1+="\$(eyeballs)" # Eyeballs
+PS1+="${SOLAR_BLUE}┌──${RESET}\$(nonzeroexit)"
 if [[ ${EUID} == 0 ]] ; then
 	PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w '
 else
-	PS1+='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w '
+	PS1+="\[\033[01;32m\]${SOLAR_BLUE}[${RESET}${SOLAR_GREEN}\u@\h${SOLAR_BLUE}]${RESET}${RESET}${SOLAR_VIOLET} \w "
 fi
-PS1+="\$(prompt_git)" # Git details
-PS1+="\n" # Newline
-PS1+="${style_chars}\$ \[${RESET}\]" # $ (and reset color)
+PS1+="\$(prompt_git)\n${SOLAR_BLUE}└─\$ \[${RESET}\]"
 
-if [ -e /conf/ldapcn ]; then
+if [ -e /conf/ldapcn ]
+then
 	PS1="(\$(cat /conf/ldapcn)) $PS1"
 fi
