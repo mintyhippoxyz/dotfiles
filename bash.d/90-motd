@@ -14,10 +14,10 @@ then
 		else
 			msg="Good evening"
 		fi
-		neofetch --config .neofetch.conf --ascii "$(echo $msg | cowsay -W 30)"
+		neofetch --config ${HOME}/.neofetch.conf --ascii "$(echo $msg | cowsay -W 30)"
 	elif [ -x "$(which neofetch 2> /dev/null)" ]
 	then
-		neofetch --config .neofetch.conf
+		neofetch --config ${HOME}/.neofetch.conf
 	else
 		echo "Welcome to $(hostname)"
 		echo "$(uname -srpm)"
