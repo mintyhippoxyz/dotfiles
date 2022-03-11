@@ -5,32 +5,10 @@
 " Disable vi compatibility
 set nocompatible
 
-" Dont autoload coc
+" COC
 let g:pathogen_blacklist = ['coc.nvim']
-
-" Point to location of pathogen submodule (since it's not in .vim/autoload)
-silent! runtime bundle/vim-pathogen/autoload/pathogen.vim
-" Call pathogen plugin management
-silent! execute pathogen#infect()
-
-if has("autocmd")
-	" Load files for specific filetypes
-	filetype on
-	filetype indent on
-	filetype plugin on
-
-	" Languages with specific tabs/space requirements
-	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
-	" Filetypes
-	au BufRead,BufNewFile *.phar set ft=php
-
-	" vim-vue
-	autocmd BufRead,BufNewFile *.vue setlocal filetype=vue
-	let g:vue_pre_processors = ['scss', 'typescript']
-endif
-
-" Only use cocvim if node is installed
 if empty(system('which node')) == 0
+	let g:pathogen_blacklist = []
 	" Some servers have issues with backup files, see #649.
 	set nobackup
 	set nowritebackup
@@ -182,6 +160,27 @@ if empty(system('which node')) == 0
 	" Resume latest coc list.
 	nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 	" end coc vim
+endif
+
+" Point to location of pathogen submodule (since it's not in .vim/autoload)
+silent! runtime bundle/vim-pathogen/autoload/pathogen.vim
+" Call pathogen plugin management
+silent! execute pathogen#infect()
+
+if has("autocmd")
+	" Load files for specific filetypes
+	filetype on
+	filetype indent on
+	filetype plugin on
+
+	" Languages with specific tabs/space requirements
+	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
+	" Filetypes
+	au BufRead,BufNewFile *.phar set ft=php
+
+	" vim-vue
+	autocmd BufRead,BufNewFile *.vue setlocal filetype=vue
+	let g:vue_pre_processors = ['scss', 'typescript']
 endif
 
 if has("syntax")
