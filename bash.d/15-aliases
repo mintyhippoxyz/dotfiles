@@ -59,7 +59,7 @@ alias gffr='git flow feature rebase'
 alias gfff='git flow feature finish'
 alias gfrs='git flow release start `date +%Y%m%d`'
 alias gfrp='git flow release publish'
-alias gfrf='git flow release finish -n -p --pushproduction'
+alias gfrf='git flow release finish -n'
 
 # vim
 alias v='vim'
