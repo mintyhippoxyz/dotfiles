@@ -130,7 +130,7 @@ then
 	else
 		if [ -e /conf/ldapcn ]
 		then
-			PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}](\$(cat /conf/ldapcn))${LBLUE} \w "
+			PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}](${PURPLE}\$(cat /conf/ldapcn)${BLUE})${LBLUE} \w "
 		else
 			PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
 		fi
