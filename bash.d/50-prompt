@@ -1,31 +1,20 @@
 # vim: ft=sh
 
-tput sgr 0 0
-
-# Base styles and color palette
-# Solarized colors
-# https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized
-BOLD=$(tput bold)
-RESET=$(tput sgr0)
-SOLAR_YELLOW=$(tput setaf 136)
-SOLAR_ORANGE=$(tput setaf 166)
-SOLAR_RED=$(tput setaf 124)
-SOLAR_MAGENTA=$(tput setaf 125)
-SOLAR_VIOLET=$(tput setaf 61)
-SOLAR_BLUE=$(tput setaf 33)
-SOLAR_CYAN=$(tput setaf 37)
-SOLAR_GREEN=$(tput setaf 64)
-SOLAR_WHITE=$(tput setaf 254)
-style_chars="\[${RESET}${SOLAR_WHITE}\]"
-style_ldapcn="\[${RESET}${SOLAR_VIOLET}\]"
-style_branch="${SOLAR_CYAN}"
-
-function nonzeroexit()
-{
-	if [ $? != 0 ]; then
-		printf "${SOLAR_RED}[!]${RESET}"
-	fi
-}
+RESET="\[\033[00;00m\]"
+RED="\[\033[00;31m\]"
+GREEN="\[\033[00;32m\]"
+YELLOW="\[\033[00;33m\]"
+BLUE="\[\033[00;34m\]"
+PURPLE="\[\033[00;35m\]"
+CYAN="\[\033[00;36m\]"
+LIGHTGRAY="\[\033[00;37m\]"
+LRED="\[\033[01;31m\]"
+LGREEN="\[\033[01;32m\]"
+LYELLOW="\[\033[01;33m\]"
+LBLUE="\[\033[01;34m\]"
+LPURPLE="\[\033[01;35m\]"
+LCYAN="\[\033[01;36m\]"
+WHITE="\[\033[01;37m\]"
 
 function is_git_repo()
 {
@@ -49,44 +38,60 @@ function get_git_branch()
 	printf $branch_name
 }
 
-# Git status information
+function nonzeroexit()
+{
+	if [ $? != 0 ]
+	then
+		printf "${RED}[!]${RESET}" | sed 's%\\\[%%g; s%\\\]%%g'
+	fi
+}
+
 function prompt_git()
 {
 	local git_info git_state uc us ut st
-	if ! is_git_repo || is_git_dir; then
+	style_branch="${CYAN}"
+	if ! is_git_repo || is_git_dir
+	then
 		return 1
 	fi
 	git_info=$(get_git_branch)
 	# Check for uncommitted changes in the index
-	if ! $(git diff --quiet --ignore-submodules --cached); then
-		uc="${SOLAR_GREEN}+"
+	if ! $(git diff --quiet --ignore-submodules --cached)
+	then
+		uc="${GREEN}+"
 	fi
 	# Check for unstaged changes
-	if ! $(git diff-files --quiet --ignore-submodules --); then
-		us="${SOLAR_RED}!"
+	if ! $(git diff-files --quiet --ignore-submodules --)
+	then
+		us="${RED}!"
 	fi
 	# Check for untracked files
-	if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-		ut="${SOLAR_ORANGE}?"
+	if [ -n "$(git ls-files --others --exclude-standard)" ]
+	then
+		ut="${LYELLOW}?"
 	fi
 	# Check for stashed files
-	if $(git rev-parse --verify refs/stash &>/dev/null); then
-		st="${SOLAR_YELLOW}$"
+	if $(git rev-parse --verify refs/stash &>/dev/null)
+	then
+		st="${YELLOW}$"
 	fi
 	git_state=$uc$us$ut$st
 	# Combine the branch name and state information
-	if [[ $git_state ]]; then
-		git_info="$git_info${SOLAR_CYAN}($git_state${SOLAR_CYAN})"
+	if [[ $git_state ]]
+	then
+		git_info="$git_info${CYAN}($git_state${CYAN})"
 	fi
 	# You know you're on `gh-pages`, right? *Right*?
-	if [[ $git_info == "gh-pages" ]]; then
-		style_branch="${SOLAR_BLUE}"
+	if [[ $git_info == "gh-pages" ]]
+	then
+		style_branch="${BLUE}"
 	fi
 	# Don't screw up `stable`.
-	if [[ $git_info == *stable* ]]; then
-		style_branch="${SOLAR_RED}"
+	if [[ $git_info == *master* ]]
+	then
+		style_branch="${RED}"
 	fi
-	printf "${SOLAR_WHITE}on ${style_branch}${git_info}"
+	printf "${WHITE}on ${style_branch}${git_info}" | sed 's%\\\[%%g; s%\\\]%%g'
 }
 
 # Set the terminal title to the current working directory
@@ -102,14 +107,33 @@ case ${TERM} in
 		;;
 esac
 
-# Build the prompt
-PS1+="${SOLAR_BLUE}┌──${RESET}\$(nonzeroexit)"
-if [[ ${EUID} == 0 ]] ; then
-	PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w '
-else
-	PS1+="\[\033[01;32m\]${SOLAR_BLUE}[${RESET}${SOLAR_GREEN}\u@\h${SOLAR_BLUE}]${RESET}${RESET}${SOLAR_VIOLET} \w "
+force_color_prompt=yes
+if [ -n "$force_color_prompt" ]
+then
+	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null
+	then
+		# We have color support; assume it's compliant with Ecma-48
+		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+		# a case would tend to support setf rather than setaf.)
+		color_prompt=yes
+	else
+		color_prompt=
+	fi
 fi
-PS1+="\$(prompt_git)\n${SOLAR_BLUE}└─\$ \[${RESET}\]"
+
+if [ "$color_prompt" = yes ]
+then
+	PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
+	if [[ ${EUID} == 0 ]]
+	then
+		PS1+="${BLUE}[${RED}\u${LIGHTGRAY}@${RED}\h${BLUE}]${LBLUE} \w "
+	else
+		PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
+	fi
+	PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
+else
+	PS1='\u@\h:\w\$ '
+fi
 
 if [ -e /conf/ldapcn ]
 then
