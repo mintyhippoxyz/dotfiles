@@ -49,7 +49,6 @@ function nonzeroexit()
 function prompt_git()
 {
 	local git_info git_state uc us ut st
-	style_branch="${CYAN}"
 	if ! is_git_repo || is_git_dir
 	then
 		return 1
@@ -81,17 +80,7 @@ function prompt_git()
 	then
 		git_info="$git_info${CYAN}($git_state${CYAN})"
 	fi
-	# You know you're on `gh-pages`, right? *Right*?
-	if [[ $git_info == "gh-pages" ]]
-	then
-		style_branch="${BLUE}"
-	fi
-	# Don't screw up `stable`.
-	if [[ $git_info == *master* ]]
-	then
-		style_branch="${RED}"
-	fi
-	printf "${WHITE}on ${style_branch}${git_info}" | sed 's%\\\[%%g; s%\\\]%%g'
+	printf "${WHITE}on ${CYAN}${git_info}" | sed 's%\\\[%%g; s%\\\]%%g'
 }
 
 # Set the terminal title to the current working directory
