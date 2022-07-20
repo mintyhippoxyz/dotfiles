@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # vim: ft=sh
 
 update_repo()
@@ -46,7 +46,7 @@ post_install_actions()
 install_home()
 {
 	local dest_dir="$HOME"
-	local excluded=(`basename $0` README.md uninstall)
+	local excluded=$(`basename $0` README.md uninstall)
 	local replace_all=false
 
 	pre_install_actions
@@ -122,7 +122,7 @@ element_exists()
 {
 	local elem="$1"
 	shift
-	local arr=("$@")
+	local arr=$("$@")
 	local i
 
 	for i in ${arr[@]}
@@ -150,6 +150,6 @@ remove()
 	fi
 }
 
-# }}}
+# }}} 
 
 install_home
