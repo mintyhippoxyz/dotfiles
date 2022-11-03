@@ -117,12 +117,7 @@ then
 	then
 		PS1+="${BLUE}[${RED}\u${LIGHTGRAY}@${RED}\h${BLUE}]${LBLUE} \w "
 	else
-		if [ -e /conf/ldapcn ]
-		then
-			PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}](${PURPLE}\$(cat /conf/ldapcn)${BLUE})${LBLUE} \w "
-		else
-			PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
-		fi
+		PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
 	fi
 	PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
 else
