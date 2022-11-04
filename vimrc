@@ -8,6 +8,7 @@ set nocompatible
 " COC
 let g:pathogen_blacklist = ['coc.nvim']
 if empty(system('which node')) == 0
+	let g:pathogen_blacklist = []
 	au FileType vue let b:coc_root_patterns = ['.git', '.env', 'package.json', 'tsconfig.json', 'jsconfig.json', 'vite.config.ts', 'nuxt.config.ts']
 	" @yaegassy/coc-volar is for vue 3
 	let g:coc_global_extensions = [
