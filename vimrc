@@ -8,63 +8,48 @@ set nocompatible
 " COC
 let g:pathogen_blacklist = ['coc.nvim']
 if empty(system('which node')) == 0
-	let g:pathogen_blacklist = []
-	" Some servers have issues with backup files, see #649.
-	set nobackup
-	set nowritebackup
-
-	" Give more space for displaying messages.
-	set cmdheight=2
-
-	" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-	" delays and poor user experience.
-	set updatetime=300
-
-	" Don't pass messages to |ins-completion-menu|.
-	set shortmess+=c
-
-	" Always show the signcolumn, otherwise it would shift the text each time
-	" diagnostics appear/become resolved.
-	set signcolumn=yes
-
+	au FileType vue let b:coc_root_patterns = ['.git', '.env', 'package.json', 'tsconfig.json', 'jsconfig.json', 'vite.config.ts', 'nuxt.config.ts']
 	" @yaegassy/coc-volar is for vue 3
 	let g:coc_global_extensions = [
 		\'@yaegassy/coc-volar',
+		\'@yaegassy/coc-ansible',
 		\'coc-tsserver',
-		\'coc-eslint8',
-		\'coc-stylelint',
+		\'coc-eslint',
+		\'coc-stylelintplus',
 		\'coc-json',
+		\'coc-xml',
 		\'coc-highlight',
 		\'coc-html',
+		\'coc-pyright',
+		\'coc-prettier',
 		\'coc-phpls',
-		\'coc-pyright'
+		\'coc-prisma',
+		\'coc-sh',
+		\'coc-yaml',
+		\'coc-spell-checker'
 	\]
 
-	" Use tab for trigger completion with characters ahead and navigate.
-	" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-	" other plugin before putting this into your config.
-	inoremap <silent><expr> <TAB>
-		  \ pumvisible() ? "\<C-n>" :
-		  \ <SID>check_back_space() ? "\<TAB>" :
-		  \ coc#refresh()
-	inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+	inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+	inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
 
 	function! s:check_back_space() abort
 	  let col = col('.') - 1
 	  return !col || getline('.')[col - 1]  =~# '\s'
 	endfunction
 
+	" remap for complete to use tab and <cr>
+	inoremap <silent><expr> <TAB>
+		\ coc#pum#visible() ? coc#pum#next(1):
+		\ <SID>check_back_space() ? "\<Tab>" :
+		\ coc#refresh()
+	inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
 	" Use <c-space> to trigger completion.
 	inoremap <silent><expr> <c-space> coc#refresh()
 
-	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-	" position. Coc only does snippet and additional edit on confirm.
-	if has('patch8.1.1068')
-	  " Use `complete_info` if your (Neo)Vim version supports it.
-	  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-	else
-	  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-	endif
+	hi CocSearch ctermfg=12 guifg=#18A3FF
+	hi CocMenuSel ctermbg=109 guibg=#13354A
 
 	" Use `[g` and `]g` to navigate diagnostics
 	nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -94,15 +79,18 @@ if empty(system('which node')) == 0
 	nmap <leader>rn <Plug>(coc-rename)
 
 	" Formatting selected code.
-	xmap <leader>f  <Plug>(coc-format-selected)
-	nmap <leader>f  <Plug>(coc-format-selected)
+	nmap <leader>f  :call CocAction('runCommand', 'prettier.formatFile')<CR>
+	xmap <leader>f  :call CocAction('runCommand', 'prettier.formatFile')<CR>
+
+	" auto format prisma files since prettier one isn't working
+	autocmd BufWrite *.prisma call CocAction('format')
 
 	augroup mygroup
-	  autocmd!
-	  " Setup formatexpr specified filetype(s).
-	  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-	  " Update signature help on jump placeholder.
-	  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+		autocmd!
+		" Setup formatexpr specified filetype(s).
+		autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+		" Update signature help on jump placeholder.
+		autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 	augroup end
 
 	" Applying codeAction to the selected region.
@@ -121,12 +109,6 @@ if empty(system('which node')) == 0
 	xmap af <Plug>(coc-funcobj-a)
 	omap if <Plug>(coc-funcobj-i)
 	omap af <Plug>(coc-funcobj-a)
-
-	" Use <TAB> for selections ranges.
-	" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-	" coc-tsserver, coc-python are the examples of servers that support it.
-	nmap <silent> <TAB> <Plug>(coc-range-select)
-	xmap <silent> <TAB> <Plug>(coc-range-select)
 
 	" Add `:Format` command to format current buffer.
 	command! -nargs=0 Format :call CocAction('format')
@@ -159,6 +141,13 @@ if empty(system('which node')) == 0
 	nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 	" Resume latest coc list.
 	nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+	nnoremap <leader>i :CocCommand editor.action.organizeImport<CR>
+	nnoremap <leader>lf :CocCommand eslint.executeAutofix<CR>
+
+	" Make up/down arrows close the menu
+	inoremap <expr> <Up> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
+	inoremap <expr> <Down> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
 	" end coc vim
 endif
 
