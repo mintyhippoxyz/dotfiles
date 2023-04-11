@@ -4,6 +4,7 @@
 
 " Disable vi compatibility
 set nocompatible
+let mapLeader=','
 
 " COC
 let g:pathogen_blacklist = ['coc.nvim']
@@ -295,9 +296,6 @@ set undoreload=10000          " number of lines to save for undo
 " Disable beep and flash
 set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
-
-" Change mapleader to ,
-let mapleader=","
 
 " Make selection again after a multi-line indent
 vnoremap < <gv
