@@ -89,7 +89,6 @@ install_home()
 {
 	local dest_dir="$HOME"
 	local excluded="$(basename $0) README.md $skip_files"
-	echo "exclude: $excluded"
 	local replace_all=false
 
 	pre_install_actions
