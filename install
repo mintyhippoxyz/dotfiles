@@ -14,22 +14,29 @@ for ((arg=0; arg<"${#args[@]}"; arg++))
 do
 	[ "${args[$arg]}" == "--help" ] && echo -e "$usage" && exit
 	[ "${args[$arg]}" == "--uninstall" ] && uninstall=true
+	[ "${args[$arg]}" == "--update-submodules" ] && update_submodules=true
 	[ "${args[$arg]}" == "-X" ] && install_x=true
 done
 [ -z "$install_x" ] && skip_files="Xresources Xresources-themes Xresources.d"
 
 # Update this repo and it's submodules
-# TODO dont always pull latest from submodules (sync not update?)
 update_repo()
 {
 	git pull origin master
 	git submodule update --init --recursive
+}
+
+update_submodules()
+{
+	[ -z "$update_submodules" ] && return
 	git submodule update --recursive --remote
 }
 
 # Remove files & dirs that are no longer being managed
 cleanup()
 {
+	test -L ~/.bash.d && rm ~/.bash.d
+	test -L ~/.npmrc && rm ~/.npmrc
 	test -L ~/.curlrc && rm ~/.curlrc
 	test -L ~/.cvsrc && rm ~/.cvsrc
 	test -L ~/.wgetrc && rm ~/.wgetrc
@@ -74,15 +81,31 @@ uninstall()
 			${HOME}/.vimrc
 }
 
+# Install coc dependencies if node/npm is installed
+# TODO handle yarn & pnpm
+update_coc()
+{
+	if [ -x $(which npm > /dev/null 2>&1) ]
+	then
+		echo "Updating coc.nvim plugin..."
+		cd vim/bundle/coc.nvim
+		npm install
+		git reset --hard
+		cd -
+	fi
+}
+
 pre_install_actions()
 {
 	cleanup
 	update_repo
+	update_submodules
+	update_coc
 }
 
 post_install_actions()
 {
-	source ~/.bashrc
+	source ~/.bash_profile
 }
 
 install_home()
