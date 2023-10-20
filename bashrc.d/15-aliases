@@ -1,0 +1,58 @@
+# vim: ft=sh
+
+# always start tmux with utf8 support
+alias tmux='tmux -u'
+
+# vim
+alias v='vim'
+alias vi='vim'
+
+# verbose utils
+alias mv='mv -v'
+alias cp='cp -v'
+
+# verbose rm and always ask (can override -i with --force)
+alias rm='rm -i -v'
+
+# history
+alias h='history'
+alias hs='history | grep'
+
+# easier navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
+# ls
+alias ls="ls --color"
+alias l='ls -lhF'
+alias la='ls -lhAF'
+
+# git
+alias g='git'
+alias gd='g git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat'
+alias gl='g log --color --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --'
+alias gm='g merge --no-ff'
+alias gs='g status -s'
+alias gsl='g status --long'
+alias gtags='g --no-pager tag -l'
+alias gbranches='g --no-pager branch -a'
+alias gremotes='g --no-pager remote -v'
+alias gundocommit='g reset --soft HEAD^'
+alias gundopush='g push -f origin HEAD^:master'
+alias gpt='git fetch --prune origin "+refs/tags/*:refs/tags/*"'
+alias gpb='git remote prune origin'
+
+# git-flow
+alias gffs='git flow feature start it'
+alias gffp='git flow feature publish'
+alias gffr='git flow feature rebase'
+alias gfff='git flow feature finish'
+alias gfrs='git flow release start `date +%Y%m%d`'
+alias gfrp='git flow release publish'
+alias gfrf='git flow release finish -n'
+
+# ipv6 /64 suffix generator
+alias ipv6-randip='dd if=/dev/urandom bs=8 count=1 2>/dev/null | od -x -A n | sed -e "s/^ //" -e "s/ /:/g" -e "s/:0*/:/g" -e "s/^0*//"'

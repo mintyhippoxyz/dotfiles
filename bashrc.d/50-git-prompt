@@ -1,4 +1,17 @@
 # vim: ft=sh
+#
+# Bash prompt that displays git status when in a git repo
+# Also shows an indicator when the previous command had a non-zero exit
+#
+# To enable:
+#   echo "export DOTFILES_ENABLE_GIT_PROMPT=true" >> ~/.bashrc_local_before"
+#
+# TODO PS1 is a little buggy on Alpine.
+#      Lines with wrapping text aren't displayed correctly.
+#      I have not seen that issue on Gentoo, Ubuntu, or Fedora...
+#
+
+test -z "$DOTFILES_ENABLE_GIT_PROMPT" && return
 
 RESET="\[\033[00;00m\]"
 RED="\[\033[00;31m\]"

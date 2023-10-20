@@ -1,0 +1,13 @@
+# vim: ft=sh
+#
+# Display active tmux sessions
+#
+# To enable:
+#   echo "export DOTFILES_ENABLE_TMUX_LS=true" >> ~/.bashrc_local_before"
+#
+
+if [ -n "$ENABLE_TMUX_LS" ] && [ -x $(which tmux > /dev/null 2>&1) ]
+then
+	tmux ls > /dev/null 2>&1
+	[ $? -eq 0 ] && tmux ls
+fi

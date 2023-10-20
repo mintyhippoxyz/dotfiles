@@ -1,0 +1,18 @@
+# vim: ft=sh
+#
+# Display a "motd" on bash login shell
+#
+# Example:
+#   Welcome to localhost
+#   Linux 6.5.6-200.fc38.x86_64 x86_64
+#   23:37:17 up 9 days, 15:42, 1 user, load average: 0.28, 0.12, 0.09
+#
+# Enable with:
+#   echo "export DOTFILES_ENABLE_MOTD=true" >> ~/.bash_profile_local_before
+#
+
+[ -z "$DOTFILES_ENABLE_MOTD" ] && return
+
+echo "Welcome to $(hostname)"
+echo "$(uname -srpm)"
+uptime | xargs

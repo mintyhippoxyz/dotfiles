@@ -22,5 +22,5 @@ source_dir()
 }
 
 source_file ~/.bashrc_local_before
-source_dir ~/.bash.d
+source_dir ~/.bashrc.d
 source_file ~/.bashrc_local_after

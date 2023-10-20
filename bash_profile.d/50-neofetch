@@ -1,0 +1,12 @@
+# vim: ft=sh
+#
+# Display neofetch on bash login shell
+#
+# Enable with:
+#   echo "export DOTFILES_ENABLE_NEOFETCH=true" >> ~/.bash_profile_local_before
+#
+
+if [ -n "$DOTFILES_ENABLE_NEOFETCH" ] && [ -x "$(which neofetch 2> /dev/null)" ]
+then
+	neofetch --config ${HOME}/.neofetch.conf
+fi

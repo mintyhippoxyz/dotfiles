@@ -1,0 +1,13 @@
+# vim: ft=sh
+#
+# Display active screen sessions
+#
+# To enable:
+#   echo "export DOTFILES_ENABLE_SCREEN_LS=true" >> ~/.bashrc_local_before"
+#
+
+if [ -n "$DOTFILES_ENABLE_SCREEN_LS" ] && [ -x "$(which screen > /dev/null 2>&1)" ]
+then
+	screen -q -ls
+	[ $? -ge 10 ] && screen -ls
+fi
