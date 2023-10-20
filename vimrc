@@ -191,6 +191,9 @@ if has("syntax")
 	" Set colorscheme
 	colorscheme onedark
 
+	" Markdown - disable folds
+	let g:vim_markdown_folding_disabled = 1
+
 	" Syntastic
 	let g:syntastic_php_checkers = []
 	let g:syntastic_javascript_checkers=['eslint']
