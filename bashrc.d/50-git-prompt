@@ -6,10 +6,6 @@
 # To enable:
 #   echo "export DOTFILES_ENABLE_GIT_PROMPT=true" >> ~/.bashrc_local_before"
 #
-# TODO PS1 is a little buggy on Alpine.
-#      Lines with wrapping text aren't displayed correctly.
-#      I have not seen that issue on Gentoo, Ubuntu, or Fedora...
-#
 
 test -z "$DOTFILES_ENABLE_GIT_PROMPT" && return
 
@@ -55,7 +51,7 @@ function nonzeroexit()
 {
 	if [ $? != 0 ]
 	then
-		printf "${RED}[!]${RESET}" | sed 's%\\\[%%g; s%\\\]%%g'
+		printf "${RED}(!)${RESET}" | sed 's%\\\[%%g; s%\\\]%%g'
 	fi
 }
 
@@ -125,14 +121,17 @@ fi
 
 if [ "$color_prompt" = yes ]
 then
-	PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
+	#PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
+	PS1+="${BLUE}${RESET}\[\$(nonzeroexit)\]"
 	if [[ ${EUID} == 0 ]]
 	then
 		PS1+="${BLUE}[${RED}\u${LIGHTGRAY}@${RED}\h${BLUE}]${LBLUE} \w "
 	else
 		PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
 	fi
-	PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
+	# TODO └─ causes some issues with wrapping lines which I have only seen on alpine.
+	#PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
+	PS1+="\$(prompt_git)\n${BLUE}\$ ${RESET}"
 else
 	PS1='\u@\h:\w\$ '
 fi
