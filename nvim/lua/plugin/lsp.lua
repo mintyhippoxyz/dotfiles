@@ -74,7 +74,7 @@ return {
 		dependencies = {
 			'williamboman/mason.nvim',
 			'williamboman/mason-lspconfig.nvim',
-			'cmp-nvim-lsp'
+			'hrsh7th/cmp-nvim-lsp'
 		},
 		config = function()
 			-- setup lsp manager/installer
