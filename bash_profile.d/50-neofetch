@@ -6,7 +6,13 @@
 #   echo "export DOTFILES_ENABLE_NEOFETCH=true" >> ~/.bash_profile_local_before
 #
 
-if [ -n "$DOTFILES_ENABLE_NEOFETCH" ] && [ -x "$(which neofetch 2> /dev/null)" ]
+if [ -n "$DOTFILES_ENABLE_NEOFETCH" ]
 then
-	neofetch --config ${HOME}/.neofetch.conf
+	if [ -x "$(which fastfetch 2> /dev/null)" ]
+	then
+		fastfetch
+	elif [ -x "$(which neofetch 2> /dev/null)" ]
+	then
+		neofetch --config ${HOME}/.neofetch.conf
+	fi
 fi
