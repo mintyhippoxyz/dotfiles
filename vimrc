@@ -298,6 +298,10 @@ set undoreload=10000          " number of lines to save for undo
 set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
 
+" Enable mouse
+set mouse=a
+set ttymouse=sgr
+
 " Make selection again after a multi-line indent
 vnoremap < <gv
 vnoremap > >gv
