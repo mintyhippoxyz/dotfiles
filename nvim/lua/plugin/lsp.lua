@@ -239,6 +239,10 @@ return {
 			end, {})
 		end
 	},
+	{
+		'hrsh7th/cmp-nvim-lsp',
+		lazy = false
+	},
 	-- }}}
 	-- {{{ Formatters and Linters
 	{
