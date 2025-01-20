@@ -3,19 +3,15 @@
 
 [ -z "$PS1" ] && return
 
-source_file()
-{
+source_file() {
 	test -f $1 && source $1 || true
 }
 
-source_dir()
-{
+source_dir() {
 	local dir="$1"
-	if [[ -d $dir ]]
-	then
+	if [[ -d $dir ]]; then
 		local conf_file
-		for conf_file in "$dir"/*
-		do
+		for conf_file in "$dir"/*; do
 			test -f "$conf_file" && source "$conf_file"
 		done
 	fi
@@ -24,3 +20,11 @@ source_dir()
 source_file ~/.bashrc_local_before
 source_dir ~/.bashrc.d
 source_file ~/.bashrc_local_after
+
+# pnpm
+export PNPM_HOME="/home/${USER}/.local/share/pnpm"
+case ":$PATH:" in
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
