@@ -1,7 +1,9 @@
-bash.d/local/before/*
-bash.d/local/after/*
+*.swp
+nvim/backups/*
+nvim/pack/*
+nvim/swaps/*
+nvim/undo/*
 vim/.netrwhist
 vim/backups/*
 vim/swaps/*
 vim/undo/*
-*.swp

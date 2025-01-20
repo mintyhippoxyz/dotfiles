@@ -1,0 +1,9 @@
+{
+    "workspace.library": [
+        "/usr/share/nvim/runtime",
+        "/usr/share/nvim/runtime/pack/dist/opt/matchit",
+        "/usr/share/vim/vimfiles/",
+        "${3rd}/luassert/library",
+        "${3rd}/luassert/library"
+    ]
+}

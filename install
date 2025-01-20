@@ -88,6 +88,10 @@ update_coc() {
 	fi
 }
 
+install_nvim() {
+	install_file "nvim" "${HOME}/.config/nvim"
+}
+
 pre_install_actions() {
 	cleanup
 	update_repo
@@ -96,12 +100,13 @@ pre_install_actions() {
 }
 
 post_install_actions() {
+	install_nvim
 	source ~/.bash_profile
 }
 
 install_home() {
 	local dest_dir="$HOME"
-	local excluded="$(basename $0) README.md $skip_files"
+	local excluded="$(basename $0) README.md nvim $skip_files"
 	local replace_all=false
 
 	pre_install_actions
