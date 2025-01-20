@@ -25,68 +25,56 @@ LPURPLE="\[\033[01;35m\]"
 LCYAN="\[\033[01;36m\]"
 WHITE="\[\033[01;37m\]"
 
-function is_git_repo()
-{
-	$(git rev-parse --is-inside-work-tree &> /dev/null)
+function is_git_repo() {
+	$(git rev-parse --is-inside-work-tree &>/dev/null)
 }
 
-function is_git_dir()
-{
-	$(git rev-parse --is-inside-git-dir 2> /dev/null)
+function is_git_dir() {
+	$(git rev-parse --is-inside-git-dir 2>/dev/null)
 }
 
-function get_git_branch()
-{
+function get_git_branch() {
 	local branch_name
 	# Get the short symbolic ref
-	branch_name=$(git symbolic-ref --quiet --short HEAD 2> /dev/null) ||
+	branch_name=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) ||
 		# If HEAD isn't a symbolic ref, get the short SHA
-		branch_name=$(git rev-parse --short HEAD 2> /dev/null) ||
+		branch_name=$(git rev-parse --short HEAD 2>/dev/null) ||
 		# Otherwise, just give up
 		branch_name="(unknown)"
 	printf $branch_name
 }
 
-function nonzeroexit()
-{
-	if [ $? != 0 ]
-	then
+function nonzeroexit() {
+	if [ $? != 0 ]; then
 		printf "${RED}(!)${RESET}" | sed 's%\\\[%%g; s%\\\]%%g'
 	fi
 }
 
-function prompt_git()
-{
+function prompt_git() {
 	local git_info git_state uc us ut st
-	if ! is_git_repo || is_git_dir
-	then
+	if ! is_git_repo || is_git_dir; then
 		return 1
 	fi
 	git_info=$(get_git_branch)
 	# Check for uncommitted changes in the index
-	if ! $(git diff --quiet --ignore-submodules --cached)
-	then
+	if ! $(git diff --quiet --ignore-submodules --cached); then
 		uc="${GREEN}+"
 	fi
 	# Check for unstaged changes
-	if ! $(git diff-files --quiet --ignore-submodules --)
-	then
+	if ! $(git diff-files --quiet --ignore-submodules --); then
 		us="${RED}!"
 	fi
 	# Check for untracked files
-	if [ -n "$(git ls-files --others --exclude-standard)" ]
-	then
+	if [ -n "$(git ls-files --others --exclude-standard)" ]; then
 		ut="${LYELLOW}?"
 	fi
 	# Check for stashed files
-	if $(git rev-parse --verify refs/stash &>/dev/null)
-	then
+	if $(git rev-parse --verify refs/stash &>/dev/null); then
 		st="${YELLOW}$"
 	fi
 	git_state=$uc$us$ut$st
 	# Combine the branch name and state information
-	if [[ $git_state ]]
-	then
+	if [[ $git_state ]]; then
 		git_info="$git_info${CYAN}($git_state${CYAN})"
 	fi
 	printf "${WHITE}on ${CYAN}${git_info}" | sed 's%\\\[%%g; s%\\\]%%g'
@@ -94,22 +82,20 @@ function prompt_git()
 
 # Set the terminal title to the current working directory
 case ${TERM} in
-	[aEkx]term*|rxvt*|gnome*|konsole*|interix)
-		PS1='\[\033]0;\u@\h:\w\007\]'
-		;;
-	screen*)
-		PS1='\[\033k\u@\h:\w\033\\\]'
-		;;
-	*)
-		unset PS1
-		;;
+[aEkx]term* | rxvt* | gnome* | konsole* | interix)
+	PS1='\[\033]0;\u@\h:\w\007\]'
+	;;
+screen*)
+	PS1='\[\033k\u@\h:\w\033\\\]'
+	;;
+*)
+	unset PS1
+	;;
 esac
 
 force_color_prompt=yes
-if [ -n "$force_color_prompt" ]
-then
-	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null
-	then
+if [ -n "$force_color_prompt" ]; then
+	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 		# We have color support; assume it's compliant with Ecma-48
 		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
 		# a case would tend to support setf rather than setaf.)
@@ -119,19 +105,17 @@ then
 	fi
 fi
 
-if [ "$color_prompt" = yes ]
-then
-	#PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
-	PS1+="${BLUE}${RESET}\[\$(nonzeroexit)\]"
-	if [[ ${EUID} == 0 ]]
-	then
+if [ "$color_prompt" = yes ]; then
+	PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
+	#PS1+="${BLUE}${RESET}\[\$(nonzeroexit)\]"
+	if [[ ${EUID} == 0 ]]; then
 		PS1+="${BLUE}[${RED}\u${LIGHTGRAY}@${RED}\h${BLUE}]${LBLUE} \w "
 	else
 		PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
 	fi
 	# TODO └─ causes some issues with wrapping lines which I have only seen on alpine.
-	#PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
-	PS1+="\$(prompt_git)\n${BLUE}\$ ${RESET}"
+	PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
+	#PS1+="\$(prompt_git)\n${BLUE}\$ ${RESET}"
 else
 	PS1='\u@\h:\w\$ '
 fi
