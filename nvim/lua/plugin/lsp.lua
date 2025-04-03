@@ -277,6 +277,13 @@ return {
 					cSpell.code_actions.with({ config = cSpellConfig }),
 				}
 			})
+
+			vim.diagnostic.config({
+				update_in_insert = false,
+				virtual_text = {
+					debounce = 500
+				}
+			})
 		end
 	},
 	-- }}}
