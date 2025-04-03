@@ -106,16 +106,16 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-	PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
-	#PS1+="${BLUE}${RESET}\[\$(nonzeroexit)\]"
+	#PS1+="${BLUE}\[┌──\]${RESET}\[\$(nonzeroexit)\]"
+	PS1+="${BLUE}${RESET}\[\$(nonzeroexit)\]"
 	if [[ ${EUID} == 0 ]]; then
 		PS1+="${BLUE}[${RED}\u${LIGHTGRAY}@${RED}\h${BLUE}]${LBLUE} \w "
 	else
 		PS1+="${BLUE}[${GREEN}\u${LIGHTGRAY}@${GREEN}\h${BLUE}]${LBLUE} \w "
 	fi
 	# TODO └─ causes some issues with wrapping lines which I have only seen on alpine.
-	PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
-	#PS1+="\$(prompt_git)\n${BLUE}\$ ${RESET}"
+	#PS1+="\$(prompt_git)\n${BLUE}\[└─\]\$ ${RESET}"
+	PS1+="\$(prompt_git)\n${BLUE}\$ ${RESET}"
 else
 	PS1='\u@\h:\w\$ '
 fi
