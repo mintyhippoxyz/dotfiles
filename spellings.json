@@ -1,5 +1,9 @@
 {
   "words": [
+    "letsencrypt",
+    "libqrencode",
+    "jwcrypto",
+    "passlib",
     "accum",
     "amcharts",
     "augroup",
