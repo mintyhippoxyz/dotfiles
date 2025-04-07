@@ -268,6 +268,8 @@ return {
 					}),
 					cSpell.diagnostics.with({
 						config = cSpellConfig,
+						filetypes = { "markdown", "text", "gitcommit" },
+						extra_args = { "--language-id", "plaintext" },
 						diagnostics_postprocess = function(diagnostic)
 							diagnostic.severity = diagnostic.message:find("really") and
 								vim.diagnostic.severity["ERROR"]
