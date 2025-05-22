@@ -2,30 +2,19 @@ return {
 	"yetone/avante.nvim",
 	event = "VeryLazy",
 	lazy = false,
-	enabled = false,
-	--	version = false, -- set this if you want to always pull the latest change
 	opts = {
 		provider = "copilot",
-		auto_suggestions_provider = "openai",
 		copilot = {
-			endpoint = "https://api.githubcopilot.com",
-			model = "gpt-4o-2024-08-06",
-			--model = "claude-3-5-sonnet-20241022",
-			proxy = nil,   -- [protocol://]host[:port] Use this proxy
-			allow_insecure = false, -- Allow insecure server connections
-			timeout = 30000, -- Timeout in milliseconds
-			temperature = 0,
-			max_tokens = 4096,
-		},
+			model = "claude-3.7-sonnet"
+		}
 	},
-	build = "make BUILD_FROM_SOURCE=true",
-	-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+	build = "RUSTC=/usr/bin/rustc make BUILD_FROM_SOURCE=true",
 	dependencies = {
+		"nvim-treesitter/nvim-treesitter",
 		"stevearc/dressing.nvim",
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
 		--- The below dependencies are optional,
-		"hrsh7th/nvim-cmp",      -- autocompletion for avante commands and mentions
 		"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 		"zbirenbaum/copilot.lua", -- for providers='copilot'
 		{

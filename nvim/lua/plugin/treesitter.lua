@@ -25,6 +25,7 @@ return {
 					"vimdoc",
 					"vue",
 					"yaml",
+					"dockerfile",
 					"markdown",
 					"markdown_inline"
 				},

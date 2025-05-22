@@ -10,18 +10,18 @@ return {
 		local telescope = require('telescope')
 
 		local builtin = require('telescope.builtin')
-		vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-		vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-		vim.keymap.set('n', '<leader>pg', builtin.live_grep, {})
-		vim.keymap.set('n', '<leader>pw', builtin.grep_string, {})
+		vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = "Search for files starting in current directory" })
+		vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = "Look for any files tracked in git" })
+		vim.keymap.set('n', '<leader>pg', builtin.live_grep, { desc = "Grep for text in files" })
+		vim.keymap.set('n', '<leader>pw', builtin.grep_string, { desc = "Grep a string?? Not sure :)" })
 		vim.keymap.set('n', '<leader>ps', function()
 			builtin.grep_string({ search = vim.fn.input("Grep > ") });
-		end)
+		end, { desc = "Something grep not sure :)" })
 
 
 		local actions = require('telescope.actions');
 		telescope.load_extension("noice");
-		telescope.load_extension('ui-select');
+		telescope.load_extension("ui-select");
 		telescope.setup({
 			defaults = {
 				mappings = {

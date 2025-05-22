@@ -1,13 +1,5 @@
 return {
 	{
-		'olimorris/onedarkpro.nvim',
-		lazy = true,
-		priority = 999,
-		config = function()
-			vim.cmd("colorscheme onedark")
-		end
-	},
-	{
 		'ellisonleao/gruvbox.nvim',
 		lazy = false,
 		priority = 1000,
@@ -15,7 +7,10 @@ return {
 			local gruvbox = require('gruvbox');
 			gruvbox.setup({
 				contrast = 'hard',
-				inverse = true
+				inverse = true,
+				overrides = {
+					DiffText = { bg = gruvbox.palette.dark_aqua_hard },
+				}
 			});
 
 			vim.opt.background = 'dark'
@@ -28,24 +23,6 @@ return {
 		name = 'rose-pine',
 		config = function()
 			vim.cmd.colorscheme('rose-pine')
-		end
-	},
-	{
-		'rebelot/kanagawa.nvim',
-		lazy = true,
-		--priority = 1000,
-		name = 'kanagawa',
-		config = function()
-			vim.cmd('colorscheme kanagawa')
-		end
-	},
-	{
-		'kepano/flexoki-neovim',
-		lazy = true,
-		--priority = 1000,
-		name = 'flexoki-dark',
-		config = function()
-			vim.cmd('colorscheme flexoki-dark')
 		end
 	},
 	{

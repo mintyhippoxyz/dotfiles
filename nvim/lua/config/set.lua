@@ -2,7 +2,7 @@ vim.opt.guicursor = ''
 vim.opt.nu = true
 
 -- What does the line number shifting
---vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Indentation
 vim.opt.tabstop = 4
@@ -15,9 +15,9 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 
 vim.opt.undofile = true
-vim.opt.undodir = os.getenv('HOME') .. '/.config/nvim/undo'
-vim.opt.directory = os.getenv('HOME') .. '/.config/nvim/swaps'
-vim.opt.backupdir = os.getenv('HOME') .. '/.config/nvim/backups'
+vim.opt.undodir = os.getenv('HOME') .. '/.nvim/undo'
+vim.opt.directory = os.getenv('HOME') .. '/.nvim/swaps'
+vim.opt.backupdir = os.getenv('HOME') .. '/.nvim/backups'
 
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -51,11 +51,11 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- disable mouse
---vim.opt.mouse = ''
+vim.opt.mouse = ''
 
 vim.cmd([[
 augroup templates
-    autocmd BufNewFile *.vue 0r ~/.config/nvim/templates/sfc.vue
+    autocmd BufNewFile *.vue 0r ~/.nvim/templates/sfc.vue
 augroup END
 ]])
 
