@@ -1,9 +1,6 @@
 vim.opt.guicursor = ''
 vim.opt.nu = true
 
--- What does the line number shifting
-vim.opt.relativenumber = true
-
 -- Indentation
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -23,7 +20,6 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
-
 
 vim.opt.termguicolors = true
 
@@ -49,9 +45,6 @@ vim.opt.title = true
 vim.opt.splitbelow = true
 -- horizontal split to the right
 vim.opt.splitright = true
-
--- disable mouse
-vim.opt.mouse = ''
 
 vim.cmd([[
 augroup templates
