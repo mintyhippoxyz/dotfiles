@@ -20,6 +20,7 @@ source_dir() {
 source_file ~/.bashrc_local_before
 source_dir ~/.bashrc.d
 source_file ~/.bashrc_local_after
+source_file ~/.secrets
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
