@@ -90,12 +90,9 @@ return {
 				}
 			})
 
-			local lspConfig = require('lspconfig')
-			-- Add cmp_nvim_lsp capabilities settings to lspconfig
-			-- This should be executed before you configure any language server
-			lspConfig.util.default_config.capabilities = vim.tbl_deep_extend(
+			local capabilities = vim.tbl_deep_extend(
 				'force',
-				lspConfig.util.default_config.capabilities,
+				vim.lsp.protocol.make_client_capabilities(),
 				require('cmp_nvim_lsp').default_capabilities()
 			)
 
@@ -173,14 +170,15 @@ return {
 
 					vim.keymap.set('n', '<leader>f', lspFormatting,
 						{ buffer = event.buf, desc = 'Format current buffer' })
-					if client.supports_method("textDocument/formatting") then
+					if client.supports_method("textDocument/formatting") and vim.bo[event.buf].filetype ~= "yaml" and vim.bo[event.buf].filetype ~= "yml" then
 						buffer_autoformat(event.buf);
 					end
 				end,
 			})
 
 			-- now lets setup each specific LSP with their configs
-			lspConfig.lua_ls.setup({
+			vim.lsp.config('lua_ls', {
+				capabilities = capabilities,
 				settings = {
 					Lua = {
 						diagnostics = {
@@ -202,12 +200,12 @@ return {
 			--local vueLanguageServerPath = masonRegistry.get_package('vue-language-server'):get_install_path() ..
 			--	'/node_modules/@vue/language-server'
 			local vueLanguageServerPath = vim.fn.stdpath("data") ..
-			"/mason/packages/vue-language-server/node_modules/@vue/language-server"
+				"/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
-			local util = require('lspconfig.util');
-			local rootDir = util.root_pattern('.git');
+			local rootDir = vim.fs.root(0, '.git');
 
-			lspConfig.ts_ls.setup({
+			vim.lsp.config('ts_ls', {
+				capabilities = capabilities,
 				filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
 				root_dir = rootDir,
 				init_options = {
@@ -235,7 +233,8 @@ return {
 				}
 			})
 
-			lspConfig.volar.setup({
+			vim.lsp.config('volar', {
+				capabilities = capabilities,
 				root_dir = rootDir,
 				settings = {
 					vue = {
@@ -247,6 +246,12 @@ return {
 					}
 				}
 			})
+			vim.lsp.config('bashls', { capabilities = capabilities })
+			vim.lsp.config('jsonls', { capabilities = capabilities })
+			vim.lsp.config('eslint', { capabilities = capabilities })
+
+			vim.lsp.enable({ 'lua_ls', 'ts_ls', 'volar', 'bashls', 'jsonls', 'eslint' })
+
 			vim.keymap.set('n', '<leader>R', function()
 				vim.cmd('LspRestart tsserver');
 			end, {})
@@ -287,8 +292,12 @@ return {
 								vim.diagnostic.severity["ERROR"]
 								or vim.diagnostic.severity["WARN"]
 						end,
+						disabled_filetypes = { "yaml", "yml" },
 					}),
-					cSpell.code_actions.with({ config = cSpellConfig }),
+					cSpell.code_actions.with({
+						config = cSpellConfig,
+						disabled_filetypes = { "yaml", "yml" },
+					}),
 				}
 			})
 		end
