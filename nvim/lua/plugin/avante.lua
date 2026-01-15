@@ -1,11 +1,13 @@
 return {
 	"yetone/avante.nvim",
 	event = "VeryLazy",
-	lazy = false,
+	disable = true,
+	lazy = true,
 	opts = {
-		provider = "copilot",
-		copilot = {
-			model = "claude-3.7-sonnet"
+		providers = {
+			copilot = {
+				model = "claude-3.7-sonnet"
+			}
 		}
 	},
 	build = "RUSTC=/usr/bin/rustc make BUILD_FROM_SOURCE=true",
