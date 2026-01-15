@@ -4,7 +4,7 @@ return {
 		lazy = false,
 		priority = 1000,
 		build = ':TSUpdate',
-		version = 'v0.9.2',
+		--version = 'v0.9.2',
 		config = function()
 			local treesitterConfigs = require('nvim-treesitter.configs');
 			treesitterConfigs.setup({
