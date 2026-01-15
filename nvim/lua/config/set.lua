@@ -1,5 +1,6 @@
 vim.opt.guicursor = ''
 vim.opt.nu = true
+vim.opt.backupcopy = 'yes'
 
 -- Indentation
 vim.opt.tabstop = 4
