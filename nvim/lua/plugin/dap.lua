@@ -20,7 +20,6 @@ return {
 			dap.configurations.rust = dap.configurations.cpp
 			local codelldb_path = vim.fn.stdpath("data") ..
 				'/mason/packages/codelldb/codelldb'
-			print(codelldbpath);
 			dap.adapters.codelldb = {
 				type = 'server',
 				port = "${port}",

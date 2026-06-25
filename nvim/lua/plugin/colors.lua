@@ -8,13 +8,18 @@ return {
 			gruvbox.setup({
 				contrast = 'hard',
 				inverse = true,
-				overrides = {
-					DiffText = { bg = gruvbox.palette.dark_aqua_hard },
-				}
 			});
 
 			vim.opt.background = 'dark'
 			vim.cmd.colorscheme('gruvbox')
+		end,
+	},
+	{
+		'savq/melange',
+		lazy = true,
+		config = function()
+			vim.opt.background = 'dark'
+			vim.cmd.colorscheme('melange')
 		end,
 	},
 	{
@@ -26,14 +31,47 @@ return {
 		end
 	},
 	{
+		"olimorris/onedarkpro.nvim",
+		lazy = true,
+		config = function()
+			vim.cmd.colorscheme('onedark_dark')
+		end
+	},
+	{
 		"folke/tokyonight.nvim",
 		lazy = true,
 		config = function()
-			vim.cmd.colorscheme('tokyonight-night')
-			-- vim.cmd.colorscheme('tokyonight-moon')
-			-- vim.cmd.colorscheme('tokyonight')
-			-- vim.cmd.colorscheme('tokyonight-storm')
-			-- vim.cmd.colorscheme('tokyonight-day')
+		end
+	},
+	{
+		"EdenEast/nightfox.nvim",
+		lazy = true,
+		config = function()
+			vim.opt.background = 'dark'
+			vim.cmd.colorscheme('nightfox')
+		end
+	},
+	{
+		"rebelot/kanagawa.nvim",
+		lazy = true,
+		config = function()
+			require('kanagawa').setup({
+				compile = true
+			})
+			vim.cmd.colorscheme('kanagawa-wave')
+		end
+	},
+	{
+		"catppuccin/nvim",
+		lazy = true,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "mocha",
+				background = {
+					dark = "mocha",
+				},
+			})
+			vim.cmd.colorscheme('catppuccin')
 		end
 	}
 }

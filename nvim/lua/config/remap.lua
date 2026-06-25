@@ -1,4 +1,4 @@
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = "Show file tree starting from current file" })
+vim.keymap.set('n', '<leader>fv', '<CMD>Oil<CR>', { desc = "Show file tree starting from current file" })
 -- a cool remap, allows using shift j and k
 -- to move hightlighted text in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -12,10 +12,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set({ "n", "v" }, "<leader>p", [["_dP]])
 
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- make ctrl c cancel insert mode

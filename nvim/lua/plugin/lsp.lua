@@ -1,71 +1,4 @@
 return {
-	-- {{{ Autocompletion
-	{
-		'hrsh7th/nvim-cmp',
-		event = 'InsertEnter',
-		dependencies = {
-			'onsails/lspkind.nvim',
-			'L3MON4D3/LuaSnip',
-			{
-				"zbirenbaum/copilot-cmp",
-				autostart = false,
-				dependencies = {
-					"zbirenbaum/copilot.lua",
-					config = function()
-						require("copilot").setup()
-					end
-				},
-				config = function()
-					require("copilot_cmp").setup()
-				end,
-			}
-		},
-		config = function()
-			local cmp = require('cmp')
-
-			local lspkind = require('lspkind')
-			lspkind.init({
-				symbol_map = {
-					Copilot = "",
-				},
-			})
-			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-
-			vim.g.copilot_no_tab_map = true;
-			vim.g.copilot_assume_mapped = true;
-
-
-			cmp.setup({
-				mapping = cmp.mapping.preset.insert({
-					['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-					['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-					['<C-y>'] = cmp.mapping.confirm({ select = true }),
-					['<CR>'] = cmp.mapping.confirm({ select = false }),
-					['<C-Space>'] = cmp.mapping.complete(),
-					['<Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-					['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-				}),
-				sources = {
-					{ name = "copilot",  group_index = 2 },
-					{ name = "nvim_lsp", group_index = 2 },
-					{ name = "path",     group_index = 2 },
-					{ name = "luasnip",  group_index = 2 },
-				},
-				formatting = {
-					format = lspkind.cmp_format({
-						maxwidth = 100, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-						ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-					})
-				},
-				snippet = {
-					expand = function(args)
-						vim.snippet.expand(args.body)
-					end,
-				},
-			})
-		end
-	},
-	--- }}}
 	-- {{{ LSP Configurations
 	{
 		'neovim/nvim-lspconfig',
@@ -73,35 +6,243 @@ return {
 		event = { 'BufReadPre', 'BufNewFile' },
 		dependencies = {
 			'williamboman/mason.nvim',
-			{ 'williamboman/mason-lspconfig.nvim', version = '^1' },
-			'hrsh7th/cmp-nvim-lsp'
+			'williamboman/mason-lspconfig.nvim',
 		},
 		config = function()
 			-- setup lsp manager/installer
 			require('mason').setup({})
 			require('mason-lspconfig').setup({
 				ensure_installed = {
-					'volar',
-					'ts_ls',
-					'eslint',
 					'jsonls',
 					'lua_ls',
-					'bashls'
-				}
+					'bashls',
+					'phpactor',
+					'eslint',
+				},
+				automatic_enable = {
+					exclude = { 'vtsls' },
+				},
 			})
 
-			local capabilities = vim.tbl_deep_extend(
-				'force',
-				vim.lsp.protocol.make_client_capabilities(),
-				require('cmp_nvim_lsp').default_capabilities()
-			)
+			local oxlintBusyBuffers = {}
+			local oxlintBusyTimers = {}
+			local oxlintBusySince = {}
+			local oxlintSawOxcDiagnostics = {}
+			local oxlintMinVisibleMs = 180
+			local oxlintSettleDelayMs = 500
+			local oxlintBusyTimeoutMs = 3000
+			local oxlintSpinnerTimer = nil
+			_G.oxlint_busy_buffers = oxlintBusyBuffers
+
+			local refreshStatusline = function()
+				local ok, lualine = pcall(require, 'lualine')
+				if ok then
+					lualine.refresh({ place = { 'statusline' } })
+				end
+			end
+
+			local hasAnyBusyBuffer = function()
+				for _, isBusy in pairs(oxlintBusyBuffers) do
+					if isBusy then
+						return true
+					end
+				end
+				return false
+			end
+
+			local ensureSpinnerTimer = function()
+				if oxlintSpinnerTimer then
+					return
+				end
+				oxlintSpinnerTimer = vim.uv.new_timer()
+				oxlintSpinnerTimer:start(100, 100, function()
+					vim.schedule(refreshStatusline)
+				end)
+			end
+
+			local stopSpinnerTimerIfIdle = function()
+				if not oxlintSpinnerTimer then
+					return
+				end
+				if hasAnyBusyBuffer() then
+					return
+				end
+				oxlintSpinnerTimer:stop()
+				oxlintSpinnerTimer:close()
+				oxlintSpinnerTimer = nil
+			end
+
+			local setOxlintBusy = function(bufnr, isBusy)
+				if oxlintBusyBuffers[bufnr] == isBusy then
+					return
+				end
+				oxlintBusyBuffers[bufnr] = isBusy
+				if isBusy then
+					oxlintBusySince[bufnr] = vim.uv.now()
+				else
+					oxlintBusySince[bufnr] = nil
+				end
+				if isBusy then
+					ensureSpinnerTimer()
+				else
+					stopSpinnerTimerIfIdle()
+				end
+				refreshStatusline()
+			end
+
+			local hasOxlintClient = function(bufnr)
+				return vim.lsp.get_clients({ bufnr = bufnr, name = 'oxlint' })[1] ~= nil
+			end
+
+			local clearOxlintBusy
+
+			local markOxlintBusy = function(bufnr)
+				if not vim.api.nvim_buf_is_valid(bufnr) then
+					return
+				end
+				if not hasOxlintClient(bufnr) then
+					return
+				end
+				oxlintSawOxcDiagnostics[bufnr] = false
+				setOxlintBusy(bufnr, true)
+
+				local timer = oxlintBusyTimers[bufnr]
+				if timer then
+					timer:stop()
+					timer:close()
+				end
+
+				timer = vim.uv.new_timer()
+				oxlintBusyTimers[bufnr] = timer
+				timer:start(oxlintBusyTimeoutMs, 0, function()
+					vim.schedule(function()
+						if vim.api.nvim_buf_is_valid(bufnr) then
+							setOxlintBusy(bufnr, false)
+						end
+					end)
+				end)
+			end
+
+			local scheduleOxlintClear = function(bufnr, delayMs)
+				local timer = oxlintBusyTimers[bufnr]
+				if timer then
+					timer:stop()
+					timer:close()
+				end
+				timer = vim.uv.new_timer()
+				oxlintBusyTimers[bufnr] = timer
+				timer:start(delayMs, 0, function()
+					vim.schedule(function()
+						if vim.api.nvim_buf_is_valid(bufnr) then
+							clearOxlintBusy(bufnr)
+						end
+					end)
+				end)
+			end
+
+			clearOxlintBusy = function(bufnr)
+				local busySince = oxlintBusySince[bufnr]
+				if busySince then
+					local elapsed = vim.uv.now() - busySince
+					if elapsed < oxlintMinVisibleMs then
+						local timer = oxlintBusyTimers[bufnr]
+						if timer then
+							timer:stop()
+							timer:close()
+						end
+						timer = vim.uv.new_timer()
+						oxlintBusyTimers[bufnr] = timer
+						timer:start(oxlintMinVisibleMs - elapsed, 0, function()
+							vim.schedule(function()
+								if vim.api.nvim_buf_is_valid(bufnr) then
+									setOxlintBusy(bufnr, false)
+								end
+							end)
+						end)
+						return
+					end
+				end
+				setOxlintBusy(bufnr, false)
+				local timer = oxlintBusyTimers[bufnr]
+				if timer then
+					timer:stop()
+					timer:close()
+					oxlintBusyTimers[bufnr] = nil
+				end
+			end
+
+			local indicatorGroup = vim.api.nvim_create_augroup('oxlint_loading_indicator', { clear = true })
+			vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI' }, {
+				group = indicatorGroup,
+				callback = function(args)
+					markOxlintBusy(args.buf)
+				end,
+			})
+			vim.api.nvim_create_autocmd('DiagnosticChanged', {
+				group = indicatorGroup,
+				callback = function(args)
+					if not hasOxlintClient(args.buf) then
+						return
+					end
+					local diagnostics = (args.data and args.data.diagnostics) or {}
+					local hasOxc = false
+					for _, diagnostic in ipairs(diagnostics) do
+						if diagnostic.source == 'oxc' then
+							hasOxc = true
+							break
+						end
+					end
+					if hasOxc or #diagnostics == 0 then
+						if hasOxc then
+							oxlintSawOxcDiagnostics[args.buf] = true
+							-- Keep spinner alive until diagnostics have been stable briefly.
+							scheduleOxlintClear(args.buf, oxlintSettleDelayMs)
+						elseif oxlintSawOxcDiagnostics[args.buf] then
+							-- Empty update after oxc diagnostics means lint settled.
+							scheduleOxlintClear(args.buf, oxlintSettleDelayMs)
+						end
+					end
+				end,
+			})
+			vim.api.nvim_create_autocmd({ 'BufWipeout', 'BufDelete' }, {
+				group = indicatorGroup,
+				callback = function(args)
+					clearOxlintBusy(args.buf)
+					oxlintBusyBuffers[args.buf] = nil
+					oxlintSawOxcDiagnostics[args.buf] = nil
+				end,
+			})
 
 			-- LspAttach is where you enable features that only work
 			-- if there is a language server active in the file
 			vim.api.nvim_create_autocmd('LspAttach', {
 				desc = 'LSP actions',
 				callback = function(event)
+					local attachedClientId = vim.tbl_get(event, 'data', 'client_id')
+					local attachedClient = attachedClientId and vim.lsp.get_client_by_id(attachedClientId)
+					if attachedClient and attachedClient.name == 'oxlint' then
+						markOxlintBusy(event.buf)
+					end
+
 					local opts = { buffer = event.buf }
+					local runOxcFixAll = function(bufnr)
+						local lintClient = vim.lsp.get_clients({ bufnr = bufnr, name = 'oxlint' })[1]
+						if not lintClient then
+							return
+						end
+						if #vim.diagnostic.get(bufnr) == 0 then
+							return
+						end
+
+						lintClient:request_sync('workspace/executeCommand', {
+							command = 'oxc.fixAll',
+							arguments = {
+								{
+									uri = vim.uri_from_bufnr(bufnr),
+								},
+							},
+						}, 1000, bufnr)
+					end
 
 					vim.keymap.set('n', 'K', vim.lsp.buf.hover,
 						{ buffer = event.buf, desc = 'Show type information on currently hovered text' })
@@ -123,35 +264,77 @@ return {
 					vim.keymap.set('n', '<leader>vws', vim.lsp.buf.workspace_symbol, opts)
 					vim.keymap.set('n', '<leader>vd', vim.diagnostic.open_float,
 						{ buffer = event.buf, desc = 'Show diagnostics for the currently hovered text' })
-					vim.keymap.set('n', '[d', vim.diagnostic.goto_next,
-						{ buffer = event.buf, desc = 'Go to next diagnostic' })
-					vim.keymap.set('n', ']d', vim.diagnostic.goto_prev,
-						{ buffer = event.buf, desc = 'Go to previous diagnostic' })
+					vim.keymap.set('n', '[d', function()
+						vim.diagnostic.jump({ count = 1, float = true })
+					end, { buffer = event.buf, desc = 'Go to next diagnostic' })
+					vim.keymap.set('n', ']d', function()
+						vim.diagnostic.jump({ count = -1, float = true })
+					end, { buffer = event.buf, desc = 'Go to previous diagnostic' })
 					vim.keymap.set('n', '<leader>vca', vim.lsp.buf.code_action,
 						{ buffer = event.buf, desc = 'Show code actions for the currently hovered text' })
 					vim.keymap.set('n', '<leader>vrr', vim.lsp.buf.references, opts)
-					vim.keymap.set('n', '<leader>lf', '<cmd>EslintFixAll<CR>',
-						{ buffer = event.buf, desc = 'Run eslint fix on current file' })
-					-- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+					vim.keymap.set('n', '<leader>lf', function()
+						local hasEslint = vim.lsp.get_clients({ bufnr = event.buf, name = 'eslint' })[1] ~= nil
+						if hasEslint and vim.fn.exists(':LspEslintFixAll') == 2 then
+							vim.cmd('LspEslintFixAll')
+							return
+						end
+						runOxcFixAll(event.buf)
+					end, { buffer = event.buf, desc = 'Run fix all on current file' })
+					vim.keymap.set("n", '<leader>i', function()
+						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
+							{ bufnr = event.buf })
+					end, { buffer = event.buf, desc = 'Toggle inlay hints' })
+					vim.diagnostic.config({
+						virtual_lines = {
+							current_line = true,
+						},
+					})
 
 					-- setup formatting cmds
-					local id = vim.tbl_get(event, 'data', 'client_id')
-					local client = id and vim.lsp.get_client_by_id(id)
-					if client == nil then
-						return
-					end
 					local allowedFormatters = {
 						lua_ls = true,
 						['null-ls'] = true,
-						['rust-analyzer'] = true
+						['rust-analyzer'] = true,
+						oxfmt = true
 					}
-					local lspFormatting = function()
+					local oxfmtFileType = {
+						javascript = true,
+						javascriptreact = true,
+						['javascript.jsx'] = true,
+						typescript = true,
+						typescriptreact = true,
+						['typescript.tsx'] = true,
+						json = true,
+						jsonc = true,
+						vue = true,
+					}
+					local lspFormatting = function(bufnr)
+						local currentFiletype = vim.bo[bufnr].filetype
+						if oxfmtFileType[currentFiletype] then
+							local oxfmtClient = vim.lsp.get_clients({ bufnr = bufnr, name = 'oxfmt' })[1]
+							if oxfmtClient and oxfmtClient:supports_method('textDocument/formatting') then
+								vim.lsp.buf.format({
+									bufnr = bufnr,
+									filter = function(currentClient)
+										return currentClient.name == 'oxfmt'
+									end,
+									async = false,
+									timeout_ms = 2000
+								})
+								return
+							end
+
+							return
+						end
+
 						vim.lsp.buf.format({
+							bufnr = bufnr,
 							filter = function(currentClient)
 								return allowedFormatters[currentClient.name]
 							end,
 							async = false,
-							timeout_ms = 10000
+							timeout_ms = 2000
 						})
 					end
 
@@ -164,97 +347,36 @@ return {
 							buffer = bufnr,
 							group = group,
 							desc = 'LSP format on save',
-							callback = lspFormatting
+							callback = function()
+								if oxfmtFileType[vim.bo[bufnr].filetype] then
+									runOxcFixAll(bufnr)
+								end
+								lspFormatting(bufnr)
+							end
 						})
 					end
 
-					vim.keymap.set('n', '<leader>f', lspFormatting,
+					vim.keymap.set('n', '<leader>f', function()
+							lspFormatting(event.buf)
+						end,
 						{ buffer = event.buf, desc = 'Format current buffer' })
-					if client.supports_method("textDocument/formatting") and vim.bo[event.buf].filetype ~= "yaml" and vim.bo[event.buf].filetype ~= "yml" then
-						buffer_autoformat(event.buf);
-					end
+					buffer_autoformat(event.buf)
 				end,
 			})
 
-			-- now lets setup each specific LSP with their configs
-			vim.lsp.config('lua_ls', {
-				capabilities = capabilities,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { 'vim' }
-						},
-						workspace = {
-							library = vim.api.nvim_get_runtime_file("", true)
-						}
-					}
-				}
-			})
-
-			local typescriptConfig = {
-				format = {
-					insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true
-				}
-			}
-			local masonRegistry = require('mason-registry')
-			--local vueLanguageServerPath = masonRegistry.get_package('vue-language-server'):get_install_path() ..
-			--	'/node_modules/@vue/language-server'
-			local vueLanguageServerPath = vim.fn.stdpath("data") ..
-				"/mason/packages/vue-language-server/node_modules/@vue/language-server"
-
-			local rootDir = vim.fs.root(0, '.git');
-
-			vim.lsp.config('ts_ls', {
-				capabilities = capabilities,
-				filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
-				root_dir = rootDir,
-				init_options = {
-					plugins = {
-						{
-							name = "@vue/typescript-plugin",
-							location = vueLanguageServerPath,
-							languages = { "typescript", "vue" },
-						}
-					},
-					preferences = {
-						importModuleSpecifier = 'non-relative',
-						importModuleSpecifierEnding = 'js'
-						-- includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-						-- includeInlayFunctionParameterTypeHints = true,
-						-- includeInlayVariableTypeHints = true,
-						-- includeInlayPropertyDeclarationTypeHints = true,
-						-- includeInlayFunctionLikeReturnTypeHints = true,
-						-- includeInlayEnumMemberValueHints = true,
-					}
-				},
-				settings = {
-					typescript = typescriptConfig,
-					javascript = typescriptConfig,
-				}
-			})
-
-			vim.lsp.config('volar', {
-				capabilities = capabilities,
-				root_dir = rootDir,
-				settings = {
-					vue = {
-						complete = {
-							casing = {
-								tags = 'autoKebab'
-							}
-						}
-					}
-				}
-			})
-			vim.lsp.config('bashls', { capabilities = capabilities })
-			vim.lsp.config('jsonls', { capabilities = capabilities })
-			vim.lsp.config('eslint', { capabilities = capabilities })
-
-			vim.lsp.enable({ 'lua_ls', 'ts_ls', 'volar', 'bashls', 'jsonls', 'eslint' })
-
-			vim.keymap.set('n', '<leader>R', function()
-				vim.cmd('LspRestart tsserver');
-			end, {})
+			vim.lsp.enable({
+				'vue_ls',
+				'vtsls',
+				'tsgo',
+				'lua_ls',
+				'bashls',
+				'jsonls',
+				'phpactor',
+				'copilot',
+				'oxlint',
+				'oxfmt',
+				'eslint',
+			});
 		end
 	},
 	-- }}}
@@ -279,8 +401,8 @@ return {
 
 			local nullLs = require('null-ls')
 			nullLs.setup({
+				debounce = 1000,
 				sources = {
-					nullLs.builtins.formatting.prettierd,
 					nullLs.builtins.formatting.terraform_fmt,
 					nullLs.builtins.formatting.shfmt.with({
 						filetypes = { 'sh', 'bash' }
@@ -292,12 +414,8 @@ return {
 								vim.diagnostic.severity["ERROR"]
 								or vim.diagnostic.severity["WARN"]
 						end,
-						disabled_filetypes = { "yaml", "yml" },
 					}),
-					cSpell.code_actions.with({
-						config = cSpellConfig,
-						disabled_filetypes = { "yaml", "yml" },
-					}),
+					cSpell.code_actions.with({ config = cSpellConfig }),
 				}
 			})
 		end
@@ -312,7 +430,7 @@ return {
 		lazy = false,
 		config = function()
 			local target = nil;
-			if string.find(vim.loop.cwd(), 'windows') then
+			if string.find(vim.uv.cwd(), 'windows') then
 				target = 'x86_64-pc-windows-gnu';
 			end
 			vim.g.rustaceanvim = {
@@ -339,7 +457,7 @@ return {
 						vim.keymap.set('n', '<leader>rt', function()
 							vim.cmd.RustLsp('testables');
 						end)
-						--vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 					end
 				},
 			}

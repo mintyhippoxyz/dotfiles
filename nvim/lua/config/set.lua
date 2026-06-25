@@ -1,13 +1,19 @@
-vim.opt.guicursor = ''
+if vim.env.TERM:match('screen') or vim.env.TERM:match('tmux') then
+	vim.opt.guicursor = 'a:Cursor/lCursor'
+else
+	vim.opt.guicursor = ''
+end
 vim.opt.nu = true
 vim.opt.backupcopy = 'yes'
+
+-- What does the line number shifting
+vim.opt.relativenumber = true
 
 -- Indentation
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = false
-vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -21,6 +27,7 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
+
 
 vim.opt.termguicolors = true
 
@@ -47,19 +54,26 @@ vim.opt.splitbelow = true
 -- horizontal split to the right
 vim.opt.splitright = true
 
-vim.cmd([[
-augroup templates
-    autocmd BufNewFile *.vue 0r ~/.nvim/templates/sfc.vue
-augroup END
-]])
+-- disable mouse
+vim.opt.mouse = ''
 
 vim.api.nvim_create_autocmd("BufReadPost", {
 	pattern = { "*" },
 	callback = function()
 		if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line("$") then
-			vim.api.nvim_exec("normal! g'\"", false)
+			vim.cmd.normal({ args = { "g'\"" }, bang = true })
 		end
 	end
 })
 
 vim.g.netrw_keepdir = 0
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "json", "yaml", "yml" },
+	callback = function()
+		vim.opt_local.tabstop = 2
+		vim.opt_local.softtabstop = 2
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.expandtab = true
+	end,
+})
