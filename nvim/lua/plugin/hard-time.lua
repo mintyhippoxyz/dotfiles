@@ -4,6 +4,7 @@ return {
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 	},
+	enabled = false,
 	opts = {
 		restriction_mode = "hint"
 	}
