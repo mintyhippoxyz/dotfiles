@@ -1,24 +1,26 @@
 #!/bin/bash
-#
-# Dotfiles installation script
-# Author: Matt Adams
-#
 # vim: ft=sh
+
+cd "$(dirname "$0")"
+
+declare -a MENU_KINDS=()
+declare -a MENU_SOURCES=()
+declare -a MENU_DESTS=()
+declare -a MENU_LABELS=()
+declare -a MENU_SELECTED=()
+declare -a MENU_STATUSES=()
+replace_all=false
 
 args=("$@")
 usage="Usage: $(basename $0)
-  -X                Install X related files
   --uninstall       Uninstall files from this repo
 "
 for ((arg = 0; arg < "${#args[@]}"; arg++)); do
 	[ "${args[$arg]}" == "--help" ] && echo -e "$usage" && exit
 	[ "${args[$arg]}" == "--uninstall" ] && uninstall=true
 	[ "${args[$arg]}" == "--update-submodules" ] && update_submodules=true
-	[ "${args[$arg]}" == "-X" ] && install_x=true
 done
-[ -z "$install_x" ] && skip_files="Xresources Xresources-themes Xresources.d"
 
-# Update this repo and it's submodules
 update_repo() {
 	git pull origin master
 	git submodule update --init --recursive
@@ -29,7 +31,6 @@ update_submodules() {
 	git submodule update --recursive --remote
 }
 
-# Remove files & dirs that are no longer being managed
 cleanup() {
 	test -L ~/.bash.d && rm ~/.bash.d
 	test -L ~/.npmrc && rm ~/.npmrc
@@ -38,28 +39,10 @@ cleanup() {
 	test -L ~/.wgetrc && rm ~/.wgetrc
 	test -L ~/.uninstall && rm ~/.uninstall
 	test -L ~/.Xdefaults && rm ~/.Xdefaults
-	test -d ~/.vim/bundle/badwolf && rm -rf ~/.vim/bundle/badwolf
-	test -d ~/.vim/bundle/molokai && rm -rf ~/.vim/bundle/molokai
-	test -d ~/.vim/bundle/nerdtree && rm -rf ~/.vim/bundle/nerdtree
-	test -d ~/.vim/bundle/onedark && rm -rf ~/.vim/bundle/onedark
-	test -d ~/.vim/bundle/phpcomplete.vim && rm -rf ~/.vim/bundle/phpcomplete.vim
-	test -d ~/.vim/bundle/space-vim-dark && rm -rf ~/.vim/bundle/space-vim-dark
-	test -d ~/.vim/bundle/supertab && rm -rf ~/.vim/bundle/supertab
-	test -d ~/.vim/bundle/tagbar && rm -rf ~/.vim/bundle/tagbar
-	test -d ~/.vim/bundle/todo.txt-vim && rm -rf ~/.vim/bundle/todo.txt-vim
-	test -d ~/.vim/bundle/vim-afterglow && rm -rf ~/.vim/bundle/vim-afterglow
-	test -d ~/.vim/bundle/vim-colors-solarized && rm -rf ~/.vim/bundle/vim-colors-solarized
-	test -d ~/.vim/bundle/vim-jade && rm -rf ~/.vim/bundle/vim-jade
-	test -d ~/.vim/bundle/vim-less && rm -rf ~/.vim/bundle/vim-less
-	test -d ~/.vim/bundle/vim-maui && rm -rf ~/.vim/bundle/vim-maui
-	test -d ~/.vim/bundle/vmustache && rm -rf ~/.vim/bundle/vmustache
 }
 
-# TODO needs work
-# loop instead of listing all files
-# restore backups. which would also require creating backups... :)
-uninstall() {
-	rm ${HOME}/.Xresources \
+uninstall_all() {
+	rm -f ${HOME}/.Xresources \
 		${HOME}/.Xresources-themes \
 		${HOME}/.Xresources.d \
 		${HOME}/.bash.d \
@@ -72,51 +55,311 @@ uninstall() {
 		${HOME}/.psqlrc \
 		${HOME}/.screenrc \
 		${HOME}/.tmux.conf \
+		${HOME}/.terraformrc \
 		${HOME}/.vim \
 		${HOME}/.vimrc
-}
-
-# Install coc dependencies if node/npm is installed
-# TODO handle yarn & pnpm
-update_coc() {
-	if [ -x $(which npm >/dev/null 2>&1) ]; then
-		echo "Updating coc.nvim plugin..."
-		cd vim/bundle/coc.nvim
-		npm install
-		git reset --hard
-		cd -
-	fi
-}
-
-install_nvim() {
-	install_file "nvim" "${HOME}/.config/nvim"
 }
 
 pre_install_actions() {
 	cleanup
 	update_repo
 	update_submodules
-	update_coc
 }
 
 post_install_actions() {
-	install_nvim
 	source ~/.bash_profile
+}
+
+add_menu_item() {
+	MENU_KINDS+=("$1")
+	MENU_SOURCES+=("$2")
+	MENU_DESTS+=("$3")
+	MENU_LABELS+=("$4")
+	MENU_SELECTED+=("$5")
+	MENU_STATUSES+=("$6")
+}
+
+path_exists() {
+	local path="$1"
+	[[ -e "$path" || -L "$path" ]]
+}
+
+path_is_installed() {
+	local file="$1"
+	local dest_file_path="$2"
+	local source_path="$(pwd)/$file"
+
+	if [[ -L "$dest_file_path" ]] && [[ "$(readlink "$dest_file_path")" == "$source_path" ]]; then
+		return 0
+	fi
+
+	if [[ $file =~ \.tpl$ ]] && [[ -e "$dest_file_path" ]]; then
+		return 0
+	fi
+
+	return 1
+}
+
+component_status() {
+	local installed_count=0
+	local total_count=$#
+	local entry
+
+	for entry in "$@"; do
+		local file="${entry%%::*}"
+		local dest_file_path="${entry#*::}"
+		if path_is_installed "$file" "$dest_file_path"; then
+			((installed_count += 1))
+		fi
+	done
+
+	if [[ $installed_count -eq 0 ]]; then
+		printf 'not installed'
+	elif [[ $installed_count -eq $total_count ]]; then
+		printf 'installed'
+	else
+		printf 'partially installed'
+	fi
+}
+
+component_enabled_by_default() {
+	local status="$1"
+	[[ $status != 'not installed' ]]
+}
+
+draw_toggle_menu() {
+	local current_index="$1"
+
+	printf '\033[H\033[2J\033[3J'
+	printf 'Select what dotfiles this script should manage.\n'
+	printf 'Installed items start enabled.\n'
+	printf 'Enabled + installed: keep/update. Enabled + not installed: install. Disabled + installed: uninstall.\n'
+	printf 'Use Up/Down or j/k to move, Space to toggle, Enter to apply.\n\n'
+
+	local i
+	for i in "${!MENU_LABELS[@]}"; do
+		local cursor='  '
+		local mark=' '
+		if [[ $i -eq $current_index ]]; then
+			cursor='> '
+		fi
+		if [[ ${MENU_SELECTED[$i]} -eq 1 ]]; then
+			mark='x'
+		fi
+		printf '%s[%s] %s (%s)\n' "$cursor" "$mark" "${MENU_LABELS[$i]}" "${MENU_STATUSES[$i]}"
+	done
+
+	printf '\nApplying will install, update, keep, or uninstall each item based on its toggle.\n'
+}
+
+prompt_for_toggles() {
+	local current_index=0
+	local last_index=$((${#MENU_LABELS[@]} - 1))
+
+	while true; do
+		draw_toggle_menu "$current_index"
+		IFS= read -rsn1 key
+
+		case "$key" in
+		'')
+			printf '\n'
+			return 0
+			;;
+		' ')
+			if [[ ${MENU_SELECTED[$current_index]} -eq 1 ]]; then
+				MENU_SELECTED[$current_index]=0
+			else
+				MENU_SELECTED[$current_index]=1
+			fi
+			;;
+		j)
+			if [[ $current_index -lt $last_index ]]; then
+				((current_index += 1))
+			fi
+			;;
+		k)
+			if [[ $current_index -gt 0 ]]; then
+				((current_index -= 1))
+			fi
+			;;
+		$'\x1b')
+			IFS= read -rsn2 key
+			case "$key" in
+			'[A')
+				if [[ $current_index -gt 0 ]]; then
+					((current_index -= 1))
+				fi
+				;;
+			'[B')
+				if [[ $current_index -lt $last_index ]]; then
+					((current_index += 1))
+				fi
+				;;
+			esac
+			;;
+		esac
+	done
+}
+
+apply_single_selection() {
+	local file="$1"
+	local dest_file_path="$2"
+	local label="$3"
+	local selected="$4"
+
+	if [[ $selected -eq 1 ]] && path_is_installed "$file" "$dest_file_path"; then
+		return 0
+	elif [[ $selected -eq 1 ]]; then
+		echo "dotfiles: install/update $label"
+		install_file "$file" "$dest_file_path"
+	elif path_is_installed "$file" "$dest_file_path"; then
+		echo "dotfiles: uninstall $label"
+		remove "$dest_file_path"
+	elif path_exists "$dest_file_path"; then
+		echo "dotfiles: leaving unmanaged $label at $dest_file_path"
+	fi
+}
+
+apply_component_selection() {
+	local component="$1"
+	local selected="$2"
+	local dest_dir="$HOME"
+
+	case "$component" in
+	bash_files)
+		if [[ $selected -eq 1 ]]; then
+			apply_single_selection bash_logout "$dest_dir/.bash_logout" '.bash_logout' 1
+			apply_single_selection bash_profile "$dest_dir/.bash_profile" '.bash_profile' 1
+			apply_single_selection bash_profile.d "$dest_dir/.bash_profile.d" '.bash_profile.d' 1
+			apply_single_selection bashrc "$dest_dir/.bashrc" '.bashrc' 1
+			apply_single_selection bashrc.d "$dest_dir/.bashrc.d" '.bashrc.d' 1
+		else
+			echo 'dotfiles: uninstall bash files if managed'
+			apply_single_selection bash_logout "$dest_dir/.bash_logout" '.bash_logout' 0
+			apply_single_selection bash_profile "$dest_dir/.bash_profile" '.bash_profile' 0
+			apply_single_selection bash_profile.d "$dest_dir/.bash_profile.d" '.bash_profile.d' 0
+			apply_single_selection bashrc "$dest_dir/.bashrc" '.bashrc' 0
+			apply_single_selection bashrc.d "$dest_dir/.bashrc.d" '.bashrc.d' 0
+		fi
+		;;
+	git)
+		if [[ $selected -eq 1 ]]; then
+			apply_single_selection gitconfig "$dest_dir/.gitconfig" '.gitconfig' 1
+			apply_single_selection gitconfig.user.tpl "$dest_dir/.gitconfig.user" '.gitconfig.user' 1
+		else
+			echo 'dotfiles: uninstall git files if managed'
+			apply_single_selection gitconfig "$dest_dir/.gitconfig" '.gitconfig' 0
+			apply_single_selection gitconfig.user.tpl "$dest_dir/.gitconfig.user" '.gitconfig.user' 0
+		fi
+		;;
+	tmux)
+		if [[ $selected -eq 1 ]]; then
+			apply_single_selection tmux.conf "$dest_dir/.tmux.conf" '.tmux.conf' 1
+		else
+			echo 'dotfiles: uninstall tmux files if managed'
+			apply_single_selection tmux.conf "$dest_dir/.tmux.conf" '.tmux.conf' 0
+		fi
+		;;
+	vim)
+		if [[ $selected -eq 1 ]]; then
+			apply_single_selection vim "$dest_dir/.vim" 'vim config directory' 1
+			apply_single_selection vimrc "$dest_dir/.vimrc" '.vimrc' 1
+		else
+			echo 'dotfiles: uninstall vim files if managed'
+			apply_single_selection vim "$dest_dir/.vim" 'vim config directory' 0
+			apply_single_selection vimrc "$dest_dir/.vimrc" '.vimrc' 0
+		fi
+		;;
+	neovim_config)
+		if [[ $selected -eq 1 ]]; then
+			mkdir -p "$dest_dir/.config"
+			apply_single_selection nvim "$dest_dir/.config/nvim" 'neovim config' 1
+		else
+			echo 'dotfiles: uninstall neovim config if managed'
+			apply_single_selection nvim "$dest_dir/.config/nvim" 'neovim config' 0
+		fi
+		;;
+	xresources)
+		if [[ $selected -eq 1 ]]; then
+			apply_single_selection Xresources "$dest_dir/.Xresources" '.Xresources' 1
+			apply_single_selection Xresources-themes "$dest_dir/.Xresources-themes" '.Xresources-themes' 1
+			apply_single_selection Xresources.d "$dest_dir/.Xresources.d" '.Xresources.d' 1
+		else
+			echo 'dotfiles: uninstall Xresources files if managed'
+			apply_single_selection Xresources "$dest_dir/.Xresources" '.Xresources' 0
+			apply_single_selection Xresources-themes "$dest_dir/.Xresources-themes" '.Xresources-themes' 0
+			apply_single_selection Xresources.d "$dest_dir/.Xresources.d" '.Xresources.d' 0
+		fi
+		;;
+	screen)
+		if [[ $selected -eq 1 ]]; then
+			apply_single_selection screenrc "$dest_dir/.screenrc" '.screenrc' 1
+		else
+			echo 'dotfiles: uninstall screenrc if managed'
+			apply_single_selection screenrc "$dest_dir/.screenrc" '.screenrc' 0
+		fi
+		;;
+	esac
 }
 
 install_home() {
 	local dest_dir="$HOME"
-	local excluded="$(basename $0) README.md nvim $skip_files"
-	local replace_all=false
+	local component_files="bash_logout bash_profile bash_profile.d bashrc bashrc.d gitconfig gitconfig.user.tpl tmux.conf vim vimrc nvim screenrc Xresources Xresources-themes Xresources.d"
+	local excluded="$(basename $0) README.md nvim package-lock.json $component_files"
 
-	pre_install_actions
-
+	local status
+	local selected
 	local file
+
+	status=$(component_status "bash_logout::$dest_dir/.bash_logout" "bash_profile::$dest_dir/.bash_profile" "bash_profile.d::$dest_dir/.bash_profile.d" "bashrc::$dest_dir/.bashrc" "bashrc.d::$dest_dir/.bashrc.d")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'bash_files' '' 'bash files' "$selected" "$status"
+
+	status=$(component_status "gitconfig::$dest_dir/.gitconfig" "gitconfig.user.tpl::$dest_dir/.gitconfig.user")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'git' '' 'git config' "$selected" "$status"
+
+	status=$(component_status "tmux.conf::$dest_dir/.tmux.conf")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'tmux' '' 'tmux config' "$selected" "$status"
+
+	status=$(component_status "vim::$dest_dir/.vim" "vimrc::$dest_dir/.vimrc")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'vim' '' 'vim config' "$selected" "$status"
+
+	status=$(component_status "nvim::$dest_dir/.config/nvim")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'neovim_config' '' 'neovim config' "$selected" "$status"
+
+	status=$(component_status "Xresources::$dest_dir/.Xresources" "Xresources-themes::$dest_dir/.Xresources-themes" "Xresources.d::$dest_dir/.Xresources.d")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'xresources' '' 'Xresources and fonts' "$selected" "$status"
+
+	status=$(component_status "screenrc::$dest_dir/.screenrc")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'screen' '' 'screen config' "$selected" "$status"
+
 	for file in *; do
 		if ! element_exists "$file" "$excluded"; then
 			local dest_file_name=$(basename "$file" .tpl)
 			local dest_file_path="$dest_dir/.$dest_file_name"
-			install_file "$file" "$dest_file_path"
+			status=$(component_status "$file::$dest_file_path")
+			selected=0
+			if component_enabled_by_default "$status"; then
+				selected=1
+			fi
+			add_menu_item 'single' "$file" "$dest_file_path" "home: .$dest_file_name" "$selected" "$status"
+		fi
+	done
+
+	prompt_for_toggles
+
+	local i
+	for i in "${!MENU_KINDS[@]}"; do
+		if [[ ${MENU_KINDS[$i]} == 'single' ]]; then
+			apply_single_selection "${MENU_SOURCES[$i]}" "${MENU_DESTS[$i]}" "${MENU_LABELS[$i]}" "${MENU_SELECTED[$i]}"
+		else
+			apply_component_selection "${MENU_SOURCES[$i]}" "${MENU_SELECTED[$i]}"
 		fi
 	done
 
@@ -127,7 +370,7 @@ install_file() {
 	local file="$1"
 	local dest_file_path="$2"
 	if [[ -e $dest_file_path ]] ||
-		[[ -L $dest_file_path ]]; then # Can be a broken symlink
+		[[ -L $dest_file_path ]]; then
 		if [[ -e $dest_file_path ]] &&
 			diff -q "$file" "$dest_file_path" >/dev/null; then
 			echo "dotfiles: identical $dest_file_path"
@@ -187,8 +430,6 @@ element_exists() {
 remove() {
 	local file="$1"
 
-	# Don't recursively remove symbolic links to directories,
-	# just real directories.
 	if [[ -d $file ]] && [[ ! -L $file ]]; then
 		rm -rf "$file"
 	else
@@ -198,8 +439,9 @@ remove() {
 
 if [ -n "$uninstall" ]; then
 	cleanup
-	uninstall
+	uninstall_all
 	exit
 fi
 
+pre_install_actions
 install_home
