@@ -1,57 +1,6 @@
 [submodule "xresources-themes"]
 	path = Xresources-themes
 	url = https://github.com/logico-dev/Xresources-themes
-[submodule "vim-airline"]
-	path = vim/bundle/vim-airline
-	url = https://github.com/bling/vim-airline
-[submodule "vim-airline-themes"]
-	path = vim/bundle/vim-airline-themes
-	url = https://github.com/vim-airline/vim-airline-themes
-[submodule "vim-colorschemes"]
-	path = vim/bundle/colorschemes
-	url = https://github.com/flazz/vim-colorschemes
-[submodule "vim-blade"]
-	path = vim/bundle/vim-blade
-	url = https://github.com/xsbeats/vim-blade
 [submodule "vim-cucumber"]
 	path = vim/bundle/vim-cucumber
 	url = https://github.com/tpope/vim-cucumber
-[submodule "vim-gitgutter"]
-	path = vim/bundle/vim-gitgutter
-	url = https://github.com/airblade/vim-gitgutter
-[submodule "vim-javascript"]
-	path = vim/bundle/vim-javascript
-	url = https://github.com/pangloss/vim-javascript
-[submodule "vim-pathogen"]
-	path = vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen
-[submodule "vim-php"]
-	path = vim/bundle/php.vim
-	url = https://github.com/StanAngeloff/php.vim
-[submodule "vim-syntastic"]
-	path = vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic
-[submodule "vim-terraform"]
-	path = vim/bundle/vim-terraform
-	url = https://github.com/hashivim/vim-terraform
-[submodule "vim-yaml"]
-	path = vim/bundle/vim-yaml
-	url = https://github.com/avakhov/vim-yaml
-[submodule "vim-mustashe"]
-	path = vim/bundle/mustache
-	url = https://github.com/mustache/vim-mustache-handlebars
-[submodule "vim-pug"]
-	path = vim/bundle/vim-pug
-	url = https://github.com/digitaltoad/vim-pug
-[submodule "vim-vue"]
-	path = vim/bundle/vim-vue
-	url = https://github.com/posva/vim-vue
-[submodule "coc.nvim"]
-	path = vim/bundle/coc.nvim
-	url = https://github.com/neoclide/coc.nvim
-[submodule "typescript-vim"]
-	path = vim/bundle/typescript-vim
-	url = https://github.com/leafgarland/typescript-vim.git
-[submodule "vim/bundle/vim-markdown"]
-	path = vim/bundle/vim-markdown
-	url = https://github.com/preservim/vim-markdown.git
