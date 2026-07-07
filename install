@@ -11,6 +11,25 @@ declare -a MENU_SELECTED=()
 declare -a MENU_STATUSES=()
 replace_all=false
 
+MANAGED_START="# --- DOTFILES MANAGED START ---"
+MANAGED_END="# --- DOTFILES MANAGED END ---"
+BACKUP_DIR="$HOME/.dotfiles-backup"
+
+DOTFILES_FILES=(
+	".bash_logout"
+	".bash_profile"
+	".bashrc"
+	".gitconfig"
+	".gitconfig.user"
+	".psqlrc"
+	".screenrc"
+	".tmux.conf"
+	".terraformrc"
+	".Xresources"
+	".vim"
+	".vimrc"
+)
+
 args=("$@")
 usage="Usage: $(basename $0)
   --uninstall       Uninstall files from this repo
@@ -41,23 +60,35 @@ cleanup() {
 	test -L ~/.Xdefaults && rm ~/.Xdefaults
 }
 
+backup_file() {
+	local dest_file="$1"
+	if [[ -f "$dest_file" ]] && [[ ! -L "$dest_file" ]]; then
+		local relpath="${dest_file#$HOME/}"
+		local backup_path="$BACKUP_DIR/$relpath"
+		mkdir -p "$(dirname "$backup_path")"
+		cp "$dest_file" "$backup_path"
+		echo "dotfiles: backed up $dest_file"
+	fi
+}
+
+restore_backup() {
+	local relpath="$1"
+	local dest="$HOME/$relpath"
+	local backup="$BACKUP_DIR/$relpath"
+	if [[ -f "$backup" ]]; then
+		rm -f "$dest"
+		cp "$backup" "$dest"
+		echo "dotfiles: restored $dest from backup"
+		return 0
+	fi
+	return 1
+}
+
 uninstall_all() {
-	rm -f ${HOME}/.Xresources \
-		${HOME}/.Xresources-themes \
-		${HOME}/.Xresources.d \
-		${HOME}/.bash.d \
-		${HOME}/.bash_profile \
-		${HOME}/.bashrc \
-		${HOME}/.bash_logout \
-		${HOME}/.gitconfig \
-		${HOME}/.gitconfig.user \
-		${HOME}/.npmrc \
-		${HOME}/.psqlrc \
-		${HOME}/.screenrc \
-		${HOME}/.tmux.conf \
-		${HOME}/.terraformrc \
-		${HOME}/.vim \
-		${HOME}/.vimrc
+	local file
+	for file in "${DOTFILES_FILES[@]}"; do
+		restore_backup "$file" || rm -f "${HOME:?}/$file"
+	done
 }
 
 pre_install_actions() {
@@ -95,6 +126,15 @@ path_is_installed() {
 
 	if [[ $file =~ \.tpl$ ]] && [[ -e "$dest_file_path" ]]; then
 		return 0
+	fi
+
+	if [[ -f "$dest_file_path" ]] && grep -qF "$MANAGED_START" "$dest_file_path" 2>/dev/null; then
+		local installed_block
+		installed_block=$(sed -n "/^$MANAGED_START$/,/^$MANAGED_END$/p" "$dest_file_path" 2>/dev/null)
+		local source_content="$MANAGED_START"$'\n'"$(cat "$source_path")"$'\n'"$MANAGED_END"
+		if [[ "$installed_block" == "$source_content" ]]; then
+			return 0
+		fi
 	fi
 
 	return 1
@@ -201,20 +241,124 @@ prompt_for_toggles() {
 	done
 }
 
+ensure_local_file() {
+	local filepath="$1"
+
+	if [[ -f "$filepath" ]]; then
+		return 0
+	fi
+
+	mkdir -p "$(dirname "$filepath")"
+
+	if [[ "$filepath" == *.bashrc_local_before ]]; then
+		cat > "$filepath" << 'EOF'
+# ~/.bashrc_local_before
+# Sourced before bashrc.d/*
+# Uncomment features you want:
+
+# export DOTFILES_ENABLE_GIT_PROMPT=true
+# export DOTFILES_ENABLE_TMUX_LS=true
+# export DOTFILES_ENABLE_SCREEN_LS=true
+EOF
+	elif [[ "$filepath" == *.bashrc_local_after ]]; then
+		cat > "$filepath" << 'EOF'
+# ~/.bashrc_local_after
+# Sourced after bashrc.d/*
+# Add your own customizations here.
+EOF
+	elif [[ "$filepath" == *.bash_profile_local_before ]]; then
+		cat > "$filepath" << 'EOF'
+# ~/.bash_profile_local_before
+# Sourced before bash_profile.d/*
+# Uncomment features you want:
+
+# export DOTFILES_ENABLE_NEOFETCH=true
+# export DOTFILES_ENABLE_MOTD=true
+# export DOTFILES_ENABLE_SSH_AGENT=true
+EOF
+	elif [[ "$filepath" == *.bash_profile_local_after ]]; then
+		cat > "$filepath" << 'EOF'
+# ~/.bash_profile_local_after
+# Sourced after bash_profile.d/*
+# Add your own customizations here.
+EOF
+	else
+		echo "# dotfiles managed file" > "$filepath"
+	fi
+
+	echo "dotfiles: created $filepath"
+}
+
+install_managed_block() {
+	local source_file="$1"
+	local dest_file="$2"
+	local label="$3"
+
+	if [[ -L "$dest_file" ]] || [[ ! -e "$dest_file" ]]; then
+		rm -f "$dest_file"
+	fi
+
+	local repo_content
+	repo_content=$(cat "$source_file")
+
+	if [[ -f "$dest_file" ]]; then
+		local start_line end_line tmp
+		start_line=$(grep -nF "$MANAGED_START" "$dest_file" 2>/dev/null | head -1 | cut -d: -f1)
+		end_line=$(grep -nF "$MANAGED_END" "$dest_file" 2>/dev/null | head -1 | cut -d: -f1)
+
+		if [[ -n "$start_line" ]] && [[ -n "$end_line" ]]; then
+			tmp=$(mktemp)
+			if [[ $start_line -gt 1 ]]; then
+				sed -n "1,$((start_line - 1))p" "$dest_file" > "$tmp"
+			fi
+			printf '%s\n' "$MANAGED_START" >> "$tmp"
+			printf '%s\n' "$repo_content" >> "$tmp"
+			printf '%s\n' "$MANAGED_END" >> "$tmp"
+			if [[ $end_line -lt $(wc -l < "$dest_file") ]]; then
+				sed -n "$((end_line + 1)),\$p" "$dest_file" >> "$tmp"
+			fi
+			mv "$tmp" "$dest_file"
+			echo "dotfiles: updated managed block in $label"
+		else
+			printf '\n%s\n%s\n%s\n' "$MANAGED_START" "$repo_content" "$MANAGED_END" >> "$dest_file"
+			echo "dotfiles: added managed block to $label"
+		fi
+	else
+		printf '%s\n%s\n%s\n' "$MANAGED_START" "$repo_content" "$MANAGED_END" > "$dest_file"
+		echo "dotfiles: created $label with managed block"
+	fi
+}
+
 apply_single_selection() {
 	local file="$1"
 	local dest_file_path="$2"
 	local label="$3"
 	local selected="$4"
+	local method="${5:-link}"
 
 	if [[ $selected -eq 1 ]] && path_is_installed "$file" "$dest_file_path"; then
-		return 0
-	elif [[ $selected -eq 1 ]]; then
+		if [[ $method != "managed" ]] || [[ -f "$dest_file_path" ]] && grep -qF "$MANAGED_START" "$dest_file_path" 2>/dev/null; then
+			return 0
+		fi
+	fi
+
+	if [[ $selected -eq 1 ]]; then
 		echo "dotfiles: install/update $label"
-		install_file "$file" "$dest_file_path"
+		if [[ $method == "managed" ]]; then
+			install_managed_block "$file" "$dest_file_path" "$label"
+		else
+			install_file "$file" "$dest_file_path"
+		fi
 	elif path_is_installed "$file" "$dest_file_path"; then
 		echo "dotfiles: uninstall $label"
-		remove "$dest_file_path"
+		if [[ $method == "managed" ]] && [[ -f "$dest_file_path" ]] && grep -qF "$MANAGED_START" "$dest_file_path" 2>/dev/null; then
+			sed -i "/^$MANAGED_START$/,/^$MANAGED_END$/d" "$dest_file_path"
+			if [[ ! -s "$dest_file_path" ]] || [[ -z "$(tr -d ' \t\n' < "$dest_file_path")" ]]; then
+				rm -f "$dest_file_path"
+			fi
+		else
+			remove "$dest_file_path"
+		fi
 	elif path_exists "$dest_file_path"; then
 		echo "dotfiles: leaving unmanaged $label at $dest_file_path"
 	fi
@@ -231,14 +375,16 @@ apply_component_selection() {
 			apply_single_selection bash_logout "$dest_dir/.bash_logout" '.bash_logout' 1
 			apply_single_selection bash_profile "$dest_dir/.bash_profile" '.bash_profile' 1
 			apply_single_selection bash_profile.d "$dest_dir/.bash_profile.d" '.bash_profile.d' 1
-			apply_single_selection bashrc "$dest_dir/.bashrc" '.bashrc' 1
+			apply_single_selection bashrc "$dest_dir/.bashrc" '.bashrc' 1 "managed"
+			ensure_local_file "$dest_dir/.bashrc_local_before"
+			ensure_local_file "$dest_dir/.bashrc_local_after"
 			apply_single_selection bashrc.d "$dest_dir/.bashrc.d" '.bashrc.d' 1
 		else
 			echo 'dotfiles: uninstall bash files if managed'
 			apply_single_selection bash_logout "$dest_dir/.bash_logout" '.bash_logout' 0
 			apply_single_selection bash_profile "$dest_dir/.bash_profile" '.bash_profile' 0
 			apply_single_selection bash_profile.d "$dest_dir/.bash_profile.d" '.bash_profile.d' 0
-			apply_single_selection bashrc "$dest_dir/.bashrc" '.bashrc' 0
+			apply_single_selection bashrc "$dest_dir/.bashrc" '.bashrc' 0 "managed"
 			apply_single_selection bashrc.d "$dest_dir/.bashrc.d" '.bashrc.d' 0
 		fi
 		;;
@@ -305,7 +451,7 @@ apply_component_selection() {
 install_home() {
 	local dest_dir="$HOME"
 	local component_files="bash_logout bash_profile bash_profile.d bashrc bashrc.d gitconfig gitconfig.user.tpl tmux.conf vim vimrc nvim screenrc Xresources Xresources-themes Xresources.d"
-	local excluded="$(basename $0) README.md nvim package-lock.json $component_files"
+	local excluded="$(basename $0) README.md nvim package-lock.json .dotfiles-backup $component_files"
 
 	local status
 	local selected
@@ -396,6 +542,7 @@ install_file() {
 replace_file() {
 	local file="$1"
 	local dest_file_path="$2"
+	backup_file "$dest_file_path"
 	remove "$dest_file_path"
 	link_file "$file" "$dest_file_path"
 }

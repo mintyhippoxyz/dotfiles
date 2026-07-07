@@ -20,19 +20,3 @@ source_dir() {
 source_file ~/.bashrc_local_before
 source_dir ~/.bashrc.d
 source_file ~/.bashrc_local_after
-source_file ~/.secrets
-
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# bun
-if [[ -z "$BUN_INSTALL" ]]; then
-	export BUN_INSTALL="$HOME/.bun"
-	export PATH="$BUN_INSTALL/bin:$PATH"
-fi
-# bun end
