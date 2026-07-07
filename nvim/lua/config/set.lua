@@ -7,7 +7,7 @@ vim.opt.nu = true
 vim.opt.backupcopy = 'yes'
 
 -- What does the line number shifting
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 
 -- Indentation
 vim.opt.tabstop = 4
