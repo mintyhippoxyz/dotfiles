@@ -1,5 +1,40 @@
 # vim: ft=sh
 
+# Load env secrets from pass store into env (less secure)
+load-secrets() {
+	local dir="${PASSWORD_STORE_DIR:-$HOME/.password-store}/env"
+	[[ -d "$dir" ]] || {
+		echo "no env/ in pass store" >&2
+		return 1
+	}
+	for file in "$dir"/*.gpg; do
+		local name="${file##*/}"
+		name="${name%.gpg}"
+		local val="$(pass show "env/$name" 2>/dev/null)"
+		[[ -n "$val" ]] && export "$name=$val"
+	done
+}
+
+# Provide env secrets from pass store to a command (more secure)
+# TODO create map of vars to load based on tool being invoked or via args
+with-secrets() {
+	local -a ev
+	local file name val
+	for file in "${PASSWORD_STORE_DIR:-$HOME/.password-store}"/env/*.gpg; do
+		[[ -e $file ]] || continue
+		name="${file##*/}"
+		name="${name%.gpg}"
+		val="$(pass show "env/$name" 2>/dev/null)" || val=""
+		[[ -z $val ]] && continue
+		ev+=("$name=$val")
+	done
+	if [[ ${#ev[@]} -eq 0 ]]; then
+		echo "no secrets found" >&2
+		return 1
+	fi
+	env "${ev[@]}" "$@"
+}
+
 # Delete a git tag both locally and remotely
 function git-delete-tag() {
 	git tag -d ${1}
