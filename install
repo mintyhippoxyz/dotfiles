@@ -425,6 +425,15 @@ apply_component_selection() {
 			apply_single_selection nvim "$dest_dir/.config/nvim" 'neovim config' 0
 		fi
 		;;
+	gnupg)
+		if [[ $selected -eq 1 ]]; then
+			(umask 077 && mkdir -p "$dest_dir/.gnupg")
+			apply_single_selection gnupg/gpg-agent.conf "$dest_dir/.gnupg/gpg-agent.conf" 'gpg-agent config' 1
+		else
+			echo 'dotfiles: uninstall gpg-agent config if managed'
+			apply_single_selection gnupg/gpg-agent.conf "$dest_dir/.gnupg/gpg-agent.conf" 'gpg-agent config' 0
+		fi
+		;;
 	xresources)
 		if [[ $selected -eq 1 ]]; then
 			apply_single_selection Xresources "$dest_dir/.Xresources" '.Xresources' 1
@@ -450,7 +459,7 @@ apply_component_selection() {
 
 install_home() {
 	local dest_dir="$HOME"
-	local component_files="bash_logout bash_profile bash_profile.d bashrc bashrc.d gitconfig gitconfig.user.tpl tmux.conf vim vimrc nvim screenrc Xresources Xresources-themes Xresources.d"
+	local component_files="bash_logout bash_profile bash_profile.d bashrc bashrc.d gitconfig gitconfig.user.tpl tmux.conf vim vimrc nvim gnupg screenrc Xresources Xresources-themes Xresources.d"
 	local excluded="$(basename $0) README.md nvim package-lock.json .dotfiles-backup $component_files"
 
 	local status
@@ -476,6 +485,10 @@ install_home() {
 	status=$(component_status "nvim::$dest_dir/.config/nvim")
 	selected=0; component_enabled_by_default "$status" && selected=1
 	add_menu_item 'component' 'neovim_config' '' 'neovim config' "$selected" "$status"
+
+	status=$(component_status "gnupg/gpg-agent.conf::$dest_dir/.gnupg/gpg-agent.conf")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'gnupg' '' 'gpg-agent config' "$selected" "$status"
 
 	status=$(component_status "Xresources::$dest_dir/.Xresources" "Xresources-themes::$dest_dir/.Xresources-themes" "Xresources.d::$dest_dir/.Xresources.d")
 	selected=0; component_enabled_by_default "$status" && selected=1
