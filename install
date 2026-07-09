@@ -257,6 +257,7 @@ ensure_local_file() {
 # Uncomment features you want:
 
 # export DOTFILES_ENABLE_GIT_PROMPT=true
+# export DOTFILES_ENABLE_STARSHIP=true
 # export DOTFILES_ENABLE_TMUX_LS=true
 # export DOTFILES_ENABLE_SCREEN_LS=true
 EOF
@@ -425,6 +426,15 @@ apply_component_selection() {
 			apply_single_selection nvim "$dest_dir/.config/nvim" 'neovim config' 0
 		fi
 		;;
+	starship)
+		if [[ $selected -eq 1 ]]; then
+			mkdir -p "$dest_dir/.config"
+			apply_single_selection starship.toml "$dest_dir/.config/starship.toml" 'starship config' 1
+		else
+			echo 'dotfiles: uninstall starship config if managed'
+			apply_single_selection starship.toml "$dest_dir/.config/starship.toml" 'starship config' 0
+		fi
+		;;
 	gnupg)
 		if [[ $selected -eq 1 ]]; then
 			(umask 077 && mkdir -p "$dest_dir/.gnupg")
@@ -459,7 +469,7 @@ apply_component_selection() {
 
 install_home() {
 	local dest_dir="$HOME"
-	local component_files="bash_logout bash_profile bash_profile.d bashrc bashrc.d gitconfig gitconfig.user.tpl tmux.conf vim vimrc nvim gnupg screenrc Xresources Xresources-themes Xresources.d"
+	local component_files="bash_logout bash_profile bash_profile.d bashrc bashrc.d gitconfig gitconfig.user.tpl tmux.conf vim vimrc nvim starship.toml gnupg screenrc Xresources Xresources-themes Xresources.d"
 	local excluded="$(basename $0) README.md nvim package-lock.json .dotfiles-backup $component_files"
 
 	local status
@@ -485,6 +495,10 @@ install_home() {
 	status=$(component_status "nvim::$dest_dir/.config/nvim")
 	selected=0; component_enabled_by_default "$status" && selected=1
 	add_menu_item 'component' 'neovim_config' '' 'neovim config' "$selected" "$status"
+
+	status=$(component_status "starship.toml::$dest_dir/.config/starship.toml")
+	selected=0; component_enabled_by_default "$status" && selected=1
+	add_menu_item 'component' 'starship' '' 'starship prompt config' "$selected" "$status"
 
 	status=$(component_status "gnupg/gpg-agent.conf::$dest_dir/.gnupg/gpg-agent.conf")
 	selected=0; component_enabled_by_default "$status" && selected=1

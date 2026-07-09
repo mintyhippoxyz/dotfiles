@@ -1,0 +1,70 @@
+# vim: ft=toml
+#
+# Starship config based on bashrc.d/50-git-prompt, with a few upgrades and a
+# Kali-style ┌──/└─ connector between the two prompt lines (bashrc.d/50-git-prompt
+# had this too, commented out, under a note that it glitched line-wrapping on Alpine -
+# worth knowing if this config gets used there).
+#
+#   ┌──(user@host)-[/repo-root/rest-of-path] on branch(✚●…⚑⇡2)
+#   └─✗$
+#
+# ✗            red, only shown when the previous command exited non-zero
+# (user@host)  parens blue, user/host green (root color-switch to red is
+#              not replicated here - see README)
+# [/path]      repo root bold cyan, rest of path dimmed, full path (no truncation)
+# on branch    only shown when inside a git repo; white "on " + cyan branch name
+# (✚●…⚑⇡2)     cyan parens; ✚ staged (green), ● modified (red),
+#              … untracked (yellow), ⚑ stashed (yellow), ⇡/⇣ ahead/behind origin (cyan)
+
+add_newline = false
+
+format = '''[┌──\(](blue)$username$hostname[\)-\[](blue)$directory[\]](blue) $git_branch$git_status
+[└─](blue)$status$character'''
+
+[status]
+disabled = false
+format = '[$symbol]($style)'
+symbol = "✗"
+success_symbol = ""
+style = "red bold"
+
+[username]
+show_always = true
+format = "[$user]($style)"
+style_user = "green"
+style_root = "red"
+
+[hostname]
+ssh_only = false
+format = "[@](white)[$hostname](green)"
+trim_at = "."
+
+[directory]
+truncation_length = 0
+truncate_to_repo = false
+format = "[ $path ]($style)"
+style = "dimmed bold"
+repo_root_style = "bold cyan"
+repo_root_format = "[ $repo_root]($repo_root_style)[$path]($style) "
+
+[git_branch]
+format = "[on ](white)[$branch](cyan)"
+symbol = ""
+
+[git_status]
+format = '([\(](cyan)[$staged](green)[$modified](red)[$untracked](yellow)[$stashed](yellow)[$ahead_behind](cyan)[\)](cyan))'
+staged = "✚"
+modified = "●"
+untracked = "…"
+stashed = "⚑"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+conflicted = ""
+renamed = ""
+deleted = ""
+
+[character]
+success_symbol = '[\$ ](blue)'
+error_symbol = '[\$ ](blue)'

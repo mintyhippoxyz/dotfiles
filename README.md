@@ -18,6 +18,7 @@ File `~/.bashrc_local_before` is sourced before files in `bashrc.d`
 
 Variables Available:
 - `DOTFILES_ENABLE_GIT_PROMPT` Enables a git prompt (see bashrc.d/50-git-prompt)
+- `DOTFILES_ENABLE_STARSHIP` Enables a [starship](https://starship.rs) prompt styled to match the git prompt above (see bashrc.d/50-starship-prompt and starship.toml); requires the `starship` binary and the starship config component to be installed. Use this instead of `DOTFILES_ENABLE_GIT_PROMPT`, not alongside it
 - `DOTFILES_ENABLE_TMUX_LS` Enables listing tmux sessions (see bashrc.d/95-tmux)
 - `DOTFILES_ENABLE_SCREEN_LS` Enables listing screen sessions (see bashrc.d/95-screen)
 

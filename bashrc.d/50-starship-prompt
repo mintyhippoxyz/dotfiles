@@ -1,0 +1,16 @@
+# vim: ft=sh
+#
+# Bash prompt via starship, styled to match bashrc.d/50-git-prompt.
+# Alternative to DOTFILES_ENABLE_GIT_PROMPT - enable one or the other, not both.
+#
+# To enable:
+#   echo "export DOTFILES_ENABLE_STARSHIP=true" >> ~/.bashrc_local_before
+
+test -z "$DOTFILES_ENABLE_STARSHIP" && return
+
+if ! command -v starship &>/dev/null; then
+	return
+fi
+
+# Config is installed to ~/.config/starship.toml (see install script)
+eval "$(starship init bash)"
